@@ -1,68 +1,72 @@
 const steps = [
   {
-    number: "01",
-    icon: "🎙️",
-    title: "AI-Guided Interview",
+    step: "A",
+    title: "Audit",
     description:
-      "A 20–30 minute conversation about your business — your workflows, bottlenecks, team size, and biggest time drains. No tech knowledge required.",
-    accent: "accent",
+      "A 20–30 minute conversation about your business, tools, and daily pain points. No tech knowledge needed — you just talk, we listen.",
+    detail: "Zoom or AI voice agent interview → transcript fed to Claude",
+    color: "text-green-DEFAULT border-green-border bg-green-light",
+    labelColor: "text-green-DEFAULT",
   },
   {
-    number: "02",
-    icon: "📊",
-    title: "Professional Report",
+    step: "O",
+    title: "Optimize",
     description:
-      "Within 24–48 hours you receive a detailed report: an Effort/Impact matrix of every pain point, quick wins, recommended tools, and a financial ROI summary.",
-    accent: "teal",
+      "We analyze the transcript and build your custom AI assessment with ROI numbers — before recommending any tools. Fix the process first.",
+    detail: "Claude-generated Gamma report · Effort/Impact matrix · ROI summary",
+    color: "text-blue-DEFAULT border-blue-border bg-blue-light",
+    labelColor: "text-blue-DEFAULT",
   },
   {
-    number: "03",
-    icon: "⚡",
-    title: "Implement & Win",
+    step: "A",
+    title: "Automate",
     description:
-      "We walk through your report on a 30-min follow-up call. You leave with a clear action plan — and optional hands-on implementation support.",
-    accent: "accent",
+      "You get a prioritized action plan — from quick wins you can run this week to complex automations we build alongside you.",
+    detail: "4-Day Quick Start · tool config · process documentation",
+    color: "text-accent border-accent/30 bg-accent/light",
+    labelColor: "text-accent",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="section-padding bg-primary">
+    <section id="how-it-works" className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+        <div className="mb-14">
+          <p className="eyebrow mb-3">The AOA Framework</p>
+          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
             How It Works
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Three steps from "I don't know where to start" to a clear,
+          <p className="mt-4 text-lg text-muted max-w-xl">
+            Three steps from &ldquo;I don&apos;t know where to start&rdquo; to a clear,
             dollar-quantified AI roadmap.
           </p>
         </div>
 
-        <div className="relative">
-          {/* Connector line (desktop) */}
-          <div className="hidden lg:block absolute top-16 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-accent via-teal to-accent opacity-30" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {steps.map((step, i) => (
-              <div key={i} className="relative card-surface p-8 hover:border-accent/40 transition-colors group">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl ${
-                    step.accent === "teal" ? "bg-teal/15" : "bg-accent/15"
-                  }`}>
-                    {step.icon}
-                  </div>
-                  <span className={`text-4xl font-black ${
-                    step.accent === "teal" ? "text-teal/20 group-hover:text-teal/40" : "text-accent/20 group-hover:text-accent/40"
-                  } transition-colors`}>
-                    {step.number}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{step.description}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {steps.map((s, i) => (
+            <div key={i} className="card-hover p-8 group">
+              {/* Step badge */}
+              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-mono font-bold mb-6 ${s.color}`}>
+                <span>{s.step}</span>
+                <span className="font-sans font-semibold tracking-normal">{s.title}</span>
               </div>
-            ))}
-          </div>
+
+              <p className="text-ink leading-relaxed mb-4">{s.description}</p>
+
+              <p className={`text-xs font-mono leading-relaxed ${s.labelColor} opacity-70`}>
+                {s.detail}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 p-5 rounded-xl bg-ink/5 border border-border">
+          <p className="text-sm text-muted leading-relaxed">
+            <strong className="text-ink">Why optimize before automating?</strong>{" "}
+            If a task takes 15 steps but should take 7, automating the current process
+            just speeds up the inefficiency. We redesign first, then automate.
+          </p>
         </div>
       </div>
     </section>

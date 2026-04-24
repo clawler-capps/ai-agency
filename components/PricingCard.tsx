@@ -16,73 +16,74 @@ export default function PricingCard({ showCheckoutButton = true }: PricingCardPr
     setError(null);
     try {
       const res = await fetch("/api/checkout", { method: "POST" });
-      if (!res.ok) throw new Error("Failed to create checkout session");
+      if (!res.ok) throw new Error("checkout failed");
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-    } catch (err) {
-      setError("Could not start checkout. Please try again or book a call.");
+    } catch {
+      setError("Checkout unavailable — please book a call to get started.");
     } finally {
       setLoading(false);
     }
   }
 
   const includes = [
-    "20–30 min AI-guided business interview",
-    "Professional assessment report (via Gamma) in 24–48 hrs",
-    "Effort/Impact matrix — every pain point plotted",
-    "Quick wins section: low-effort, high-impact actions first",
-    "Recommended AI tools & automations, tailored to your business",
+    "20–30 min AI-guided interview (Zoom or AI voice agent)",
+    "Claude-generated assessment report via Gamma",
+    "Effort/Impact matrix — all pain points plotted",
+    "Quick wins section: low-effort, high-impact first",
+    "Recommended tools & automations, specific to your business",
     "Financial ROI summary: hours saved × $100/hr − tool costs",
     "30-min follow-up call to walk through findings",
   ];
 
   return (
-    <div className="relative card-surface p-8 lg:p-10 border-accent/40 hover:border-accent/70 transition-all">
-      {/* Popular badge */}
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-        <span className="px-4 py-1 rounded-full text-xs font-semibold bg-accent text-white shadow-lg shadow-accent/30">
-          Start Here
-        </span>
+    <div id="tier-1" className="card border-2 border-green-border p-8 lg:p-10">
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-light border border-green-border text-green-DEFAULT text-xs font-mono font-bold mb-6">
+        Tier 1 · Start Here
       </div>
 
-      <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold mb-2">AI Business Assessment</h3>
-        <div className="flex items-baseline justify-center gap-1 mt-4">
-          <span className="text-5xl font-black gradient-text">$1,000</span>
-          <span className="text-gray-400 text-sm">one-time</span>
+      <div className="flex items-end justify-between mb-6">
+        <div>
+          <h3 className="text-2xl font-bold text-ink">AI Business Assessment</h3>
+          <p className="text-sm text-muted mt-1">One-time engagement</p>
         </div>
-        <p className="text-gray-400 mt-3 text-sm">
-          A complete picture of where AI can transform your business — with ROI numbers.
-        </p>
+        <div className="text-right">
+          <div className="text-4xl font-black text-ink">$1,000</div>
+          <div className="text-xs text-muted font-mono">one-time</div>
+        </div>
       </div>
+
+      <p className="text-muted text-sm leading-relaxed mb-6 pb-6 border-b border-border">
+        A complete picture of where AI can transform your business — with ROI numbers
+        before you spend a dollar on tools.
+      </p>
 
       <ul className="space-y-3 mb-8">
         {includes.map((item, i) => (
-          <li key={i} className="flex items-start gap-3 text-sm text-gray-300">
-            <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-teal/15 text-teal flex items-center justify-center text-xs font-bold">✓</span>
+          <li key={i} className="flex items-start gap-3 text-sm text-ink/80">
+            <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-light border border-green-border text-green-DEFAULT flex items-center justify-center text-xs font-bold">✓</span>
             {item}
           </li>
         ))}
       </ul>
 
-      {showCheckoutButton && (
+      {showCheckoutButton ? (
         <>
           <button
             onClick={handleCheckout}
             disabled={loading}
-            className="btn-primary w-full text-center py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Redirecting to checkout…" : "Get Your Assessment — $1,000"}
           </button>
-          {error && <p className="mt-3 text-sm text-red-400 text-center">{error}</p>}
-          <p className="mt-3 text-xs text-gray-500 text-center">
-            Secure payment via Stripe · Report in 24–48 hrs
+          {error && <p className="mt-3 text-sm text-red-600 text-center">{error}</p>}
+          <p className="mt-3 text-xs text-muted text-center font-mono">
+            SECURE CHECKOUT VIA STRIPE · REPORT IN 24–48 HRS
           </p>
         </>
-      )}
-
-      {!showCheckoutButton && (
-        <Link href="/pricing" className="btn-primary w-full text-center py-4 text-base block">
+      ) : (
+        <Link href="/pricing" className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors">
           See Full Pricing Details
         </Link>
       )}

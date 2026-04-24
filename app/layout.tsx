@@ -4,13 +4,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Capps AI — AI Consulting for Small Businesses",
+  title: "Capps AI — AI Agency for Sacramento Businesses",
   description:
-    "We show small businesses exactly where AI can save them time and money — and we prove the ROI. Start with a free 5-minute assessment.",
+    "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer. Book your free intro call.",
   openGraph: {
-    title: "Capps AI — AI Consulting for Small Businesses",
+    title: "Capps AI — AI Agency for Sacramento Businesses",
     description:
-      "We show small businesses exactly where AI can save them time and money — and we prove the ROI.",
+      "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer.",
     type: "website",
   },
 };
@@ -22,7 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,400&family=Space+Mono:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
         <Navbar />
         <main>{children}</main>
         <Footer />

@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --primary: #1a1a2e;
-  --accent: #6c63ff;
-  --accent2: #00d4aa;
+  --ink: #0d0f12;
+  --paper: #f4f2ed;
+  --cream: #faf8f3;
+  --accent: #e85d26;
+  --accent2: #1a6b4e;
+  --accent3: #2d5dce;
+  --accent4: #8b5cf6;
+  --muted: #7c7a75;
+  --border: #ddd9d0;
 }
 
 * {
@@ -21,30 +27,73 @@ body {
 }
 
 body {
-  background-color: #1a1a2e;
-  color: #f0f0ff;
-  font-family: "Inter", system-ui, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-teal;
+
+  /* Eyebrow / label text */
+  .eyebrow {
+    @apply font-mono text-xs font-normal tracking-widest uppercase text-muted;
   }
-  .card-surface {
-    @apply bg-surface rounded-2xl border border-surface-border;
+
+  /* Cards */
+  .card {
+    @apply bg-cream rounded-2xl border border-border;
   }
+  .card-hover {
+    @apply bg-cream rounded-2xl border border-border hover:border-ink/20 hover:shadow-sm transition-all duration-200;
+  }
+
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-white bg-accent hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-accent hover:bg-accent-hover transition-colors duration-150 shadow-sm;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold text-teal border border-teal/40 hover:bg-teal/10 transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-ink border border-ink/20 hover:border-ink/40 hover:bg-ink/5 transition-colors duration-150;
   }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-muted hover:text-ink transition-colors duration-150;
+  }
+
+  /* Section spacing */
   .section-padding {
     @apply px-4 sm:px-6 lg:px-8 py-20 lg:py-28;
   }
-}
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+  /* Divider */
+  .section-divider {
+    @apply border-t border-border;
+  }
+
+  /* Stat pill */
+  .stat-pill {
+    @apply inline-flex flex-col items-center px-5 py-3 rounded-xl bg-ink text-white;
+  }
+  .stat-pill-value {
+    @apply text-accent font-mono text-lg font-bold leading-tight;
+  }
+  .stat-pill-label {
+    @apply text-white/60 text-xs font-mono tracking-wide mt-0.5;
+  }
+
+  /* Tier color helpers */
+  .tier-green {
+    @apply border-green/border bg-green/light text-green;
+  }
+  .tier-blue {
+    @apply border-blue/border bg-blue/light text-blue;
+  }
+  .tier-orange {
+    @apply border-accent/30 bg-accent/light text-accent;
+  }
+  .tier-purple {
+    @apply border-purple/border bg-purple/light text-purple;
+  }
+}

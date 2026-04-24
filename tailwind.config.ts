@@ -9,47 +9,51 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#1a1a2e",
-          dark: "#0f0f1e",
-          light: "#252542",
-        },
+        ink: "#0d0f12",
+        paper: "#f4f2ed",
+        cream: "#faf8f3",
         accent: {
-          DEFAULT: "#6c63ff",
-          hover: "#5a52e0",
-          light: "#8b85ff",
+          DEFAULT: "#e85d26",
+          hover: "#d4501f",
+          light: "#e85d261a",
         },
-        teal: {
-          DEFAULT: "#00d4aa",
-          hover: "#00b894",
-          light: "#33ddb9",
+        green: {
+          DEFAULT: "#1a6b4e",
+          hover: "#155a40",
+          light: "#1a6b4e1a",
+          border: "#1a6b4e40",
         },
-        surface: {
-          DEFAULT: "#1e1e38",
-          elevated: "#252545",
-          border: "#2e2e50",
+        blue: {
+          DEFAULT: "#2d5dce",
+          hover: "#2550b8",
+          light: "#2d5dce1a",
+          border: "#2d5dce40",
         },
+        purple: {
+          DEFAULT: "#8b5cf6",
+          hover: "#7c3aed",
+          light: "#8b5cf61a",
+          border: "#8b5cf640",
+        },
+        muted: "#7c7a75",
+        border: "#ddd9d0",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["DM Sans", "system-ui", "sans-serif"],
+        mono: ["Space Mono", "monospace"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "hero-glow":
-          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(108, 99, 255, 0.3), transparent)",
+        "hero-texture":
+          "radial-gradient(ellipse 100% 60% at 70% 0%, rgba(232,93,38,0.06), transparent)",
       },
       animation: {
-        "fade-up": "fadeUp 0.6s ease-out forwards",
-        "fade-in": "fadeIn 0.4s ease-out forwards",
+        "fade-up": "fadeUp 0.5s ease-out forwards",
       },
       keyframes: {
         fadeUp: {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
         },
       },
     },
