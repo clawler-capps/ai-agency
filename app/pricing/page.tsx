@@ -74,7 +74,7 @@ const tier4Includes = [
   "Competitive intelligence briefings",
   "CEO dashboard management and evolution",
   "Priority support and advisory access",
-  "You become embedded infrastructure — not a consultant who delivers and leaves",
+  "A partner who stays accountable to your results — not a consultant who delivers and disappears",
 ];
 
 // ── Report sections ────────────────────────────────────────────────────────────
@@ -113,15 +113,6 @@ const reportSections = [
   },
 ];
 
-// ── Financial projections ──────────────────────────────────────────────────────
-const projections = [
-  { month: "1", assessments: "2 × free", upsells: "—", retainers: "—", total: "$0" },
-  { month: "2", assessments: "2 × $500", upsells: "1 × $1K", retainers: "—", total: "$2,000" },
-  { month: "3", assessments: "3 × $1K", upsells: "1 × $3K", retainers: "—", total: "$6,000" },
-  { month: "4", assessments: "4 × $1K", upsells: "2 × $2K", retainers: "1 × $5K", total: "$13,000" },
-  { month: "6", assessments: "4 × $1K", upsells: "2 × $3K", retainers: "2 × $5K", total: "$20,000" },
-  { month: "12", assessments: "8 × $1K", upsells: "4 × $3K", retainers: "5 × $10K", total: "$70,000" },
-];
 
 export default function PricingPage() {
   return (
@@ -132,7 +123,7 @@ export default function PricingPage() {
           <p className="eyebrow mb-4">Transparent Pricing</p>
           <h1 className="text-5xl sm:text-6xl font-black text-ink tracking-tight mb-6">
             Four Tiers.<br />
-            <span className="text-accent">One Clear Funnel.</span>
+            <span className="text-accent">One Clear Path.</span>
           </h1>
           <p className="text-lg text-muted max-w-xl leading-relaxed">
             Every engagement starts with the Assessment. We don&apos;t recommend
@@ -282,8 +273,8 @@ export default function PricingPage() {
               <span className="text-white/50 font-mono text-sm">per month</span>
             </div>
             <p className="mt-3 text-white/60 max-w-xl leading-relaxed">
-              Embedded AI leadership — not a consultant who delivers and leaves. Once your dashboards
-              and automations are embedded in operations, removing you means removing infrastructure.
+              Embedded AI leadership for businesses that are serious about making AI a permanent part
+              of how they operate — not a one-time project that fades after the engagement ends.
             </p>
           </div>
 
@@ -298,60 +289,12 @@ export default function PricingPage() {
 
           <div className="p-7 rounded-2xl bg-white/5 border border-white/10 max-w-xl">
             <p className="text-sm text-white/60 leading-relaxed">
-              <strong className="text-white">The system-based pricing advantage:</strong>{" "}
-              Once dashboards and automations are embedded in operations, removing you means
-              removing infrastructure. That&apos;s a very different conversation than &ldquo;should we
-              renew the consultant?&rdquo;
+              <strong className="text-white">What this looks like in practice:</strong>{" "}
+              Your dashboards evolve as your business evolves. Your automations get refined
+              as your team grows. You get a strategic partner who knows your operations
+              deeply — and keeps them running better over time.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Financial projections */}
-      <section className="section-padding bg-cream section-divider">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-10">
-            <p className="eyebrow mb-3">Revenue Model</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-              Financial Projections
-            </h2>
-            <p className="mt-4 text-muted max-w-xl">
-              Targets based on the four-tier funnel — assessments feed upsells, upsells feed retainers.
-            </p>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border border-border">
-            <table className="w-full text-sm">
-              <thead className="bg-ink text-white">
-                <tr>
-                  <th className="text-left px-5 py-3.5 font-mono text-xs tracking-wider text-white/50">MONTH</th>
-                  <th className="text-left px-5 py-3.5 font-mono text-xs tracking-wider text-white/50">ASSESSMENTS</th>
-                  <th className="text-left px-5 py-3.5 font-mono text-xs tracking-wider text-white/50">UPSELLS</th>
-                  <th className="text-left px-5 py-3.5 font-mono text-xs tracking-wider text-white/50">RETAINERS</th>
-                  <th className="text-right px-5 py-3.5 font-mono text-xs tracking-wider text-white/50">TOTAL</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border bg-paper">
-                {projections.map((row, i) => (
-                  <tr key={i} className="hover:bg-cream transition-colors">
-                    <td className="px-5 py-4 font-mono font-bold text-ink">Mo. {row.month}</td>
-                    <td className="px-5 py-4 text-muted">{row.assessments}</td>
-                    <td className="px-5 py-4 text-muted">{row.upsells}</td>
-                    <td className="px-5 py-4 text-muted">{row.retainers}</td>
-                    <td className={`px-5 py-4 font-black text-right font-mono ${
-                      row.total === "$0" ? "text-muted" : "text-ink"
-                    }`}>
-                      {row.total}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <p className="mt-4 text-xs text-muted font-mono">
-            * PROJECTIONS BASED ON FOUR-TIER FUNNEL MODEL. ACTUAL RESULTS WILL VARY.
-          </p>
         </div>
       </section>
 
