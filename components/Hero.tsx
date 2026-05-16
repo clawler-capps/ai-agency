@@ -1,10 +1,9 @@
 import Link from "next/link";
 
-const stats = [
-  { value: "<$200", label: "startup cost" },
-  { value: "4 Tiers", label: "of service" },
-  { value: "$15K+", label: "MRR target mo. 6" },
-  { value: "30 Days", label: "to first client" },
+const bullets = [
+  "Find your biggest time leaks in 5 minutes",
+  "Get a plan you can act on this week — no engineer required",
+  "Built for owner-operated Sacramento businesses",
 ];
 
 export default function Hero() {
@@ -24,42 +23,41 @@ export default function Hero() {
           </p>
 
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-ink leading-[1.05] tracking-tight text-balance mb-6">
-            The AI Agency for{" "}
-            <span className="text-accent">Sacramento</span>{" "}
-            Businesses
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-ink leading-[1.05] tracking-tight text-balance mb-6">
+            Reclaim{" "}
+            <span className="text-accent">8+ hours a week</span>
+            {" "}— without becoming a &ldquo;tech person&rdquo;
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl sm:text-2xl text-muted font-light leading-relaxed max-w-2xl mb-10">
-            We help Sacramento businesses save{" "}
-            <strong className="text-ink font-semibold">8+ hours a week</strong>{" "}
-            with AI — without hiring a developer.
+          <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
+            Take our free 5-minute AI assessment. We&apos;ll find your biggest time leaks
+            and give you a simple plan to win back hours this month — no engineer required.
           </p>
 
+          {/* Bullet proof points */}
+          <ul className="space-y-2.5 mb-10 max-w-xl">
+            {bullets.map((b, i) => (
+              <li key={i} className="flex items-start gap-3 text-ink/80">
+                <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
+                <span className="text-base sm:text-lg">{b}</span>
+              </li>
+            ))}
+          </ul>
+
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-14">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link href="/assessment" className="btn-primary text-base px-8 py-4">
+              Take the Free 5-Min Assessment →
+            </Link>
             <a
               href="https://calendly.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary text-base px-8 py-4"
+              className="btn-secondary text-base px-8 py-4"
             >
-              Book Your Free Intro Call
+              Skip it — book a 15-min call
             </a>
-            <Link href="/assessment" className="btn-secondary text-base px-8 py-4">
-              Take the Assessment →
-            </Link>
-          </div>
-
-          {/* Stat pills */}
-          <div className="flex flex-wrap gap-3">
-            {stats.map((s) => (
-              <div key={s.label} className="stat-pill">
-                <span className="stat-pill-value">{s.value}</span>
-                <span className="stat-pill-label">{s.label}</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>

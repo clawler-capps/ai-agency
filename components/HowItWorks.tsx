@@ -33,13 +33,13 @@ export default function HowItWorks() {
     <section id="how-it-works" className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
         <div className="mb-14">
-          <p className="eyebrow mb-3">The AOA Framework</p>
-          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
-            How It Works
+          <p className="eyebrow mb-3">How It Works</p>
+          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
+            From &ldquo;I don&apos;t know where to start&rdquo; to a clear AI roadmap — in 3 simple steps
           </h2>
-          <p className="mt-4 text-lg text-muted max-w-xl">
-            Three steps from &ldquo;I don&apos;t know where to start&rdquo; to a clear,
-            dollar-quantified AI roadmap.
+          <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
+            No technical background needed. We do the heavy lifting and hand you a
+            dollar-quantified plan you can act on this week.
           </p>
         </div>
 
