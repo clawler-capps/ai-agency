@@ -245,7 +245,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Social proof */}
+      {/* Social proof — hidden until real customer testimonials are collected
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
@@ -278,6 +278,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* FAQ */}
       <section id="faq" className="section-padding bg-paper section-divider">
