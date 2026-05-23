@@ -7,71 +7,78 @@ import ServiceTiers from "@/components/ServiceTiers";
 const problems = [
   {
     icon: "📋",
-    title: "Manual Reporting",
+    title: "Manual reporting eats your Mondays",
     description:
-      "Copy-pasting from 4 different systems into a spreadsheet every Monday morning. 2–3 hours gone before the week even starts.",
+      "You copy-paste from 4 systems into a spreadsheet every week. 2–3 hours gone before the week even starts.",
     fix: "Automated dashboard that pulls every source in real time.",
   },
   {
     icon: "🚨",
-    title: "Missed Leads",
+    title: "Leads go cold overnight",
     description:
-      "A new lead comes in at 9pm and nobody responds until the next morning. Top performers respond in under 2 minutes.",
+      "A new lead comes in at 9pm and nobody responds until morning. Top performers respond in under 2 minutes.",
     fix: "Speed-to-lead AI agent — responds in seconds, 24/7.",
   },
   {
     icon: "🌀",
-    title: "Meeting Chaos",
+    title: "Action items die in inboxes",
     description:
-      "Hours of meetings with no record of what was decided or who owns what. Action items die in someone's inbox.",
-    fix: "Fathom auto-transcribes, summarizes, and assigns action items.",
+      "Hours of meetings with no record of what was decided or who owns what. Decisions evaporate by Friday.",
+    fix: "Auto-transcribe, summarize, and assign action items.",
   },
 ];
 
-// ── Industries ─────────────────────────────────────────────────────────────────
+// ── Industries / Ideal Client ─────────────────────────────────────────────────
 const industries = [
   {
     name: "Construction & Trades",
     description:
-      "Still estimating by hand? Losing track of job status across crews? Buried in emails that should be systems?",
+      "Estimating by hand, losing track of job status across crews, drowning in emails that should be systems.",
     icon: "🏗️",
   },
   {
     name: "Real Estate Brokerages",
     description:
-      "Leads slipping through the cracks, CRM nobody actually uses, marketing reports you compile yourself every month?",
+      "Leads slipping through, a CRM nobody actually uses, monthly marketing reports you still compile yourself.",
     icon: "🏘️",
   },
   {
     name: "Professional Services",
     description:
-      "Law firms, CPAs, insurance agencies — drowning in repetitive document work, intake forms, and manual billing?",
+      "Law firms, CPAs, agencies — buried in repetitive document work, intake forms, and manual billing.",
     icon: "⚖️",
   },
   {
     name: "Healthcare Practices",
     description:
-      "Admin overhead eating your margin across locations? Scheduling gaps and patient communication still done by hand?",
+      "Admin overhead eating your margin. Scheduling gaps and patient communication still done by hand.",
     icon: "🏥",
   },
   {
     name: "Agriculture & Ranching",
     description:
-      "Running a serious operation with almost no tech infrastructure? There's more leverage here than most consultants realize.",
+      "A serious operation with almost no tech infrastructure. More leverage here than most consultants realize.",
     icon: "🌾",
   },
   {
     name: "Franchise Groups",
     description:
-      "Scaling across locations but every unit runs differently? Inconsistent processes are the hidden tax on growth.",
+      "Scaling across locations but every unit runs differently. Inconsistent process is the hidden tax on growth.",
     icon: "🔗",
   },
   {
     name: "Manufacturing",
     description:
-      "Legacy systems, manual inventory tracking, zero visibility into operations in real time?",
+      "Legacy systems, manual inventory tracking, zero real-time visibility into operations.",
     icon: "⚙️",
   },
+];
+
+// ── Not for you if... ─────────────────────────────────────────────────────────
+const notForYou = [
+  "You're an enterprise looking for a six-figure, year-long transformation engagement.",
+  "You want someone to disappear into a closet for six months and hand you a finished system.",
+  "You're not willing to make small changes in how your team works to capture the wins.",
 ];
 
 // ── Testimonials ───────────────────────────────────────────────────────────────
@@ -102,23 +109,27 @@ const testimonials = [
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
   {
-    q: "Do I need to be tech-savvy?",
-    a: "No. The interview is a conversation about how your business works, not a technical audit.",
+    q: "I'm not technical — is this for me?",
+    a: "Yes. The interview is a conversation about how your business works, not a technical audit. You don't need to know what an API is.",
+  },
+  {
+    q: "I'm brand new to AI. Will I be lost?",
+    a: "No. We start from zero and only recommend tools you can actually use. Most clients find a quick win they can run themselves the same week.",
   },
   {
     q: "How long does it take?",
-    a: "The interview is 20–30 min. Your report is delivered in 24–48 hours. The follow-up call is 30 min.",
+    a: "The free assessment is 5 minutes. The paid interview is 20–30 min. Your custom report is delivered in 24–48 hours. The follow-up call is 30 min.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "We work with owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, manufacturing, and franchises. If your team is doing repetitive manual work and you feel like you're leaving time and money on the table, you're a good fit.",
+    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, manufacturing, and franchises. If your team is doing repetitive manual work, you're a fit.",
   },
   {
     q: "What if I don't implement anything after the assessment?",
     a: "The report is yours regardless. Most clients find at least one quick win they can do themselves the same week — often free.",
   },
   {
-    q: "Is the $1,000 refundable?",
+    q: "Is the $1,000 assessment refundable?",
     a: "If you don't find at least $1,000 in monthly value in the recommendations, we'll talk. The goal is a clear ROI, not just taking your money.",
   },
 ];
@@ -135,9 +146,13 @@ export default function HomePage() {
             <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
               The Problem
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-balance max-w-2xl">
-              Your business runs on repetition — and it&apos;s costing more than you think
+            <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-balance max-w-3xl">
+              You&apos;re wearing every hat — and your team&apos;s buried in repetitive work
             </h2>
+            <p className="mt-4 text-lg text-white/60 max-w-2xl leading-relaxed">
+              You&apos;ve heard about AI. Maybe you&apos;ve dabbled with ChatGPT. But you don&apos;t
+              have a system, and you don&apos;t have time for another 10-hour course.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -157,23 +172,23 @@ export default function HomePage() {
       </section>
 
       <HowItWorks />
-      <ServiceTiers />
 
-      {/* Who We Serve */}
+      {/* Who this is built for */}
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
-            <p className="eyebrow mb-3">Who We Help</p>
-            <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
-              Does this sound like your business?
+            <p className="eyebrow mb-3">Who this is built for</p>
+            <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
+              We built this for owner-operated Sacramento businesses
             </h2>
             <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
-              We work with growing businesses across the Sacramento region that are running
-              on manual processes — and know there has to be a better way.
+              You run a small or mid-sized business in the Sacramento region. You wear every
+              hat — sales, ops, finance — and you know your team is leaving hours on the table
+              every week. You want practical wins this month, not a year-long &ldquo;digital transformation.&rdquo;
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
             {industries.map((ind, i) => (
               <div key={i} className="card-hover p-6 group">
                 <div className="flex items-start gap-4">
@@ -186,28 +201,51 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          {/* Not for you if... */}
+          <div className="bg-ink text-white rounded-2xl p-8 sm:p-10">
+            <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
+              Honest disclaimer
+            </p>
+            <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-6 text-balance">
+              This isn&apos;t for you if…
+            </h3>
+            <ul className="space-y-3">
+              {notForYou.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-white/80">
+                  <span className="text-accent mt-1 shrink-0">✕</span>
+                  <span className="text-base leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-sm text-white/50 italic">
+              We&apos;d rather tell you up front than waste an hour on a call.
+            </p>
+          </div>
         </div>
       </section>
+
+      <ServiceTiers />
 
       {/* Assessment CTA */}
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="eyebrow mb-4">Free · 5 minutes</p>
+          <p className="eyebrow mb-4">Free · 5 minutes · No account required</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight mb-5 text-balance">
-            Find out exactly where AI can save your business time and money
+            Find your biggest AI quick win in the next 5 minutes
           </h2>
           <p className="text-lg text-muted mb-10 leading-relaxed">
-            Take our free 5-minute assessment. No tech knowledge needed. Get an instant snapshot
-            of your biggest automation opportunities — with ballpark ROI numbers.
+            Take the free 5-minute assessment. No tech knowledge needed. Get an instant
+            snapshot of where AI can save your business the most time — with ballpark ROI numbers.
           </p>
           <Link href="/assessment" className="btn-primary text-base px-10 py-4 inline-flex">
-            Take the Free Assessment →
+            Take the Free 5-Min Assessment →
           </Link>
           <p className="mt-4 text-xs text-muted font-mono">FREE · NO ACCOUNT REQUIRED · RESULTS IN SECONDS</p>
         </div>
       </section>
 
-      {/* Social proof */}
+      {/* Social proof — hidden until real customer testimonials are collected
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
@@ -240,6 +278,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* FAQ */}
       <section id="faq" className="section-padding bg-paper section-divider">
@@ -247,7 +286,7 @@ export default function HomePage() {
           <div className="mb-12">
             <p className="eyebrow mb-3">FAQ</p>
             <h2 className="text-4xl font-black text-ink tracking-tight">
-              Frequently Asked Questions
+              Questions you might be asking
             </h2>
           </div>
           <div className="divide-y divide-border">
@@ -265,28 +304,28 @@ export default function HomePage() {
       <section className="section-padding bg-ink text-white">
         <div className="max-w-3xl mx-auto text-center">
           <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-6">
-            Sacramento, CA
+            Your next 30 minutes could save you 8+ hours every week
           </p>
           <h2 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-6 text-balance">
             Ready to find your first{" "}
             <span className="text-accent">AI quick win?</span>
           </h2>
           <p className="text-white/60 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
-            Book a free 15-minute intro call. No pitch, no pressure — just a conversation
-            about where AI can make the biggest difference in your business.
+            Start with the free 5-min assessment, or book a 15-min intro call. No pitch,
+            no pressure — just a conversation about where AI can move the needle for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/assessment" className="btn-primary text-base px-10 py-4 w-full sm:w-auto">
+              Take the Free 5-Min Assessment →
+            </Link>
             <a
               href="https://calendly.com/tylercapps/intro"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary text-base px-10 py-4 w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors w-full sm:w-auto text-base"
             >
-              Book a Free Intro Call
+              Book a 15-Min Call
             </a>
-            <Link href="/pricing" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors w-full sm:w-auto text-base">
-              View Pricing →
-            </Link>
           </div>
         </div>
       </section>
