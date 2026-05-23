@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AssessmentForm from "@/components/AssessmentForm";
+import AssessmentForm from "@/components/assessment/AssessmentForm";
 
 export const metadata: Metadata = {
   title: "Free AI Opportunity Assessment — Capps AI",

@@ -40,7 +40,7 @@ export default function Hero() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3 mb-14">
             <a
-              href="https://calendly.com"
+              href="https://calendly.com/tylercapps/intro"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4"

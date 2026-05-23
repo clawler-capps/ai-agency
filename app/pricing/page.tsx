@@ -310,7 +310,7 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="https://calendly.com"
+              href="https://calendly.com/tylercapps/intro"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary px-8 py-4 w-full sm:w-auto"

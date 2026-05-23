@@ -50,7 +50,7 @@ export default function Navbar() {
               Take Assessment
             </Link>
             <a
-              href="https://calendly.com"
+              href="https://calendly.com/tylercapps/intro"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary text-sm py-2 px-4"
@@ -96,7 +96,7 @@ export default function Navbar() {
                 <Link href="/assessment" className="btn-secondary text-sm text-center" onClick={() => setMenuOpen(false)}>
                   Take Assessment
                 </Link>
-                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm text-center">
+                <a href="https://calendly.com/tylercapps/intro" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm text-center">
                   Book a Call
                 </a>
               </div>
