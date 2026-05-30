@@ -77,6 +77,53 @@ const tier4Includes = [
   "A partner who stays accountable to your results — not a consultant who delivers and disappears",
 ];
 
+// ── Team AI Training & Coaching ──────────────────────────────────────────────
+const coachingTiers = [
+  {
+    name: "Champion Mastery",
+    label: "Tier 1",
+    price: "$4,500",
+    features: [
+      "Weekly 1:1 coaching (in-person option in Sacramento)",
+      "Personal workflow audit & roadmap",
+      "Custom Claude Projects & Skills built for your work",
+      "Priority async support between sessions",
+    ],
+    bestFor: "Making your division lead the internal AI expert",
+  },
+  {
+    name: "Team Momentum",
+    label: "Tier 2",
+    price: "$7,000",
+    features: [
+      "Everything in Champion Mastery (1:1 bi-weekly)",
+      "Bi-weekly group training for the team",
+      "Workflow audits for up to 4 core team members",
+      "Shared prompt & Project template library",
+      "Monthly team office hours",
+    ],
+    bestFor: "Bringing the whole core team up the curve",
+  },
+  {
+    name: "Division Enablement Partner",
+    label: "Tier 3",
+    price: "$11,000",
+    features: [
+      "Everything in Team Momentum, higher cadence",
+      "1:1 coaching for up to 3 team members",
+      "1–2 reusable custom Skills built for your team's work",
+      "Quarterly value & strategy review",
+    ],
+    bestFor: "Embedding AI into the division's highest-value work",
+  },
+];
+
+const coachingAddOns = [
+  "Additional 1:1 coaching seat: $1,500/mo",
+  "Standalone automations: $2,000–$5,000 (scoped separately)",
+  "No long-term lock-in after initial 3 months. Remote across U.S. & Canada; in-person option in Sacramento.",
+];
+
 // ── Report sections ────────────────────────────────────────────────────────────
 const reportSections = [
   {
@@ -294,6 +341,93 @@ export default function PricingPage() {
               as your team grows. You get a strategic partner who knows your operations
               deeply — and keeps them running better over time.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Team AI Training & Coaching */}
+      <section id="team-coaching" className="section-padding bg-cream section-divider">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-12">
+            <p className="eyebrow mb-3">For Teams & Divisions</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
+              Team AI Training &amp; Coaching
+            </h2>
+            <p className="mt-4 text-muted max-w-xl leading-relaxed">
+              Build durable AI capability inside your team — start with a low-commitment
+              assessment, then move into ongoing coaching at the cadence that fits.
+            </p>
+          </div>
+
+          {/* Entry point */}
+          <div className="p-7 rounded-2xl bg-green-light border border-green-border mb-12">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <div className="text-xs font-mono font-bold text-green-DEFAULT mb-2">
+                  ENTRY POINT — ONE-TIME
+                </div>
+                <h3 className="text-2xl font-black text-ink tracking-tight">
+                  Division AI Opportunity Assessment
+                </h3>
+              </div>
+              <div className="shrink-0 text-right">
+                <div className="text-2xl font-black text-ink">$3,500</div>
+                <div className="text-muted font-mono text-xs">+$750/person beyond lead</div>
+              </div>
+            </div>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
+              {[
+                "Per-person workflow audits (lead + up to 3 team members)",
+                "Prioritized opportunity roadmap for the division",
+                "90-minute team kickoff workshop",
+                "A low-commitment way to prove value first",
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-ink">
+                  <span className="text-green-DEFAULT mt-0.5 shrink-0">→</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Monthly tiers */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {coachingTiers.map((tier, i) => (
+              <div key={i} className="card-hover p-6 flex flex-col">
+                <div className="text-xs font-mono font-bold text-accent mb-3">{tier.label}</div>
+                <h3 className="font-bold text-ink mb-3">{tier.name}</h3>
+                <div className="flex items-baseline gap-1.5 mb-5">
+                  <span className="text-3xl font-black text-ink">{tier.price}</span>
+                  <span className="text-muted font-mono text-sm">/mo</span>
+                </div>
+                <ul className="space-y-2 mb-6 flex-1">
+                  {tier.features.map((feature, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm text-muted leading-snug">
+                      <span className="text-accent mt-0.5 shrink-0">→</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="pt-4 border-t border-border">
+                  <p className="text-xs text-muted">
+                    <strong className="text-ink">Best for:</strong> {tier.bestFor}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Add-ons */}
+          <div className="mt-8 p-6 rounded-2xl bg-paper border border-border">
+            <p className="text-sm text-ink font-semibold mb-3">Add-ons &amp; terms</p>
+            <ul className="space-y-2">
+              {coachingAddOns.map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-muted leading-relaxed">
+                  <span className="text-accent mt-0.5 shrink-0">→</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
