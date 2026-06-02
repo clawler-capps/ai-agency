@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 // Routes that should render without the global nav/footer (e.g. hidden,
 // share-only pages). The page provides its own minimal chrome.
-const BARE_ROUTES = ["/pre-call"];
+const BARE_ROUTES = ["/questionnaire"];
 
 export default function SiteChrome({
   children,
