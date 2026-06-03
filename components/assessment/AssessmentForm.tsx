@@ -439,7 +439,7 @@ export default function AssessmentForm() {
             className="btn-ghost text-sm"
           >
             {isQualified
-              ? "Prefer to do this async? Email tyler@cappsai.com →"
+              ? "Prefer to do this async? Email tyler@sacramentoaiagency.com →"
               : "Want to skip ahead and book a call anyway? →"}
           </a>
         </div>
