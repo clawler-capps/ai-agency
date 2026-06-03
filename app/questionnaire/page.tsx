@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PreCallForm from "@/components/PreCallForm";
 
 export const metadata: Metadata = {
-  title: "Pre-Call Questionnaire — Capps AI",
+  title: "Pre-Call Questionnaire — Sacramento AI Agency",
   description:
     "A few quick questions to help us make the most of our call together.",
   // Hidden, share-only page — keep it out of search engines.
@@ -16,8 +16,9 @@ export default function PreCallPage() {
         {/* Minimal header — no navigation links */}
         <header className="text-center mb-10">
           <div className="mb-6 flex items-center justify-center gap-2">
-            <span className="text-xl font-bold text-ink tracking-tight">Capps</span>
+            <span className="text-xl font-bold text-ink tracking-tight">Sacramento</span>
             <span className="text-xl font-bold text-accent tracking-tight">AI</span>
+            <span className="text-xl font-bold text-ink tracking-tight">Agency</span>
           </div>
           <p className="eyebrow mb-4">Before we talk</p>
           <h1 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-4">

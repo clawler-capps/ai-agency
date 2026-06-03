@@ -3,7 +3,7 @@ import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
 
 export const metadata: Metadata = {
-  title: "Pricing — Capps AI",
+  title: "Pricing — Sacramento AI Agency",
   description:
     "Four tiers from $1,000 assessment to $15K/month fractional CAO retainer. ROI-first AI consulting for Sacramento businesses.",
 };

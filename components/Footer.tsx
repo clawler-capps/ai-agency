@@ -7,8 +7,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-1 mb-4">
-              <span className="text-2xl font-bold text-white tracking-tight">Capps</span>
+              <span className="text-2xl font-bold text-white tracking-tight">Sacramento</span>
               <span className="text-2xl font-bold text-accent tracking-tight">AI</span>
+              <span className="text-2xl font-bold text-white tracking-tight">Agency</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
               AI consulting for Sacramento businesses. We find where AI saves you time
@@ -70,7 +71,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-white/30 font-mono">
-            © {new Date().getFullYear()} Tyler Capps / Capps AI. All rights reserved.
+            © {new Date().getFullYear()} Tyler Capps / Sacramento AI Agency. All rights reserved.
           </p>
           <p className="text-xs text-white/30 font-mono">
             BUILT TO HELP SACRAMENTO WIN WITH AI.

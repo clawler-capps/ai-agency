@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AssessmentForm from "@/components/assessment/AssessmentForm";
 
 export const metadata: Metadata = {
-  title: "Free AI Opportunity Assessment — Capps AI",
+  title: "Free AI Opportunity Assessment — Sacramento AI Agency",
   description:
     "Answer 7 quick questions about your business and get an instant snapshot of where AI can save you the most time and money.",
 };

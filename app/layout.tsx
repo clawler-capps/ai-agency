@@ -4,11 +4,11 @@ import SiteChrome from "@/components/SiteChrome";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "Capps AI — AI Agency for Sacramento Businesses",
+  title: "Sacramento AI Agency — AI for Sacramento Businesses",
   description:
     "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer. Book your free intro call.",
   openGraph: {
-    title: "Capps AI — AI Agency for Sacramento Businesses",
+    title: "Sacramento AI Agency — AI for Sacramento Businesses",
     description:
       "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer.",
     type: "website",

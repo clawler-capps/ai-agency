@@ -22,7 +22,7 @@ export async function POST() {
     cancel_url: `${siteUrl}/pricing?payment=cancelled`,
     metadata: { product: "ai_business_assessment" },
     payment_intent_data: {
-      description: "Capps AI — AI Business Assessment",
+      description: "Sacramento AI Agency — AI Business Assessment",
     },
   });
 

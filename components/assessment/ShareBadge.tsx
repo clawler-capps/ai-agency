@@ -27,7 +27,7 @@ export default function ShareBadge({ name, result }: Props) {
   const displayName = name || "Sacramento Operator";
 
   const defaultPost =
-    `I just took the Capps AI Opportunity Assessment and came out ${tagline} — Top ${peerPercentile}% of Sacramento-area ${industry.toLowerCase()} businesses.\n\n` +
+    `I just took the Sacramento AI Agency Opportunity Assessment and came out ${tagline} — Top ${peerPercentile}% of Sacramento-area ${industry.toLowerCase()} businesses.\n\n` +
     `If you run a Sacramento business and want to see where AI fits in yours, the assessment is free and takes 5 minutes 👇`;
 
   const [shareText, setShareText] = useState(defaultPost);
@@ -178,7 +178,7 @@ function buildBadgeSvg({
   <rect width="1200" height="630" fill="url(#glow)" />
 
   <!-- Top eyebrow -->
-  <text x="80" y="100" font-family="'Space Mono', monospace" font-size="22" letter-spacing="6" fill="${colors.ink}" fill-opacity="0.6">CAPPS AI · ASSESSMENT</text>
+  <text x="80" y="100" font-family="'Space Mono', monospace" font-size="22" letter-spacing="6" fill="${colors.ink}" fill-opacity="0.6">SACRAMENTO AI AGENCY · ASSESSMENT</text>
 
   <!-- Tier badge pill -->
   <g transform="translate(80, 140)">
