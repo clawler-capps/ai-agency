@@ -43,8 +43,9 @@ export async function POST(request: NextRequest) {
 
   const webhookUrl = process.env.QUESTIONNAIRE_WEBHOOK_URL;
 
-  // During development the webhook may not be configured yet. Log and succeed
-  // so the UI flow can be exercised end-to-end.
+  // Forwarding to the webhook is best-effort: a missing OR failing webhook must
+  // never block the visitor from completing the form. We always log the payload
+  // so submissions stay recoverable from server logs even if forwarding fails.
   if (!webhookUrl) {
     console.warn(
       "[questionnaire] QUESTIONNAIRE_WEBHOOK_URL is not set — skipping forward. Payload:",
@@ -62,20 +63,20 @@ export async function POST(request: NextRequest) {
 
     if (!res.ok) {
       console.error(
-        `[questionnaire] Webhook responded with ${res.status} ${res.statusText}`
-      );
-      return NextResponse.json(
-        { success: false, error: "We couldn't submit your answers. Please try again." },
-        { status: 502 }
+        `[questionnaire] Webhook responded with ${res.status} ${res.statusText}. Payload:`,
+        body
       );
     }
-
-    return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("[questionnaire] Failed to forward to webhook:", err);
-    return NextResponse.json(
-      { success: false, error: "We couldn't submit your answers. Please try again." },
-      { status: 500 }
+    console.error(
+      "[questionnaire] Failed to forward to webhook:",
+      err,
+      "Payload:",
+      body
     );
   }
+
+  // Acknowledge the submission regardless of webhook outcome so the visitor
+  // always sees the thank-you card. Failures are surfaced in the server logs.
+  return NextResponse.json({ success: true });
 }
