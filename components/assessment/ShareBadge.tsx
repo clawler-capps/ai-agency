@@ -55,7 +55,7 @@ export default function ShareBadge({ name, result }: Props) {
     // Best-effort: copy text first so the user can paste into the LinkedIn composer.
     void navigator.clipboard?.writeText(shareText).catch(() => {});
     const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-      typeof window !== "undefined" ? window.location.origin + "/assessment" : "https://cappsai.com/assessment"
+      typeof window !== "undefined" ? window.location.origin + "/assessment" : "https://sacramentoaiagency.com/assessment"
     )}`;
     window.open(url, "_blank", "noopener,noreferrer");
   }
@@ -197,7 +197,7 @@ function buildBadgeSvg({
   <!-- Footer -->
   <line x1="80" y1="520" x2="1120" y2="520" stroke="${colors.ink}" stroke-opacity="0.25" stroke-width="1" />
   <text x="80" y="565" font-family="'DM Sans', system-ui, sans-serif" font-size="24" font-weight="600" fill="${colors.ink}">${safeName}</text>
-  <text x="1120" y="565" text-anchor="end" font-family="'Space Mono', monospace" font-size="20" fill="${colors.ink}" fill-opacity="0.6">cappsai.com/assessment</text>
+  <text x="1120" y="565" text-anchor="end" font-family="'Space Mono', monospace" font-size="20" fill="${colors.ink}" fill-opacity="0.6">sacramentoaiagency.com/assessment</text>
 </svg>`;
 }
 
