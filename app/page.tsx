@@ -72,11 +72,16 @@ const industries = [
       "Legacy systems, manual inventory tracking, zero real-time visibility into operations.",
     icon: "⚙️",
   },
+  {
+    name: "Growth-Stage & Enterprise Teams",
+    description:
+      "A division or team already proving AI wins by hand and ready to systematize them — without a six-figure, year-long transformation engagement.",
+    icon: "🏢",
+  },
 ];
 
 // ── Not for you if... ─────────────────────────────────────────────────────────
 const notForYou = [
-  "You're an enterprise looking for a six-figure, year-long transformation engagement.",
   "You want someone to disappear into a closet for six months and hand you a finished system.",
   "You're not willing to make small changes in how your team works to capture the wins.",
 ];
@@ -118,11 +123,11 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "The free assessment is 5 minutes. The paid interview is 20–30 min. Your custom report is delivered in 24–48 hours. The follow-up call is 30 min.",
+    a: "The free assessment is 5 minutes. The paid interview is about one hour. Your custom report and personalized AI roadmap are delivered in 24–48 hours.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, manufacturing, and franchises. If your team is doing repetitive manual work, you're a fit.",
+    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, manufacturing, and franchises — plus growth-stage and enterprise teams that want to systematize AI wins they've already proven by hand. If your team is doing repetitive manual work, you're a fit.",
   },
   {
     q: "What if I don't implement anything after the assessment?",
@@ -179,12 +184,12 @@ export default function HomePage() {
           <div className="mb-14">
             <p className="eyebrow mb-3">Who this is built for</p>
             <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-              We built this for owner-operated Sacramento businesses
+              We built this for owner-operated businesses — and the teams scaling beyond them
             </h2>
             <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
-              You run a small or mid-sized business in the Sacramento region. You wear every
-              hat — sales, ops, finance — and you know your team is leaving hours on the table
-              every week. You want practical wins this month, not a year-long &ldquo;digital transformation.&rdquo;
+              Whether you run a small Sacramento business wearing every hat, or you lead a
+              growth-stage division that&apos;s already proving AI wins by hand, the goal is the
+              same: practical wins this month, not a year-long &ldquo;digital transformation.&rdquo;
             </p>
           </div>
 

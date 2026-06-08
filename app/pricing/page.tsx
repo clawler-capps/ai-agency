@@ -5,123 +5,81 @@ import PricingCard from "@/components/PricingCard";
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
   description:
-    "Four tiers from $1,000 assessment to $15K/month fractional CAO retainer. ROI-first AI consulting for Sacramento businesses.",
+    "Start with a $1,000 AI Business Assessment. ROI-first AI consulting and team training for Sacramento businesses and growth-stage teams.",
 };
 
 // ── Tier data ──────────────────────────────────────────────────────────────────
-const tier2Tools = [
+const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
+
+// Tier 2 — Solution Buildout. We build the priority plays from the assessment,
+// on Claude. Deliberately no specific third-party tool names — this is what's
+// actually being delivered today.
+const tier2Buildout = [
   {
-    tool: "Fathom",
-    why: "AI meeting notes — auto-transcribes, summarizes, assigns action items",
-    complexity: "Low",
-    cost: "$0/mo (free tier)",
-    setup: "1–2 hrs",
-    saved: "3–5 hrs/wk",
+    name: "Highest-Leverage Play, Built",
+    desc: "We take the top-ranked solution from your plan and build it end to end on Claude — the one with the biggest hours-saved and dollar return.",
   },
   {
-    tool: "DashThis",
-    why: "Reporting dashboards — pulls GA, Meta Ads, Google Ads automatically",
-    complexity: "Low–Medium",
-    cost: "$49–$149/mo",
-    setup: "2–4 hrs",
-    saved: "4–8 hrs/mo",
+    name: "Wins Proven by Hand → Repeatable Systems",
+    desc: "If you've already done it manually once, we turn it into a reliable system your team can run every time without re-inventing it.",
   },
   {
-    tool: "SaneBox",
-    why: "Intelligent email triage — priority inbox, auto-snooze, unsubscribe",
-    complexity: "Low",
-    cost: "$7–$36/mo",
-    setup: "30 min",
-    saved: "1–3 hrs/wk",
+    name: "Opportunity-to-Output in Minutes",
+    desc: "Reporting, briefings, proposals, market pulses — the recurring deliverables that ate hours now take minutes.",
   },
   {
-    tool: "Custom GPT",
-    why: "Train a GPT on your business data to handle 95% of repetitive Q&A",
-    complexity: "Medium",
-    cost: "$20/mo (ChatGPT Plus)",
-    setup: "3–6 hrs",
-    saved: "5–10 hrs/wk",
+    name: "Scoped to Your ROI",
+    desc: "We only build what the assessment showed will pay for itself. Each play is scoped on a call against the value you already saw.",
   },
 ];
 
-const tier3Projects = [
+// Tier 3 — Claude Proficiency Program. The 1:1 team training Tyler is actively
+// rolling out. Four stages, ~60-min weekly sessions.
+const proficiencyStages = [
   {
-    name: "CRM Setup (Go HighLevel)",
-    price: "$3,000–$5,000",
-    desc: "Full CRM with pipelines, automations, and follow-up sequences. Or white-labeled as a monthly SaaS for your agency clients.",
+    number: "01",
+    title: "Assess — Baseline & Goals",
+    desc: "Map each person's starting point, identify their top 3 high-ROI areas, and deliver a personalized learning roadmap.",
+    color: "border-green-border bg-green-light",
+    labelColor: "text-green-DEFAULT",
   },
   {
-    name: "Speed-to-Lead AI Agent",
-    price: "$1,500–$3,000",
-    desc: "Auto-respond to new leads in seconds, 24/7, via Make.com or Zapier. Never lose a lead to a slow response again.",
+    number: "02",
+    title: "Train: Foundations — Everyday Claude",
+    desc: "Prompting that works, managing conversations, working with files, and web search — the daily fundamentals.",
+    color: "border-blue-border bg-blue-light",
+    labelColor: "text-blue-DEFAULT",
   },
   {
-    name: "Process Optimization",
-    price: "$2,000–$5,000",
-    desc: "Fix the broken process before automating it. Map, simplify, document — then build the automation on a solid foundation.",
+    number: "03",
+    title: "Train: Working Smarter — Projects & Personalization",
+    desc: "Claude Projects, custom instructions, and organizing context so Claude fits how they actually work.",
+    color: "border-accent/30 bg-accent/light",
+    labelColor: "text-accent",
   },
   {
-    name: "CEO Dashboard",
-    price: "$1,500–$3,000",
-    desc: "One real-time view: revenue, pipeline, ops metrics. Auto-pulls from all your tools. Never compile a report manually again.",
+    number: "04",
+    title: "Level Up — Skills & Adjacent Tools",
+    desc: "Reusable Skills for their real work, plus adjacent tools only where they genuinely extend Claude.",
+    color: "border-purple-border bg-purple-light",
+    labelColor: "text-purple-DEFAULT",
   },
+];
+
+const proficiencyOutcomes = [
+  "A custom Claude Project built around their work",
+  "One custom Skill they keep and reuse",
+  "A personal prompt & playbook library",
+  "An adjacent-tools cheat sheet",
 ];
 
 const tier4Includes = [
   "Ongoing AI strategy and quarterly roadmap",
-  "Continuous automation buildouts and maintenance",
-  "Monthly team training sessions",
-  "Competitive intelligence briefings",
-  "CEO dashboard management and evolution",
+  "Continuous buildout of new leverage, on Claude",
+  "Team training and enablement",
+  "Executive briefings and decision support",
   "Priority support and advisory access",
   "A partner who stays accountable to your results — not a consultant who delivers and disappears",
-];
-
-// ── Team AI Training & Coaching ──────────────────────────────────────────────
-const coachingTiers = [
-  {
-    name: "Champion Mastery",
-    label: "Tier 1",
-    price: "$4,500",
-    features: [
-      "Weekly 1:1 coaching (in-person option in Sacramento)",
-      "Personal workflow audit & roadmap",
-      "Custom Claude Projects & Skills built for your work",
-      "Priority async support between sessions",
-    ],
-    bestFor: "Making your division lead the internal AI expert",
-  },
-  {
-    name: "Team Momentum",
-    label: "Tier 2",
-    price: "$7,000",
-    features: [
-      "Everything in Champion Mastery (1:1 bi-weekly)",
-      "Bi-weekly group training for the team",
-      "Workflow audits for up to 4 core team members",
-      "Shared prompt & Project template library",
-      "Monthly team office hours",
-    ],
-    bestFor: "Bringing the whole core team up the curve",
-  },
-  {
-    name: "Division Enablement Partner",
-    label: "Tier 3",
-    price: "$11,000",
-    features: [
-      "Everything in Team Momentum, higher cadence",
-      "1:1 coaching for up to 3 team members",
-      "1–2 reusable custom Skills built for your team's work",
-      "Quarterly value & strategy review",
-    ],
-    bestFor: "Embedding AI into the division's highest-value work",
-  },
-];
-
-const coachingAddOns = [
-  "Additional 1:1 coaching seat: $1,500/mo",
-  "Standalone automations: $2,000–$5,000 (scoped separately)",
-  "No long-term lock-in after initial 3 months. Remote across U.S. & Canada; in-person option in Sacramento.",
 ];
 
 // ── Report sections ────────────────────────────────────────────────────────────
@@ -233,46 +191,41 @@ export default function PricingPage() {
               Tier 2
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-              Tool Setup & Quick Wins
+              Solution Buildout
             </h2>
             <div className="flex items-baseline gap-2 mt-3">
-              <span className="text-3xl font-black text-ink">$500–$1,500</span>
-              <span className="text-muted font-mono text-sm">per tool / project</span>
+              <span className="text-2xl font-black text-ink">Book a call</span>
+              <span className="text-muted font-mono text-sm">scoped to your plan</span>
             </div>
             <p className="mt-3 text-muted max-w-xl">
-              Install and configure the tools recommended in your assessment. Done-for-you
-              setup — you get results without the learning curve.
+              Once the assessment shows what&apos;s worth building, we build it — turning the wins
+              you&apos;ve proven by hand into repeatable systems, all on Claude.
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-3 pr-4 font-mono text-xs text-muted tracking-wider">TOOL</th>
-                  <th className="text-left py-3 pr-4 font-mono text-xs text-muted tracking-wider">WHY IT FITS</th>
-                  <th className="text-left py-3 pr-4 font-mono text-xs text-muted tracking-wider hidden sm:table-cell">COST/MO</th>
-                  <th className="text-left py-3 pr-4 font-mono text-xs text-muted tracking-wider hidden md:table-cell">SETUP</th>
-                  <th className="text-left py-3 font-mono text-xs text-muted tracking-wider">TIME SAVED</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {tier2Tools.map((row, i) => (
-                  <tr key={i} className="hover:bg-paper transition-colors">
-                    <td className="py-4 pr-4 font-semibold text-ink">{row.tool}</td>
-                    <td className="py-4 pr-4 text-muted leading-snug max-w-xs">{row.why}</td>
-                    <td className="py-4 pr-4 text-muted font-mono text-xs hidden sm:table-cell">{row.cost}</td>
-                    <td className="py-4 pr-4 text-muted font-mono text-xs hidden md:table-cell">{row.setup}</td>
-                    <td className="py-4 text-green-DEFAULT font-semibold">{row.saved}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {tier2Buildout.map((item, i) => (
+              <div key={i} className="card-hover p-6">
+                <h3 className="font-bold text-ink mb-2">{item.name}</h3>
+                <p className="text-sm text-muted leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary px-8 py-3 inline-flex"
+            >
+              Book a Call to Scope It
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Tier 3 */}
+      {/* Tier 3 — Claude Proficiency Program */}
       <section id="tier-3" className="section-padding bg-paper section-divider">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
@@ -280,27 +233,51 @@ export default function PricingPage() {
               Tier 3
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-              Automation & Process Redesign
+              Claude Proficiency Program
             </h2>
             <div className="flex items-baseline gap-2 mt-3">
-              <span className="text-3xl font-black text-ink">$2,000–$5,000</span>
-              <span className="text-muted font-mono text-sm">per project</span>
+              <span className="text-2xl font-black text-ink">Book a call</span>
+              <span className="text-muted font-mono text-sm">priced per team</span>
             </div>
             <p className="mt-3 text-muted max-w-xl">
-              Redesign broken workflows first — then build the automation on a solid foundation.
+              1:1 training that makes each team member genuinely fluent with Claude — about
+              four 60-minute sessions on a weekly cadence, remote or in-person in Sacramento.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {tier3Projects.map((proj, i) => (
-              <div key={i} className="card-hover p-6">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="font-bold text-ink">{proj.name}</h3>
-                  <span className="shrink-0 text-sm font-semibold text-accent">{proj.price}</span>
+            {proficiencyStages.map((stage, i) => (
+              <div key={i} className={`rounded-2xl border p-6 ${stage.color}`}>
+                <div className={`text-xs font-mono font-bold mb-3 ${stage.labelColor}`}>
+                  STAGE {stage.number}
                 </div>
-                <p className="text-sm text-muted leading-relaxed">{proj.desc}</p>
+                <h3 className="font-bold text-ink mb-2">{stage.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{stage.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 p-6 rounded-2xl bg-cream border border-border">
+            <p className="text-sm text-ink font-semibold mb-3">What each person walks away with:</p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {proficiencyOutcomes.map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-muted">
+                  <span className="text-accent mt-0.5 shrink-0">→</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="mt-8">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary px-8 py-3 inline-flex"
+            >
+              Book a Call to Discuss Team Training
+            </a>
           </div>
         </div>
       </section>
@@ -316,8 +293,8 @@ export default function PricingPage() {
               Fractional Chief AI Officer
             </h2>
             <div className="flex items-baseline gap-2 mt-3">
-              <span className="text-3xl font-black text-white">$5,000–$15,000</span>
-              <span className="text-white/50 font-mono text-sm">per month</span>
+              <span className="text-2xl font-black text-white">Book a call</span>
+              <span className="text-white/50 font-mono text-sm">monthly retainer</span>
             </div>
             <p className="mt-3 text-white/60 max-w-xl leading-relaxed">
               Embedded AI leadership for businesses that are serious about making AI a permanent part
@@ -337,97 +314,21 @@ export default function PricingPage() {
           <div className="p-7 rounded-2xl bg-white/5 border border-white/10 max-w-xl">
             <p className="text-sm text-white/60 leading-relaxed">
               <strong className="text-white">What this looks like in practice:</strong>{" "}
-              Your dashboards evolve as your business evolves. Your automations get refined
-              as your team grows. You get a strategic partner who knows your operations
-              deeply — and keeps them running better over time.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Team AI Training & Coaching */}
-      <section id="team-coaching" className="section-padding bg-cream section-divider">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-12">
-            <p className="eyebrow mb-3">For Teams & Divisions</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-              Team AI Training &amp; Coaching
-            </h2>
-            <p className="mt-4 text-muted max-w-xl leading-relaxed">
-              Build durable AI capability inside your team — start with a low-commitment
-              assessment, then move into ongoing coaching at the cadence that fits.
+              New leverage gets built as your business evolves, your team keeps getting more
+              fluent, and you get a strategic partner who knows your operations deeply — and
+              keeps finding the next win over time.
             </p>
           </div>
 
-          {/* Entry point */}
-          <div className="p-7 rounded-2xl bg-green-light border border-green-border mb-12">
-            <div className="flex items-start justify-between gap-3 mb-3">
-              <div>
-                <div className="text-xs font-mono font-bold text-green-DEFAULT mb-2">
-                  ENTRY POINT — ONE-TIME
-                </div>
-                <h3 className="text-2xl font-black text-ink tracking-tight">
-                  Division AI Opportunity Assessment
-                </h3>
-              </div>
-              <div className="shrink-0 text-right">
-                <div className="text-2xl font-black text-ink">$3,500</div>
-                <div className="text-muted font-mono text-xs">+$750/person beyond lead</div>
-              </div>
-            </div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
-              {[
-                "Per-person workflow audits (lead + up to 3 team members)",
-                "Prioritized opportunity roadmap for the division",
-                "90-minute team kickoff workshop",
-                "A low-commitment way to prove value first",
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-ink">
-                  <span className="text-green-DEFAULT mt-0.5 shrink-0">→</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Monthly tiers */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {coachingTiers.map((tier, i) => (
-              <div key={i} className="card-hover p-6 flex flex-col">
-                <div className="text-xs font-mono font-bold text-accent mb-3">{tier.label}</div>
-                <h3 className="font-bold text-ink mb-3">{tier.name}</h3>
-                <div className="flex items-baseline gap-1.5 mb-5">
-                  <span className="text-3xl font-black text-ink">{tier.price}</span>
-                  <span className="text-muted font-mono text-sm">/mo</span>
-                </div>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {tier.features.map((feature, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-muted leading-snug">
-                      <span className="text-accent mt-0.5 shrink-0">→</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="pt-4 border-t border-border">
-                  <p className="text-xs text-muted">
-                    <strong className="text-ink">Best for:</strong> {tier.bestFor}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Add-ons */}
-          <div className="mt-8 p-6 rounded-2xl bg-paper border border-border">
-            <p className="text-sm text-ink font-semibold mb-3">Add-ons &amp; terms</p>
-            <ul className="space-y-2">
-              {coachingAddOns.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-muted leading-relaxed">
-                  <span className="text-accent mt-0.5 shrink-0">→</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-8">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors"
+            >
+              Book a Call
+            </a>
           </div>
         </div>
       </section>

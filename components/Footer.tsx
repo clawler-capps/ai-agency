@@ -27,8 +27,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {[
                 { href: "/pricing#tier-1", label: "AI Business Assessment" },
-                { href: "/pricing#tier-2", label: "Tool Setup & Quick Wins" },
-                { href: "/pricing#tier-3", label: "Automation & Redesign" },
+                { href: "/pricing#tier-2", label: "Solution Buildout" },
+                { href: "/pricing#tier-3", label: "Claude Proficiency Program" },
                 { href: "/pricing#tier-4", label: "Fractional Chief AI Officer" },
               ].map((link) => (
                 <li key={link.href}>

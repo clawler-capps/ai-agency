@@ -27,13 +27,13 @@ export default function PricingCard({ showCheckoutButton = true }: PricingCardPr
   }
 
   const includes = [
-    "20–30 min AI-guided interview (Zoom or AI voice agent)",
+    "One-hour interview",
     "Claude-generated assessment report via Gamma",
     "Effort/Impact matrix — all pain points plotted",
     "Quick wins section: low-effort, high-impact first",
-    "Recommended tools & automations, specific to your business",
+    "Ranked, ROI-backed solutions specific to your business",
     "Financial ROI summary: hours saved × $100/hr − tool costs",
-    "30-min follow-up call to walk through findings",
+    "Personalized roadmap to roll out specific AI fluency",
   ];
 
   return (

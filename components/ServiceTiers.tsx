@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
+
 const tiers = [
   {
     number: "Tier 1",
@@ -8,50 +10,53 @@ const tiers = [
     priceNote: "one-time",
     tagline: "Know exactly where AI can help — before spending a dollar on tools.",
     highlights: [
-      "20–30 min AI-guided interview",
+      "One-hour interview",
       "Effort/Impact matrix of every pain point",
-      "Quick wins + recommended tools",
+      "Quick wins + ranked, ROI-backed solutions",
       "Financial ROI summary",
-      "30-min follow-up call",
+      "Personalized roadmap to roll out specific AI fluency",
     ],
     cta: "Get Your Assessment",
     ctaHref: "/pricing#tier-1",
+    external: false,
     color: "border-green-border",
     badgeColor: "bg-green-light text-green-DEFAULT border-green-border",
     ctaColor: "bg-green-DEFAULT hover:bg-green-hover text-white",
   },
   {
     number: "Tier 2",
-    name: "Tool Setup & Quick Wins",
-    price: "$500–$1,500",
-    priceNote: "per tool / project",
-    tagline: "Install the tools from your report. Done-for-you setup.",
+    name: "Solution Buildout",
+    price: null,
+    priceNote: null,
+    tagline: "Turn the wins you've proven by hand into repeatable systems.",
     highlights: [
-      "Fathom — AI meeting notes",
-      "DashThis — reporting dashboards",
-      "SaneBox — intelligent email triage",
-      "Custom GPTs trained on your business",
+      "We build the highest-leverage solutions from your plan",
+      "All built on Claude — no brittle tool sprawl",
+      "Opportunity-to-output cycle measured in minutes",
+      "Scoped to the ROI you saw in the assessment",
     ],
-    cta: "See Tier 2 Details",
-    ctaHref: "/pricing#tier-2",
+    cta: "Book a Call",
+    ctaHref: CALENDLY_URL,
+    external: true,
     color: "border-blue-border",
     badgeColor: "bg-blue-light text-blue-DEFAULT border-blue-border",
     ctaColor: "bg-blue-DEFAULT hover:bg-blue-hover text-white",
   },
   {
     number: "Tier 3",
-    name: "Automation & Process Redesign",
-    price: "$2,000–$5,000",
-    priceNote: "per project",
-    tagline: "Redesign broken workflows, then build the automations.",
+    name: "Claude Proficiency Program",
+    price: null,
+    priceNote: null,
+    tagline: "1:1 training that makes your team genuinely fluent with Claude.",
     highlights: [
-      "CRM setup (Go HighLevel)",
-      "Speed-to-lead AI agents",
-      "Make.com / Zapier automations",
-      "CEO dashboards & reporting",
+      "~4 sessions of 60-min 1:1 coaching, weekly cadence",
+      "Personalized learning roadmap per team member",
+      "A custom Claude Project + one custom Skill they keep",
+      "Remote, or in-person in Sacramento",
     ],
-    cta: "See Tier 3 Details",
-    ctaHref: "/pricing#tier-3",
+    cta: "Book a Call",
+    ctaHref: CALENDLY_URL,
+    external: true,
     color: "border-accent/30",
     badgeColor: "bg-accent/light text-accent border-accent/30",
     ctaColor: "bg-accent hover:bg-accent-hover text-white",
@@ -59,18 +64,18 @@ const tiers = [
   {
     number: "Tier 4",
     name: "Fractional Chief AI Officer",
-    price: "$5,000–$15,000",
-    priceNote: "per month",
+    price: null,
+    priceNote: null,
     tagline: "Embedded AI leadership — not a consultant who delivers and leaves.",
     highlights: [
-      "Ongoing AI strategy & roadmap",
-      "Continuous automation buildouts",
-      "Monthly team training",
-      "Competitive intelligence briefings",
-      "CEO dashboard management",
+      "Ongoing AI strategy & quarterly roadmap",
+      "Continuous buildout of new leverage, on Claude",
+      "Team training and enablement",
+      "A partner who stays accountable to your results",
     ],
-    cta: "See Tier 4 Details",
-    ctaHref: "/pricing#tier-4",
+    cta: "Book a Call",
+    ctaHref: CALENDLY_URL,
+    external: true,
     color: "border-purple-border",
     badgeColor: "bg-purple-light text-purple-DEFAULT border-purple-border",
     ctaColor: "bg-purple-DEFAULT hover:bg-purple-hover text-white",
@@ -87,8 +92,8 @@ export default function ServiceTiers() {
             Services & Pricing
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl">
-            Every engagement starts with the Assessment. Follow-on work is only
-            recommended after we know it&apos;ll pay for itself.
+            Every engagement starts with the Assessment. Follow-on work is scoped
+            on a call — and only recommended once we know it&apos;ll pay for itself.
           </p>
         </div>
 
@@ -100,8 +105,17 @@ export default function ServiceTiers() {
                   {tier.number}
                 </span>
                 <div className="text-right">
-                  <div className="text-2xl font-black text-ink">{tier.price}</div>
-                  <div className="text-xs text-muted font-mono">{tier.priceNote}</div>
+                  {tier.price ? (
+                    <>
+                      <div className="text-2xl font-black text-ink">{tier.price}</div>
+                      <div className="text-xs text-muted font-mono">{tier.priceNote}</div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-lg font-black text-ink">Book a call</div>
+                      <div className="text-xs text-muted font-mono">custom scope</div>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -117,12 +131,23 @@ export default function ServiceTiers() {
                 ))}
               </ul>
 
-              <Link
-                href={tier.ctaHref}
-                className={`inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-colors ${tier.ctaColor}`}
-              >
-                {tier.cta}
-              </Link>
+              {tier.external ? (
+                <a
+                  href={tier.ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-colors ${tier.ctaColor}`}
+                >
+                  {tier.cta}
+                </a>
+              ) : (
+                <Link
+                  href={tier.ctaHref}
+                  className={`inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-colors ${tier.ctaColor}`}
+                >
+                  {tier.cta}
+                </Link>
+              )}
             </div>
           ))}
         </div>
