@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BOOKING_URL } from "@/lib/booking";
 
 const bullets = [
   "Find your biggest time leaks in 5 minutes",
@@ -51,7 +52,7 @@ export default function Hero() {
               Take the Free 5-Min Assessment →
             </Link>
             <a
-              href="https://calendly.com/tylercapps/intro"
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary text-base px-8 py-4"

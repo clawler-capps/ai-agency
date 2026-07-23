@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
+import { BOOKING_URL } from "@/lib/booking";
 
 interface PricingCardProps {
   showBookingButton?: boolean;
@@ -53,7 +52,7 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
       {showBookingButton ? (
         <>
           <a
-            href={CALENDLY_URL}
+            href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors"

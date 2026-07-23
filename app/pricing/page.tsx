@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
+import { BOOKING_URL } from "@/lib/booking";
 
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
   description:
     "Start with a $3,500 AI Leverage Assessment. 1:1 AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams.",
 };
-
-const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
 
 // ── AI Leverage Plan — what the assessment deliverable contains ───────────────
 const planSections = [
@@ -311,7 +310,7 @@ export default function PricingPage() {
 
           <div className="mt-8">
             <a
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary px-8 py-3 inline-flex"
@@ -391,7 +390,7 @@ export default function PricingPage() {
 
           <div className="mt-8">
             <a
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary px-8 py-3 inline-flex"
@@ -467,7 +466,7 @@ export default function PricingPage() {
 
           <div className="mt-8">
             <a
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors"
@@ -490,7 +489,7 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary px-8 py-4 w-full sm:w-auto"

@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
+import { BOOKING_URL } from "@/lib/booking";
 
 // ── Proof numbers (anonymized, from live engagements) ─────────────────────────
 const proofStats = [
@@ -380,7 +381,7 @@ export default function HomePage() {
               Take the Free 5-Min Assessment →
             </Link>
             <a
-              href="https://calendly.com/tylercapps/intro"
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors w-full sm:w-auto text-base"

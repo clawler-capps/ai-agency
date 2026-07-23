@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
+import { BOOKING_URL } from "@/lib/booking";
 
 const tiers = [
   {
@@ -78,7 +77,7 @@ const tiers = [
       "AI Center of Excellence: an org-wide assistant that compounds context over time",
     ],
     cta: "Book a Call",
-    ctaHref: CALENDLY_URL,
+    ctaHref: BOOKING_URL,
     external: true,
     color: "border-purple-border",
     badgeColor: "bg-purple-light text-purple-DEFAULT border-purple-border",

@@ -5,10 +5,7 @@ import { questions } from "./questions";
 import { Answer, AssessmentResult, scoreAssessment, TIER_META, PILLAR_LABELS } from "./scoring";
 import ShareBadge from "./ShareBadge";
 
-// TODO(tyler): replace with your real Calendly URL once finalized.
-const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
-const CALENDLY_EMBED_URL =
-  "https://calendly.com/tylercapps/intro?hide_gdpr_banner=1&hide_event_type_details=1&background_color=faf8f3&primary_color=e85d26";
+import { BOOKING_URL, BOOKING_EMBED_URL } from "@/lib/booking";
 
 type Phase = "intro" | "questions" | "computing" | "gate" | "results";
 
@@ -376,20 +373,22 @@ export default function AssessmentForm() {
               and we&apos;ll map out the fastest path from where you are now.
             </p>
 
-            {/* Embedded scheduler — falls back to the link below */}
-            <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
-              <iframe
-                src={CALENDLY_EMBED_URL}
-                width="100%"
-                height="540"
-                frameBorder="0"
-                title="Schedule a call with Tyler Capps"
-                loading="lazy"
-              />
-            </div>
+            {/* Embedded scheduler — hidden until a real scheduler URL is configured */}
+            {BOOKING_EMBED_URL && (
+              <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
+                <iframe
+                  src={BOOKING_EMBED_URL}
+                  width="100%"
+                  height="540"
+                  frameBorder="0"
+                  title="Schedule a call with Tyler Capps"
+                  loading="lazy"
+                />
+              </div>
+            )}
 
             <a
-              href={CALENDLY_URL}
+              href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary w-full text-base py-4"
@@ -433,7 +432,7 @@ export default function AssessmentForm() {
         {/* Soft secondary CTA for everyone */}
         <div className="text-center pb-6">
           <a
-            href={CALENDLY_URL}
+            href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ghost text-sm"
