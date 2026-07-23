@@ -132,7 +132,7 @@ const buildDayTiers = [
 const retainerTiers = [
   {
     name: "AI Embedded",
-    price: "$15,000",
+    price: "from $15,000",
     per: "/mo",
     tagline: "The delivery engine — continuous capability-building across your team.",
     includes: [
@@ -144,8 +144,8 @@ const retainerTiers = [
   },
   {
     name: "Fractional AI Officer",
-    price: "$22,000",
-    per: "/mo",
+    price: "Custom",
+    per: "scoped to your mandate",
     tagline: "Everything in Embedded, plus an embedded AI leadership mandate.",
     featured: true,
     includes: [
@@ -157,8 +157,8 @@ const retainerTiers = [
   },
   {
     name: "AI Center of Excellence",
-    price: "$35,000",
-    per: "/mo",
+    price: "Custom",
+    per: "scoped org-wide",
     tagline: "Everything in Officer, plus your own org-wide AI assistant.",
     includes: [
       "A white-labeled, org-wide compounding assistant",
@@ -418,6 +418,9 @@ export default function PricingPage() {
               assessment + 3 coaching sessions + one real build, then the seat rotates to the
               next person — so capability keeps spreading month after month.
             </p>
+            <p className="mt-3 text-white/80 max-w-xl leading-relaxed text-sm font-mono">
+              Engagements start at $15,000/mo — upper tiers are scoped to your mandate on a call.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-10 items-start">
@@ -436,8 +439,8 @@ export default function PricingPage() {
                   </div>
                 )}
                 <h3 className="text-lg font-bold">{tier.name}</h3>
-                <div className="flex items-baseline gap-1 mt-2 mb-3">
-                  <span className="text-3xl font-black">{tier.price}</span>
+                <div className="flex items-baseline gap-1.5 mt-2 mb-3">
+                  <span className="text-2xl font-black">{tier.price}</span>
                   <span className="text-white/50 text-sm">{tier.per}</span>
                 </div>
                 <p className="text-sm text-white/60 mb-4 leading-relaxed">{tier.tagline}</p>
