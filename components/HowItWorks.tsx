@@ -2,27 +2,30 @@ const steps = [
   {
     step: "1",
     title: "Assess",
+    name: "We find your leverage",
     description:
-      "An AI Leverage Assessment: a one-hour workflow interview per person, then a plan ranking every play by leverage — with ROI math conservative enough to hold up in front of a CFO.",
-    detail: "AI Leverage Plan · impact × effort map · two build paths per play",
+      "You walk us through your week — a conversation, not a technical audit. We find where AI saves you the most time.",
+    outcome: "Your Leverage Map: a ranked plan, with the numbers behind it.",
     color: "text-green-DEFAULT border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },
   {
     step: "2",
     title: "Enable",
+    name: "We build it together",
     description:
-      "1:1 coaching tracks turn your people into fluent AI operators — shipping real builds as they learn, so the wins are felt in week one, not quarter three.",
-    detail: "Setup · Skills · Systems — outcome-based, not session-counted",
+      "In your own accounts, you build systems you actually run — not demos you forget.",
+    outcome: "You leave every session with something working.",
     color: "text-blue-DEFAULT border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",
   },
   {
     step: "3",
     title: "Lead",
+    name: "It compounds",
     description:
-      "We stay embedded: rotating coaching seats, strategic builds, governance, and a scoreboard tracking realized hours against target — validated with you, not assumed.",
-    detail: "rotating seats · build roadmap · leverage scoreboard",
+      "What you build keeps paying off — automatically, every week.",
+    outcome: "It becomes how your whole team works.",
     color: "text-accent border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -33,9 +36,9 @@ export default function HowItWorks() {
     <section id="how-it-works" className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
         <div className="mb-14">
-          <p className="eyebrow mb-3">How It Works</p>
+          <p className="eyebrow mb-3">Your journey, in three stages</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-            From &ldquo;I don&apos;t know where to start&rdquo; to a compounding system — one rung at a time
+            From &ldquo;I don&apos;t know where to start&rdquo; to a compounding system
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
             No technical background needed. We do the heavy lifting and hand you a
@@ -52,21 +55,22 @@ export default function HowItWorks() {
                 <span className="font-sans font-semibold tracking-normal">{s.title}</span>
               </div>
 
-              <p className="text-ink leading-relaxed mb-4">{s.description}</p>
+              <h3 className="text-xl font-bold text-ink mb-3">{s.name}</h3>
+              <p className="text-muted leading-relaxed mb-4">{s.description}</p>
 
-              <p className={`text-xs font-mono leading-relaxed ${s.labelColor} opacity-70`}>
-                {s.detail}
+              <p className={`text-sm font-semibold leading-relaxed ${s.labelColor}`}>
+                → {s.outcome}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="mt-8 p-5 rounded-xl bg-ink/5 border border-border">
-          <p className="text-sm text-muted leading-relaxed">
-            <strong className="text-ink">Why people before systems?</strong>{" "}
-            Adoption is the product. A dashboard nobody uses saves nobody time — so we
-            create believers first with wins they feel this week, then point that energy
-            at the shared systems that create structural advantage.
+        <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 p-5 rounded-xl bg-ink/5 border border-border">
+          <p className="font-mono text-xs tracking-widest uppercase text-muted shrink-0">
+            What you get back
+          </p>
+          <p className="text-xl font-black text-accent tracking-tight">
+            Time · Money · Focus
           </p>
         </div>
       </div>

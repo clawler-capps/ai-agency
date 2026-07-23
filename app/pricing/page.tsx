@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "Start with a $997 AI Leverage Assessment. Outcome-based AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams.",
 };
 
-// ── AI Leverage Plan — what the assessment deliverable contains ───────────────
+// ── The Leverage Map — what the assessment deliverable contains ───────────────
 const planSections = [
   {
     number: "01",
@@ -49,9 +49,9 @@ const planSections = [
 const threeSs = [
   {
     letter: "S1",
-    name: "Setup",
+    name: "Source",
     outcome:
-      "Confident daily use — prompting that works, conversations, files, and web research, anchored to their real work from session one.",
+      "Claude learns your world — your role, your context, your voice — so it stops giving generic answers and starts sounding like you.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },
@@ -59,7 +59,7 @@ const threeSs = [
     letter: "S2",
     name: "Skills",
     outcome:
-      "Any task they do more than once becomes a reusable Skill — packaged know-how that runs the same way every time, forever.",
+      "Any task you do more than once becomes a reusable Skill — your best work packaged into tools you call up in one click, any time.",
     color: "border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",
   },
@@ -67,7 +67,7 @@ const threeSs = [
     letter: "S3",
     name: "Systems",
     outcome:
-      "A Claude Project built around their role that reclaims the hours their AI Leverage Plan flagged — the highest-leverage areas first.",
+      "The repetitive parts run on autopilot — reclaiming the hours your Leverage Map flagged, starting with the highest-leverage areas.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -189,13 +189,13 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Inside the AI Leverage Plan */}
+      {/* Inside Your Leverage Map */}
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-5xl mx-auto">
           <div className="mb-12">
             <p className="eyebrow mb-3">What You Receive</p>
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
-              Inside the AI Leverage Plan
+              Inside Your Leverage Map
             </h2>
             <p className="mt-4 text-muted text-sm max-w-xl">
               A per-person, card-based plan ranked highest leverage to lowest — built from
@@ -257,10 +257,10 @@ export default function PricingPage() {
               <span className="text-muted font-mono text-sm">per person · outcome-based</span>
             </div>
             <p className="mt-3 text-muted max-w-xl">
-              1:1 coaching built around how each person actually works — and graded on
-              outcomes, not session counts. You&apos;re done when the three S&apos;s exist,
-              not when the calendar runs out. Remote across the U.S. &amp; Canada,
-              in-person option in Sacramento.
+              The From Tool to System program: 1:1 coaching built around how each person
+              actually works — and graded on outcomes, not session counts. You&apos;re done
+              when the three S&apos;s exist, not when the calendar runs out. Remote across
+              the U.S. &amp; Canada, in-person option in Sacramento.
             </p>
           </div>
 

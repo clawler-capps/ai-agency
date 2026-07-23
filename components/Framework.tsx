@@ -1,35 +1,27 @@
-const rungs = [
+const layers = [
   {
-    number: "01",
-    title: "Tool Use",
+    number: "S1",
+    title: "Source",
     description:
-      "Individuals prompt AI ad hoc. Useful moments, but nothing compounds — the value evaporates between sessions. Most companies live here.",
+      "Claude learns your world — so it stops giving generic answers and starts sounding like you.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },
   {
-    number: "02",
-    title: "Personal AI-OS",
+    number: "S2",
+    title: "Skills",
     description:
-      "One person's context, files, and a growing skill library — so the AI gets sharper every week. This is the rung that turns a skeptic into a champion.",
+      "Your best work becomes reusable tools you call up in one click, any time.",
     color: "border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",
   },
   {
-    number: "03",
-    title: "Vertical AI-OS",
+    number: "S3",
+    title: "Systems",
     description:
-      "Each function — sales, ops, finance, marketing — gets scoped skills connected to its own data, surfaced as one assistant per team. The repeatable layer of the work gets automated.",
+      "The repetitive parts run on autopilot — the work happens without you.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
-  },
-  {
-    number: "04",
-    title: "Company-wide AI-OS",
-    description:
-      "An orchestration layer across the org: personal skills stay personal, shared skills live upstream, and the system knows where the data is and how to use it — governed, permissioned, compounding.",
-    color: "border-purple-border bg-purple-light",
-    labelColor: "text-purple-DEFAULT",
   },
 ];
 
@@ -51,24 +43,31 @@ export default function Framework() {
     <section id="framework" className="section-padding bg-paper section-divider">
       <div className="max-w-6xl mx-auto">
         <div className="mb-14">
-          <p className="eyebrow mb-3">The Core Framework</p>
+          <p className="eyebrow mb-3">Our Core Framework</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-            The Ignition Ladder: four rungs from scattered AI use to a compounding operation
+            From Tool to System
           </h2>
           <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
-            Every engagement climbs the same ladder. You don&apos;t need all four rungs on
-            day one — you need to know which rung you&apos;re on, and what the next one is worth.
+            Most people use AI like a vending machine — ask a question, get an answer,
+            repeat. We help you build something different:{" "}
+            <strong className="text-ink">
+              your own systems that handle the repetitive work for you
+            </strong>
+            , so your time goes back to the work only you can do.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-          {rungs.map((rung, i) => (
-            <div key={i} className={`rounded-2xl border p-6 ${rung.color}`}>
-              <div className={`text-xs font-mono font-bold mb-3 ${rung.labelColor}`}>
-                RUNG {rung.number}
+        <p className="font-mono text-xs tracking-widest uppercase text-muted mb-5">
+          What you&apos;ll build — Source → Skills → Systems
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+          {layers.map((layer, i) => (
+            <div key={i} className={`rounded-2xl border p-6 ${layer.color}`}>
+              <div className={`text-xs font-mono font-bold mb-3 ${layer.labelColor}`}>
+                {layer.number}
               </div>
-              <h3 className="font-bold text-ink mb-2">{rung.title}</h3>
-              <p className="text-sm text-muted leading-relaxed">{rung.description}</p>
+              <h3 className="font-bold text-ink mb-2">{layer.title}</h3>
+              <p className="text-sm text-muted leading-relaxed">{layer.description}</p>
             </div>
           ))}
         </div>
@@ -76,7 +75,7 @@ export default function Framework() {
         {/* Two lanes */}
         <div className="bg-ink text-white rounded-2xl p-8 sm:p-10">
           <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
-            How we climb it
+            How it scales
           </p>
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-6 text-balance">
             Two lanes, running at once
@@ -92,8 +91,10 @@ export default function Framework() {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-sm text-white/50 italic">
-            Lead with a Lane-A taste of success, then point that energy at a Lane-B system.
+          <p className="mt-8 pt-6 border-t border-white/10 text-white/80 leading-relaxed max-w-2xl">
+            <strong className="text-white">Six months from now,</strong> the work that
+            drains you today runs quietly in the background — and your time goes to what
+            actually grows the business.
           </p>
         </div>
       </div>

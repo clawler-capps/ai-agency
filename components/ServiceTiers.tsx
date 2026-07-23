@@ -11,7 +11,7 @@ const tiers = [
       "Know your highest-leverage AI moves — ranked, priced, and ROI-backed — before you commit to anything.",
     highlights: [
       "A one-hour workflow interview",
-      "Your AI Leverage Plan: every play ranked by leverage, two build paths each",
+      "Your Leverage Map: every play ranked by leverage, two build paths each",
       "Conservative ROI math: hours reclaimed × $100/hr, annualized",
       "Sets the scoreboard every later engagement is measured against",
       "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
@@ -31,9 +31,9 @@ const tiers = [
     tagline:
       "1:1 coaching graded on outcomes, not session counts — you're done when the capabilities exist.",
     highlights: [
-      "Setup: confident daily use — prompting that works, files, real workflows",
+      "Source: Claude learns their world — it stops being generic, starts sounding like them",
       "Skills: a reusable Skill for every task they do more than once",
-      "Systems: a Claude Project reclaiming the hours their Leverage Plan flagged",
+      "Systems: the repetitive work runs on autopilot — hours their Leverage Map flagged",
       "Weekly executive 1:1 included free for the engagement (a $4,500/mo value)",
       "Group discounts for teams — ask on a call",
     ],
