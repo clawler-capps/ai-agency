@@ -6,7 +6,7 @@ import { BOOKING_URL } from "@/lib/booking";
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
   description:
-    "Start with a $3,500 AI Leverage Assessment. 1:1 AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams.",
+    "Start with a $997 AI Leverage Assessment. Outcome-based AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams.",
 };
 
 // ── AI Leverage Plan — what the assessment deliverable contains ───────────────
@@ -45,34 +45,31 @@ const planSections = [
   },
 ];
 
-// ── Enable — the two coaching tracks ──────────────────────────────────────────
-const tracks = [
+// ── Enable — outcome-based coaching, graded on the three S's ──────────────────
+const threeSs = [
   {
-    name: "Track A — Foundations",
-    price: "$1,500",
-    per: "per person",
-    tagline: "Best for getting each team member confidently using AI daily.",
-    includes: [
-      "3 tailored 1:1 sessions, shaped to their role",
-      "A custom Claude Project + prompt set for their core workflow",
-      "Async support throughout the track",
-    ],
-    color: "border-blue-border",
-    badge: "bg-blue-light text-blue-DEFAULT border-blue-border",
+    letter: "S1",
+    name: "Setup",
+    outcome:
+      "Confident daily use — prompting that works, conversations, files, and web research, anchored to their real work from session one.",
+    color: "border-green-border bg-green-light",
+    labelColor: "text-green-DEFAULT",
   },
   {
-    name: "Track B — Mastery",
-    price: "$2,750",
-    per: "per person",
-    tagline: "Deepest impact — for power-users on high-stakes proposal and modeling work.",
-    includes: [
-      "6 tailored 1:1 sessions, role-specific",
-      "Deep workflow audit & optimization plan",
-      "One custom Claude Skill built for their highest-value task",
-      "30 days of priority async support",
-    ],
-    color: "border-accent/30",
-    badge: "bg-accent/light text-accent border-accent/30",
+    letter: "S2",
+    name: "Skills",
+    outcome:
+      "Any task they do more than once becomes a reusable Skill — packaged know-how that runs the same way every time, forever.",
+    color: "border-blue-border bg-blue-light",
+    labelColor: "text-blue-DEFAULT",
+  },
+  {
+    letter: "S3",
+    name: "Systems",
+    outcome:
+      "A Claude Project built around their role that reclaims the hours their AI Leverage Plan flagged — the highest-leverage areas first.",
+    color: "border-accent/30 bg-accent/light",
+    labelColor: "text-accent",
   },
 ];
 
@@ -107,23 +104,23 @@ const buildDayStack = [
 
 const buildDayTiers = [
   {
-    name: "Small",
-    price: "$15,000",
-    format: "One virtual half-day, expert-led",
-    reach: "~15 people",
-  },
-  {
-    name: "Medium",
+    name: "AI Build Day",
     price: "$55,000",
     format: "Two in-person half-days, your champions on the floor",
     reach: "~40 people",
     featured: true,
   },
   {
-    name: "Large",
+    name: "Build Day + Pilot Sprint",
     price: "$85,000",
-    format: "Medium + pilot acceleration + leadership readout",
+    format: "The Build Day, plus pilot acceleration and a leadership readout",
     reach: "~40 people",
+  },
+  {
+    name: "Virtual Build Day",
+    price: "$15,000",
+    format: "A lighter, expert-led virtual half-day for distributed teams",
+    reach: "~15 people",
   },
 ];
 
@@ -255,34 +252,26 @@ export default function PricingPage() {
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
               AI Fluency Coaching
             </h2>
+            <div className="flex items-baseline gap-2 mt-3">
+              <span className="text-2xl font-black text-ink">$1,500</span>
+              <span className="text-muted font-mono text-sm">per person · outcome-based</span>
+            </div>
             <p className="mt-3 text-muted max-w-xl">
-              A custom AI enablement program built around how your team actually works —
-              1:1 coaching tracks that ship real builds along the way. Remote across the
-              U.S. &amp; Canada, in-person option in Sacramento.
+              1:1 coaching built around how each person actually works — and graded on
+              outcomes, not session counts. You&apos;re done when the three S&apos;s exist,
+              not when the calendar runs out. Remote across the U.S. &amp; Canada,
+              in-person option in Sacramento.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {tracks.map((track, i) => (
-              <div key={i} className={`card-hover p-7 border-2 ${track.color}`}>
-                <div className="flex items-start justify-between mb-3">
-                  <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-mono font-bold border ${track.badge}`}>
-                    {track.name}
-                  </span>
-                  <div className="text-right">
-                    <div className="text-2xl font-black text-ink">{track.price}</div>
-                    <div className="text-xs text-muted font-mono">{track.per}</div>
-                  </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {threeSs.map((s, i) => (
+              <div key={i} className={`rounded-2xl border p-6 ${s.color}`}>
+                <div className={`text-xs font-mono font-bold mb-3 ${s.labelColor}`}>
+                  {s.letter} — {s.name.toUpperCase()}
                 </div>
-                <p className="text-sm text-muted mb-4 leading-relaxed">{track.tagline}</p>
-                <ul className="space-y-2">
-                  {track.includes.map((item, j) => (
-                    <li key={j} className="flex items-start gap-2 text-sm text-ink/80">
-                      <span className="mt-0.5 shrink-0">→</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="font-bold text-ink mb-2">{s.name}</h3>
+                <p className="text-sm text-muted leading-relaxed">{s.outcome}</p>
               </div>
             ))}
           </div>
@@ -301,7 +290,7 @@ export default function PricingPage() {
             <div className="p-6 rounded-2xl bg-paper border border-border">
               <p className="text-sm text-ink font-semibold mb-2">Terms</p>
               <ul className="space-y-1.5 text-sm text-muted">
-                <li>→ 15% bundle discount when training 4+ members</li>
+                <li>→ Group discounts for teams — scoped on a call</li>
                 <li>→ Ongoing monthly per-seat coaching available on request</li>
                 <li>→ Remote (U.S. &amp; Canada) · in-person option in Sacramento</li>
               </ul>

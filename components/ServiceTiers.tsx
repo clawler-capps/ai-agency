@@ -5,16 +5,16 @@ const tiers = [
   {
     number: "Assess",
     name: "AI Leverage Assessment",
-    price: "$3,500",
-    priceNote: "up to 4 people · +$750/person",
+    price: "$997",
+    priceNote: "per person",
     tagline:
       "Know your highest-leverage AI moves — ranked, priced, and ROI-backed — before you commit to anything.",
     highlights: [
-      "A one-hour workflow interview per person",
+      "A one-hour workflow interview",
       "Your AI Leverage Plan: every play ranked by leverage, two build paths each",
       "Conservative ROI math: hours reclaimed × $100/hr, annualized",
-      "90-minute team kickoff workshop",
       "Sets the scoreboard every later engagement is measured against",
+      "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
     ],
     cta: "See What's Inside",
     ctaHref: "/pricing#assess",
@@ -26,15 +26,16 @@ const tiers = [
   {
     number: "Enable",
     name: "AI Fluency Coaching",
-    price: "$1,500+",
-    priceNote: "per person",
+    price: "$1,500",
+    priceNote: "per person · outcome-based",
     tagline:
-      "1:1 coaching that turns your people into AI-fluent operators — shipping real builds as they learn.",
+      "1:1 coaching graded on outcomes, not session counts — you're done when the capabilities exist.",
     highlights: [
-      "Track A — Foundations: 3 tailored sessions + a custom Claude Project",
-      "Track B — Mastery: 6 sessions + a custom Claude Skill for their highest-value work",
+      "Setup: confident daily use — prompting that works, files, real workflows",
+      "Skills: a reusable Skill for every task they do more than once",
+      "Systems: a Claude Project reclaiming the hours their Leverage Plan flagged",
       "Weekly executive 1:1 included free for the engagement (a $4,500/mo value)",
-      "15% bundle discount when training 4+ team members",
+      "Group discounts for teams — ask on a call",
     ],
     cta: "Compare the Tracks",
     ctaHref: "/pricing#enable",
@@ -46,7 +47,7 @@ const tiers = [
   {
     number: "Deploy",
     name: "AI Build Day",
-    price: "$15,000+",
+    price: "$55,000",
     priceNote: "flat fee · fill the room",
     tagline:
       "One afternoon where every person on your team ships a real tool against their own real problem.",

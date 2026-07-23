@@ -13,7 +13,7 @@ const steps = [
     title: "Enable",
     description:
       "1:1 coaching tracks turn your people into fluent AI operators — shipping real builds as they learn, so the wins are felt in week one, not quarter three.",
-    detail: "Track A Foundations · Track B Mastery · champion development",
+    detail: "Setup · Skills · Systems — outcome-based, not session-counted",
     color: "text-blue-DEFAULT border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",
   },
