@@ -1,7 +1,27 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
+import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
+
+// ── Proof numbers (anonymized, from live engagements) ─────────────────────────
+const proofStats = [
+  {
+    stat: "$14,400/yr",
+    label: "median value per coached build",
+    detail: "in reclaimed time, priced at a conservative $100/hr",
+  },
+  {
+    stat: "9–18 hrs/wk",
+    label: "targeted per leader in live engagements",
+    detail: "set by their AI Leverage Assessment, tracked on a scoreboard",
+  },
+  {
+    stat: "12 hrs → 3 hrs",
+    label: "a real board deck, first build",
+    detail: "then ~1 hour every quarter as a reusable Skill — in perpetuity",
+  },
+];
 
 // ── Problem data ──────────────────────────────────────────────────────────────
 const problems = [
@@ -73,6 +93,12 @@ const industries = [
     icon: "⚙️",
   },
   {
+    name: "Energy, Logistics & Industrials",
+    description:
+      "Rich operating data already flowing — fleets, SCADA, ERP, CRM — and no AI layer on top. The plumbing is ahead of the usage. That's the opportunity, not a gap.",
+    icon: "⚡",
+  },
+  {
     name: "Growth-Stage & Enterprise Teams",
     description:
       "A division or team already proving AI wins by hand and ready to systematize them — without a six-figure, year-long transformation engagement.",
@@ -123,19 +149,23 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "The free assessment is 5 minutes. The paid interview is about one hour. Your custom report and personalized AI roadmap are delivered in 24–48 hours.",
+    a: "The free self-assessment is 5 minutes. The AI Leverage Assessment is a one-hour interview per person, with your plan delivered within days. Coaching runs weekly — most people ship their first real build inside the first few sessions.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, manufacturing, and franchises — plus growth-stage and enterprise teams that want to systematize AI wins they've already proven by hand. If your team is doing repetitive manual work, you're a fit.",
+    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, and franchises — plus divisions of mid-size and enterprise companies (energy, logistics, industrials) with real operating data flowing and no AI capability on top of it yet. If your team is doing repetitive manual work, you're a fit.",
   },
   {
     q: "What if I don't implement anything after the assessment?",
-    a: "The report is yours regardless. Most clients find at least one quick win they can do themselves the same week — often free.",
+    a: "The plan is yours regardless. Every play includes a Claude-native path you can run on tools you already have — often at $0 in added tool cost — and the plan ends with concrete start-Monday steps.",
   },
   {
-    q: "Is the $1,000 assessment refundable?",
-    a: "If you don't find at least $1,000 in monthly value in the recommendations, we'll talk. The goal is a clear ROI, not just taking your money.",
+    q: "How do I know it's actually working?",
+    a: "Every engagement runs against a leverage scoreboard. The assessment sets a target in hours per week; a build only counts as realized once you confirm the real hours it saves in practice. Proven, not promised.",
+  },
+  {
+    q: "Do you run on-site events?",
+    a: "Yes — the AI Build Day: one afternoon where every person on your team ships a real tool against their own real problem, with your own coached champions working the floor. Every tool leaves as a reusable Skill, not a demo that dies in two weeks.",
   },
 ];
 
@@ -178,8 +208,34 @@ export default function HomePage() {
 
       <HowItWorks />
 
-      {/* Who this is built for */}
+      <Framework />
+
+      {/* Proof — anonymized numbers from live engagements */}
       <section className="section-padding bg-cream section-divider">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12">
+            <p className="eyebrow mb-3">Real Numbers</p>
+            <h2 className="text-4xl font-black text-ink tracking-tight text-balance max-w-2xl">
+              From live engagements — measured, then validated with the client
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {proofStats.map((p, i) => (
+              <div key={i} className="card-hover p-7">
+                <div className="text-3xl font-black text-accent mb-2">{p.stat}</div>
+                <p className="font-semibold text-ink mb-2">{p.label}</p>
+                <p className="text-sm text-muted leading-relaxed">{p.detail}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-xs text-muted font-mono">
+            FIGURES FROM CURRENT CLIENT SCOREBOARDS · TIME VALUED AT A CONSERVATIVE $100/HR
+          </p>
+        </div>
+      </section>
+
+      {/* Who this is built for */}
+      <section className="section-padding bg-paper section-divider">
         <div className="max-w-6xl mx-auto">
           <div className="mb-14">
             <p className="eyebrow mb-3">Who this is built for</p>

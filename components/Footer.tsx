@@ -12,8 +12,8 @@ export default function Footer() {
               <span className="text-2xl font-bold text-white tracking-tight">Agency</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-              AI consulting for Sacramento businesses. We find where AI saves you time
-              and money — then we prove it with ROI numbers.
+              AI consulting for Sacramento and beyond. We coach people to AI fluency and
+              build governed systems — measured in hours actually reclaimed.
             </p>
             <p className="mt-4 text-xs font-mono text-white/40 tracking-wider">
               SACRAMENTO, CA
@@ -26,10 +26,10 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {[
-                { href: "/pricing#tier-1", label: "AI Business Assessment" },
-                { href: "/pricing#tier-2", label: "Solution Buildout" },
-                { href: "/pricing#tier-3", label: "Claude Proficiency Program" },
-                { href: "/pricing#tier-4", label: "Fractional Chief AI Officer" },
+                { href: "/pricing#assess", label: "AI Leverage Assessment" },
+                { href: "/pricing#enable", label: "AI Fluency Coaching" },
+                { href: "/pricing#build-day", label: "AI Build Day" },
+                { href: "/pricing#lead", label: "Embedded AI Partner" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">

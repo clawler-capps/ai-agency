@@ -3,7 +3,7 @@ import Link from "next/link";
 const bullets = [
   "Find your biggest time leaks in 5 minutes",
   "Get a plan you can act on this week — no engineer required",
-  "Built for owner-operated Sacramento businesses",
+  "For owner-operated Sacramento businesses and enterprise teams alike",
 ];
 
 export default function Hero() {

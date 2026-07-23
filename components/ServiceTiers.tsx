@@ -4,74 +4,78 @@ const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
 
 const tiers = [
   {
-    number: "Tier 1",
-    name: "AI Business Assessment",
-    price: "$1,000",
-    priceNote: "one-time",
-    tagline: "Know exactly where AI can help — before spending a dollar on tools.",
+    number: "Assess",
+    name: "AI Leverage Assessment",
+    price: "$3,500",
+    priceNote: "up to 4 people · +$750/person",
+    tagline:
+      "Know your highest-leverage AI moves — ranked, priced, and ROI-backed — before you commit to anything.",
     highlights: [
-      "One-hour interview",
-      "Effort/Impact matrix of every pain point",
-      "Quick wins + ranked, ROI-backed solutions",
-      "Financial ROI summary",
-      "Personalized roadmap to roll out specific AI fluency",
+      "A one-hour workflow interview per person",
+      "Your AI Leverage Plan: every play ranked by leverage, two build paths each",
+      "Conservative ROI math: hours reclaimed × $100/hr, annualized",
+      "90-minute team kickoff workshop",
+      "Sets the scoreboard every later engagement is measured against",
     ],
-    cta: "Get Your Assessment",
-    ctaHref: "/pricing#tier-1",
+    cta: "See What's Inside",
+    ctaHref: "/pricing#assess",
     external: false,
     color: "border-green-border",
     badgeColor: "bg-green-light text-green-DEFAULT border-green-border",
     ctaColor: "bg-green-DEFAULT hover:bg-green-hover text-white",
   },
   {
-    number: "Tier 2",
-    name: "Solution Buildout",
-    price: null,
-    priceNote: null,
-    tagline: "Turn the wins you've proven by hand into repeatable systems.",
+    number: "Enable",
+    name: "AI Fluency Coaching",
+    price: "$1,500+",
+    priceNote: "per person",
+    tagline:
+      "1:1 coaching that turns your people into AI-fluent operators — shipping real builds as they learn.",
     highlights: [
-      "We build the highest-leverage solutions from your plan",
-      "All built on Claude — no brittle tool sprawl",
-      "Opportunity-to-output cycle measured in minutes",
-      "Scoped to the ROI you saw in the assessment",
+      "Track A — Foundations: 3 tailored sessions + a custom Claude Project",
+      "Track B — Mastery: 6 sessions + a custom Claude Skill for their highest-value work",
+      "Weekly executive 1:1 included free for the engagement (a $4,500/mo value)",
+      "15% bundle discount when training 4+ team members",
     ],
-    cta: "Book a Call",
-    ctaHref: CALENDLY_URL,
-    external: true,
+    cta: "Compare the Tracks",
+    ctaHref: "/pricing#enable",
+    external: false,
     color: "border-blue-border",
     badgeColor: "bg-blue-light text-blue-DEFAULT border-blue-border",
     ctaColor: "bg-blue-DEFAULT hover:bg-blue-hover text-white",
   },
   {
-    number: "Tier 3",
-    name: "Claude Proficiency Program",
-    price: null,
-    priceNote: null,
-    tagline: "1:1 training that makes your team genuinely fluent with Claude.",
+    number: "Deploy",
+    name: "AI Build Day",
+    price: "$15,000+",
+    priceNote: "flat fee · fill the room",
+    tagline:
+      "One afternoon where every person on your team ships a real tool against their own real problem.",
     highlights: [
-      "~4 sessions of 60-min 1:1 coaching, weekly cadence",
-      "Personalized learning roadmap per team member",
-      "A custom Claude Project + one custom Skill they keep",
-      "Remote, or in-person in Sacramento",
+      "Voice-agent onramp: everyone arrives with a problem picked and a leverage plan in hand",
+      "Your own coached champions work the floor — the capability stays in-house",
+      "Every tool ships as a reusable Skill, one on a schedule before the room clears",
+      "Design → price → pitch finale, judged on business value",
     ],
-    cta: "Book a Call",
-    ctaHref: CALENDLY_URL,
-    external: true,
+    cta: "See the Format",
+    ctaHref: "/pricing#build-day",
+    external: false,
     color: "border-accent/30",
     badgeColor: "bg-accent/light text-accent border-accent/30",
     ctaColor: "bg-accent hover:bg-accent-hover text-white",
   },
   {
-    number: "Tier 4",
-    name: "Fractional Chief AI Officer",
-    price: null,
-    priceNote: null,
-    tagline: "Embedded AI leadership — not a consultant who delivers and leaves.",
+    number: "Lead",
+    name: "Embedded AI Partner",
+    price: "$15,000+",
+    priceNote: "per month",
+    tagline:
+      "Rotating-seat coaching, strategic builds, and governance — an embedded partner, not a vendor who delivers and leaves.",
     highlights: [
-      "Ongoing AI strategy & quarterly roadmap",
-      "Continuous buildout of new leverage, on Claude",
-      "Team training and enablement",
-      "A partner who stays accountable to your results",
+      "Rotating seats: assessment + 3 sessions + one real build per person, then the seat moves on",
+      "Unlimited AI-led voice assessments + open office hours for all alumni",
+      "Fractional AI Officer: strategic builds, governance framework, executive briefings",
+      "AI Center of Excellence: an org-wide assistant that compounds context over time",
     ],
     cta: "Book a Call",
     ctaHref: CALENDLY_URL,
@@ -84,16 +88,16 @@ const tiers = [
 
 export default function ServiceTiers() {
   return (
-    <section className="section-padding bg-paper section-divider">
+    <section className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
         <div className="mb-14">
-          <p className="eyebrow mb-3">Four-Tier Funnel</p>
+          <p className="eyebrow mb-3">The Service Ladder</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
-            Services & Pricing
+            Assess → Enable → Lead
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl">
-            Every engagement starts with the Assessment. Follow-on work is scoped
-            on a call — and only recommended once we know it&apos;ll pay for itself.
+            Every engagement starts with the AI Leverage Assessment. Each rung after
+            that is only recommended once the scoreboard shows it will pay for itself.
           </p>
         </div>
 
@@ -105,17 +109,8 @@ export default function ServiceTiers() {
                   {tier.number}
                 </span>
                 <div className="text-right">
-                  {tier.price ? (
-                    <>
-                      <div className="text-2xl font-black text-ink">{tier.price}</div>
-                      <div className="text-xs text-muted font-mono">{tier.priceNote}</div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="text-lg font-black text-ink">Book a call</div>
-                      <div className="text-xs text-muted font-mono">custom scope</div>
-                    </>
-                  )}
+                  <div className="text-2xl font-black text-ink">{tier.price}</div>
+                  <div className="text-xs text-muted font-mono">{tier.priceNote}</div>
                 </div>
               </div>
 

@@ -1,62 +1,44 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 
+const CALENDLY_URL = "https://calendly.com/tylercapps/intro";
+
 interface PricingCardProps {
-  showCheckoutButton?: boolean;
+  showBookingButton?: boolean;
 }
 
-export default function PricingCard({ showCheckoutButton = true }: PricingCardProps) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleCheckout() {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/checkout", { method: "POST" });
-      if (!res.ok) throw new Error("checkout failed");
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch {
-      setError("Checkout unavailable — please book a call to get started.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
+export default function PricingCard({ showBookingButton = true }: PricingCardProps) {
   const includes = [
-    "One-hour interview",
-    "Claude-generated assessment report via Gamma",
-    "Effort/Impact matrix — all pain points plotted",
-    "Quick wins section: low-effort, high-impact first",
-    "Ranked, ROI-backed solutions specific to your business",
-    "Financial ROI summary: hours saved × $100/hr − tool costs",
-    "Personalized roadmap to roll out specific AI fluency",
+    "A one-hour workflow interview per person — up to 4 people included",
+    "Every pain point plotted on a business-impact × effort priority map",
+    "Solutions ranked by leverage — each with a best-in-class path and a Claude-native path",
+    "Per-play stat strip: time replaced · added tool cost · real ROI",
+    "Conservative financial math: hours × $100/hr, annualized — a floor that holds up in front of a CFO",
+    "“Start Monday” next steps, so momentum begins the same week",
+    "90-minute team kickoff workshop",
+    "A leverage scoreboard: targets set now, validated as builds ship",
   ];
 
   return (
-    <div id="tier-1" className="card border-2 border-green-border p-8 lg:p-10">
+    <div id="assess" className="card border-2 border-green-border p-8 lg:p-10">
       {/* Badge */}
       <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-light border border-green-border text-green-DEFAULT text-xs font-mono font-bold mb-6">
-        Tier 1 · Start Here
+        Assess · Start Here
       </div>
 
       <div className="flex items-end justify-between mb-6">
         <div>
-          <h3 className="text-2xl font-bold text-ink">AI Business Assessment</h3>
-          <p className="text-sm text-muted mt-1">One-time engagement</p>
+          <h3 className="text-2xl font-bold text-ink">AI Leverage Assessment</h3>
+          <p className="text-sm text-muted mt-1">One-time · lead + up to 3 team members</p>
         </div>
         <div className="text-right">
-          <div className="text-4xl font-black text-ink">$1,000</div>
-          <div className="text-xs text-muted font-mono">one-time</div>
+          <div className="text-4xl font-black text-ink">$3,500</div>
+          <div className="text-xs text-muted font-mono">+$750 per added person</div>
         </div>
       </div>
 
       <p className="text-muted text-sm leading-relaxed mb-6 pb-6 border-b border-border">
-        A complete picture of where AI can transform your business — with ROI numbers
-        before you spend a dollar on tools.
+        A complete picture of where AI returns the most time and money for your team —
+        with ROI numbers you can defend, before you spend a dollar on tools.
       </p>
 
       <ul className="space-y-3 mb-8">
@@ -68,18 +50,18 @@ export default function PricingCard({ showCheckoutButton = true }: PricingCardPr
         ))}
       </ul>
 
-      {showCheckoutButton ? (
+      {showBookingButton ? (
         <>
-          <button
-            onClick={handleCheckout}
-            disabled={loading}
-            className="w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors"
           >
-            {loading ? "Redirecting to checkout…" : "Get Your Assessment — $1,000"}
-          </button>
-          {error && <p className="mt-3 text-sm text-red-600 text-center">{error}</p>}
+            Book Your Assessment
+          </a>
           <p className="mt-3 text-xs text-muted text-center font-mono">
-            SECURE CHECKOUT VIA STRIPE · REPORT IN 24–48 HRS
+            15-MIN INTRO CALL FIRST · PLAN DELIVERED WITHIN DAYS OF YOUR INTERVIEWS
           </p>
         </>
       ) : (

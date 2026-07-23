@@ -4,13 +4,13 @@ import SiteChrome from "@/components/SiteChrome";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
-  title: "Sacramento AI Agency — AI for Sacramento Businesses",
+  title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
   description:
-    "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer. Book your free intro call.",
+    "AI Leverage Assessments, 1:1 AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams. Measured in hours actually reclaimed.",
   openGraph: {
-    title: "Sacramento AI Agency — AI for Sacramento Businesses",
+    title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
     description:
-      "We help Sacramento businesses save 8+ hours a week with AI — without hiring a developer.",
+      "AI Leverage Assessments, 1:1 AI fluency coaching, team build days, and embedded AI leadership — measured in hours actually reclaimed.",
     type: "website",
   },
 };

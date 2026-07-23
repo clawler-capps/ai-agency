@@ -1,28 +1,28 @@
 const steps = [
   {
-    step: "A",
-    title: "Audit",
+    step: "1",
+    title: "Assess",
     description:
-      "A 20–30 minute conversation about your business, tools, and daily pain points. No tech knowledge needed — you just talk, we listen.",
-    detail: "Zoom or AI voice agent interview → transcript fed to Claude",
+      "An AI Leverage Assessment: a one-hour workflow interview per person, then a plan ranking every play by leverage — with ROI math conservative enough to hold up in front of a CFO.",
+    detail: "AI Leverage Plan · impact × effort map · two build paths per play",
     color: "text-green-DEFAULT border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },
   {
-    step: "O",
-    title: "Optimize",
+    step: "2",
+    title: "Enable",
     description:
-      "We analyze the transcript and build your custom AI assessment with ROI numbers — before recommending any tools. Fix the process first.",
-    detail: "Claude-generated Gamma report · Effort/Impact matrix · ROI summary",
+      "1:1 coaching tracks turn your people into fluent AI operators — shipping real builds as they learn, so the wins are felt in week one, not quarter three.",
+    detail: "Track A Foundations · Track B Mastery · champion development",
     color: "text-blue-DEFAULT border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",
   },
   {
-    step: "A",
-    title: "Automate",
+    step: "3",
+    title: "Lead",
     description:
-      "You get a prioritized action plan — from quick wins you can run this week to complex automations we build alongside you.",
-    detail: "4-Day Quick Start · tool config · process documentation",
+      "We stay embedded: rotating coaching seats, strategic builds, governance, and a scoreboard tracking realized hours against target — validated with you, not assumed.",
+    detail: "rotating seats · build roadmap · leverage scoreboard",
     color: "text-accent border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -35,7 +35,7 @@ export default function HowItWorks() {
         <div className="mb-14">
           <p className="eyebrow mb-3">How It Works</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-            From &ldquo;I don&apos;t know where to start&rdquo; to a clear AI roadmap — in 3 simple steps
+            From &ldquo;I don&apos;t know where to start&rdquo; to a compounding system — one rung at a time
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
             No technical background needed. We do the heavy lifting and hand you a
@@ -63,9 +63,10 @@ export default function HowItWorks() {
 
         <div className="mt-8 p-5 rounded-xl bg-ink/5 border border-border">
           <p className="text-sm text-muted leading-relaxed">
-            <strong className="text-ink">Why optimize before automating?</strong>{" "}
-            If a task takes 15 steps but should take 7, automating the current process
-            just speeds up the inefficiency. We redesign first, then automate.
+            <strong className="text-ink">Why people before systems?</strong>{" "}
+            Adoption is the product. A dashboard nobody uses saves nobody time — so we
+            create believers first with wins they feel this week, then point that energy
+            at the shared systems that create structural advantage.
           </p>
         </div>
       </div>
