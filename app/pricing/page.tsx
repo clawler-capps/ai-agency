@@ -31,7 +31,7 @@ const planSections = [
     number: "03",
     title: "Solutions Ranked by Leverage — Two Paths Each",
     description:
-      "Each play comes with Path A (best-in-class build) and Path B (Claude-native, minimal new tools) plus a stat strip: time replaced · added tool cost · real ROI. You pick: the polished version, or the one that runs on tools you already pay for.",
+      "Each recommendation comes with two paths — the polished best-in-class build, or the version that runs on tools you already pay for — plus three numbers: hours it saves, what it costs to run, what it nets you per year.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -39,7 +39,7 @@ const planSections = [
     number: "04",
     title: "Financial Impact + Start-Monday Next Steps",
     description:
-      "Hours reclaimed × $100/hr, annualized — a deliberately conservative floor. Then a short list of what to do Monday so momentum starts the same week.",
+      "Hours saved × $100/hr, counted per year — a low-ball number on purpose; real results are usually higher. Then a short list of what to do Monday so momentum starts the same week.",
     color: "border-purple-border bg-purple-light",
     labelColor: "text-purple-DEFAULT",
   },
@@ -105,7 +105,7 @@ const buildDayStack = [
 const buildDayTiers = [
   {
     name: "AI Build Day",
-    format: "Two in-person half-days, your champions on the floor",
+    format: "Two in-person half-days — your own people, trained first, coaching alongside me",
     reach: "~40 people",
     value: "Modeled value: $400K–$600K/yr in reclaimed time",
     featured: true,
@@ -132,7 +132,7 @@ const retainerTiers = [
     per: "/mo",
     tagline: "The delivery engine — continuous capability-building across your team.",
     includes: [
-      "3 rotating seats: assessment + 3 sessions + one real build per person",
+      "2–3 of your people at a time — assessment, coaching, one real build each; when one finishes, the next starts",
       "A Leverage Assessment for each person as their seat comes up",
       "Open office hours for all program alumni",
       "Async support + quarterly roadmap review",
@@ -141,8 +141,8 @@ const retainerTiers = [
   {
     name: "Fractional AI Officer",
     price: "Custom",
-    per: "scoped to your mandate",
-    tagline: "Everything in Embedded, plus an embedded AI leadership mandate.",
+    per: "priced by what you want me to own",
+    tagline: "Everything in Embedded, plus AI leadership you can hold accountable.",
     featured: true,
     includes: [
       "Up to 2 strategic builds per month",
@@ -199,8 +199,8 @@ export default function PricingPage() {
               Inside Your Leverage Map
             </h2>
             <p className="mt-4 text-muted text-sm max-w-xl">
-              A per-person, card-based plan ranked highest leverage to lowest — built from
-              your workflows, your systems, and your economics. Not a generic AI deck.
+              A per-person plan ranked by payoff, biggest first — built from your
+              workflows, your systems, and your economics. Not a generic AI deck.
             </p>
           </div>
 
@@ -235,7 +235,7 @@ export default function PricingPage() {
             </p>
             <p className="text-sm text-white/80 leading-relaxed">
               The assessment sets a target. From there, every engagement runs against a{" "}
-              <strong className="text-white">leverage scoreboard</strong>: a build only counts
+              <strong className="text-white">scoreboard</strong>: a build only counts
               as realized once you confirm the real hours it saves in practice — validated,
               not just shipped. You always know exactly what your investment has returned.
             </p>
@@ -410,11 +410,12 @@ export default function PricingPage() {
             <p className="mt-3 text-white/60 max-w-xl leading-relaxed">
               The goal is simple: <strong className="text-white">return a multiple of what
               you pay, every month</strong> — in reclaimed hours, faster decisions, and a
-              team that keeps getting more capable. Rotating seats move person after person
-              through the full program, so the capability compounds instead of plateauing.
+              team that keeps getting more capable. We work with 2–3 of your people at a
+              time — when one finishes, the next starts — so the capability compounds
+              instead of plateauing.
             </p>
             <p className="mt-3 text-white/80 max-w-xl leading-relaxed text-sm font-mono">
-              Engagements start at $15,000/mo — upper tiers are scoped to your mandate on a call.
+              Engagements start at $15,000/mo — upper tiers are priced by how much you want me to own, on a call.
             </p>
           </div>
 
@@ -424,14 +425,14 @@ export default function PricingPage() {
               The math we run toward
             </p>
             <p className="text-white/80 leading-relaxed max-w-3xl">
-              Rotating seats put <strong className="text-white">24–36 people a year</strong>{" "}
+              That rotation puts <strong className="text-white">24–36 people a year</strong>{" "}
               through the program. At the typical{" "}
               <strong className="text-white">$10K–$15K/yr reclaimed per person</strong>,
               that&apos;s <strong className="text-white">$360K–$540K/yr from coaching
               alone</strong> — before strategic builds (median $14K/yr each), the adoption
               ripple, and the enterprise upside of faster decisions. The target we hold
               ourselves to: <strong className="text-accent">5–10× your investment in
-              annual value</strong>, tracked on your leverage scoreboard and validated with
+              annual value</strong>, tracked on your scoreboard and validated with
               you — not assumed.
             </p>
             <p className="mt-4 text-white/60 text-sm leading-relaxed max-w-3xl">

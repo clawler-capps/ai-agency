@@ -3,8 +3,8 @@ import { BOOKING_URL } from "@/lib/booking";
 
 const bullets = [
   "A one-hour conversation about your week — no technical background needed",
-  "Walk away with a ranked, dollar-quantified plan you can act on this week",
-  "Proven with owner-operators and inside divisions of public companies alike",
+  "Walk away with a plan with real dollar figures on every line — ready to act on this week",
+  "Built for businesses where the owner still answers the phone",
 ];
 
 export default function Hero() {

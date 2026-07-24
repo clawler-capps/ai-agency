@@ -20,7 +20,7 @@ const proofStats = [
   {
     stat: "12 hrs → 3 hrs",
     label: "a real board deck, first build",
-    detail: "then ~1 hour every quarter as a reusable Skill — in perpetuity",
+    detail: "then ~1 hour every quarter, saved as a recipe Claude repeats on demand — forever",
   },
 ];
 
@@ -78,7 +78,7 @@ const industries = [
   {
     name: "Agriculture & Ranching",
     description:
-      "A serious operation with almost no tech infrastructure. More leverage here than most consultants realize.",
+      "A serious operation with almost no tech infrastructure. More opportunity here than most consultants realize.",
     icon: "🌾",
   },
   {
@@ -152,15 +152,15 @@ const faqs = [
   },
   {
     q: "How do I know it's actually working?",
-    a: "Every engagement runs against a leverage scoreboard. The assessment sets a target in hours per week; a build only counts as realized once you confirm the real hours it saves in practice. Proven, not promised.",
+    a: "We write down what each fix should save you, then check the real number after it's built. The assessment sets a target in hours per week; a build only counts once you confirm the hours it actually saves in practice. Proven, not promised.",
   },
   {
     q: "We're a public company — how do you handle data, security, and compliance?",
-    a: "Everything is built in your accounts, under your access controls and approved tools — nothing leaves your systems. Client- and executive-facing outputs pass a human accuracy and compliance review before they ship. NDAs are standard, and for embedded engagements a governance framework for your division is a named deliverable, not a promise.",
+    a: "Short version: your data stays in your accounts, and a human checks anything before it goes to a client. Everything is built under your access controls and approved tools — nothing leaves your systems. NDAs are standard, and for embedded engagements a governance framework for your division is a named deliverable, not a promise.",
   },
   {
     q: "Do you run on-site events?",
-    a: "Yes — the AI Build Day: one afternoon where every person on your team ships a real tool against their own real problem, with your own coached champions working the floor. Every tool leaves as a reusable Skill, not a demo that dies in two weeks.",
+    a: "Yes — the AI Build Day: one afternoon where every person on your team ships a real tool against their own real problem, with your own people — the ones we trained first — coaching alongside me. Every tool leaves as a saved, reusable recipe, not a demo that dies in two weeks.",
   },
 ];
 
@@ -297,9 +297,10 @@ export default function HomePage() {
           </h2>
           <p className="text-lg text-muted mb-10 leading-relaxed">
             The AI Leverage Assessment exists to prove value before you commit to
-            anything. One hour of conversation, and your Leverage Map shows where AI has
-            the highest leverage to save you time and make you money — whether that&apos;s
-            an off-the-shelf tool, a custom build, or a Claude-native system. If the map
+            anything. One hour of conversation, and your Leverage Map shows the handful of
+            places AI will actually move the needle for your business — and the many
+            places it won&apos;t — whether that&apos;s an off-the-shelf tool, a custom
+            build, or a Claude-native system. If the map
             doesn&apos;t identify at least 10× the $997 fee in annual value,{" "}
             <strong className="text-ink">you get your money back</strong>.
           </p>
@@ -357,7 +358,7 @@ export default function HomePage() {
           </h2>
           <p className="text-lg text-muted leading-relaxed">
             Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
-            own people become the delivery team — champions get coached, tools ship as
+            own people become the delivery team — they get coached, tools ship as
             reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
             why the capability survives the engagement instead of walking out the door
             with the consultant.

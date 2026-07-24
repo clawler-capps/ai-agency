@@ -28,7 +28,7 @@ const layers = [
 const lanes = [
   {
     label: "Lane A — Individuals",
-    body: "People gaining leverage inside their own workflows. The hard part is habit, not tech — so we start with wins they feel this week: a dashboard, a brief, a skill.",
+    body: "People getting real time back inside their own workflows. The hard part is habit, not tech — so we start with wins they feel this week: a dashboard, a brief, a skill.",
     creates: "Creates believers.",
   },
   {

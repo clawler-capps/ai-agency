@@ -8,12 +8,12 @@ const tiers = [
     price: "$997",
     priceNote: "per person",
     tagline:
-      "Know your highest-leverage AI moves — ranked, priced, and ROI-backed — before you commit to anything.",
+      "Know your best AI moves — ranked, priced, and backed by real numbers — before you commit to anything.",
     highlights: [
-      "Finds where AI has the highest leverage to save you time and make you money — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
-      "Your Leverage Map: every play ranked by leverage, two build paths each",
+      "Finds the handful of places AI will actually move the needle for your business — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
+      "Your Leverage Map: a ranked to-do list of what to automate first, what it costs, and what it's worth per year",
       "At least 10× the fee identified in annual value — or your money back",
-      "Sets the scoreboard every later engagement is measured against",
+      "We write down what each fix should save you — then check the real number after it's built",
       "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
     ],
     cta: "See What's Inside",
@@ -32,8 +32,8 @@ const tiers = [
       "1:1 coaching graded on outcomes, not session counts — you're done when the capabilities exist.",
     highlights: [
       "Source: Claude learns their world — it stops being generic, starts sounding like them",
-      "Skills: a reusable Skill for every task they do more than once",
-      "Systems: the repetitive work runs on autopilot — hours their Leverage Map flagged",
+      "Skills: any task done more than once becomes a Skill — a saved recipe Claude follows the same way every time",
+      "Systems: the weekly busywork runs itself — reports, briefings, follow-ups",
       "Typical result: $10K–$15K/yr in reclaimed time per person — ~10× the fee",
       "Group discounts for teams — ask on a call",
     ],
@@ -53,7 +53,7 @@ const tiers = [
       "One afternoon where every person on your team ships a real tool against their own real problem.",
     highlights: [
       "Every attendee automates one real workflow — modeled at $10K–$15K/yr in reclaimed time each",
-      "Your own coached champions work the floor — the capability stays in-house",
+      "Your own people — the ones we trained first — coach the room, so the capability stays in-house",
       "Every tool ships as a reusable Skill, one on a schedule before the room clears",
       "Design → price → pitch finale, judged on business value",
     ],

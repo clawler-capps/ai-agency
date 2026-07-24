@@ -8,13 +8,13 @@ interface PricingCardProps {
 export default function PricingCard({ showBookingButton = true }: PricingCardProps) {
   const includes = [
     "A one-hour workflow interview — a conversation about how you work, not a technical audit",
-    "Finds where AI has the highest leverage to save you time and make you money — off-the-shelf tool, custom build, or Claude-native system, whatever actually fits",
-    "Every pain point plotted on a business-impact × effort priority map",
-    "Solutions ranked by leverage — each with a best-in-class path and a Claude-native path",
-    "Per-play stat strip: time replaced · added tool cost · real ROI",
-    "Conservative financial math: hours × $100/hr, annualized — a floor that holds up in front of a CFO",
+    "Finds the handful of places AI will actually move the needle for your business — and the many places it won't — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
+    "Every pain point plotted by payoff vs. effort, so the quick wins are obvious",
+    "Recommendations ranked by payoff — each with a polished version and one that runs on tools you already pay for",
+    "Every recommendation shows three numbers: hours it saves, what it costs to run, what it nets you per year",
+    "Numbers you'd bet your own money on — counted low on purpose, solid enough for a CFO if you have one",
     "“Start Monday” next steps, so momentum begins the same week",
-    "A leverage scoreboard: targets set now, validated as builds ship",
+    "A running scoreboard: what each fix should save, checked against what it actually saves",
   ];
 
   return (

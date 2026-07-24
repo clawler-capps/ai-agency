@@ -42,7 +42,7 @@ export default function HowItWorks() {
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
             No technical background needed. We do the heavy lifting and hand you a
-            dollar-quantified plan you can act on this week.
+            plan with real dollar figures on every line — one you can act on this week.
           </p>
         </div>
 
