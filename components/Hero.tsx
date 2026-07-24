@@ -2,8 +2,8 @@ import Link from "next/link";
 import { BOOKING_URL } from "@/lib/booking";
 
 const bullets = [
-  "Find your biggest time leaks in 5 minutes",
-  "Get a plan you can act on this week — no engineer required",
+  "A one-hour conversation about your week — no technical background needed",
+  "Walk away with a ranked, dollar-quantified plan you can act on this week",
   "For owner-operated Sacramento businesses and enterprise teams alike",
 ];
 
@@ -32,8 +32,9 @@ export default function Hero() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
-            Take our free 5-minute AI assessment. We&apos;ll find your biggest time leaks
-            and give you a simple plan to win back hours this month — no engineer required.
+            Start with an AI Leverage Assessment: a one-hour conversation that finds
+            where AI saves you the most time and makes you the most money — built to
+            identify at least 10× its fee in annual value.
           </p>
 
           {/* Bullet proof points */}
@@ -46,19 +47,19 @@ export default function Hero() {
             ))}
           </ul>
 
-          {/* CTAs */}
+          {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link href="/assessment" className="btn-primary text-base px-8 py-4">
-              Take the Free 5-Min Assessment →
-            </Link>
             <a
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary text-base px-8 py-4"
+              className="btn-primary text-base px-8 py-4"
             >
-              Skip it — book a 15-min call
+              Book Your Assessment →
             </a>
+            <Link href="/pricing" className="btn-secondary text-base px-8 py-4">
+              See Services &amp; Pricing
+            </Link>
           </div>
         </div>
       </div>

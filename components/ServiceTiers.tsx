@@ -10,9 +10,9 @@ const tiers = [
     tagline:
       "Know your highest-leverage AI moves — ranked, priced, and ROI-backed — before you commit to anything.",
     highlights: [
-      "A one-hour workflow interview",
+      "Finds where AI has the highest leverage to save you time and make you money — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
       "Your Leverage Map: every play ranked by leverage, two build paths each",
-      "Conservative ROI math: hours reclaimed × $100/hr, annualized",
+      "Built to identify at least 10× the fee in annual value — or we keep digging",
       "Sets the scoreboard every later engagement is measured against",
       "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
     ],
@@ -34,7 +34,7 @@ const tiers = [
       "Source: Claude learns their world — it stops being generic, starts sounding like them",
       "Skills: a reusable Skill for every task they do more than once",
       "Systems: the repetitive work runs on autopilot — hours their Leverage Map flagged",
-      "Weekly executive 1:1 included free for the engagement (a $4,500/mo value)",
+      "Typical result: $10K–$15K/yr in reclaimed time per person — ~10× the fee",
       "Group discounts for teams — ask on a call",
     ],
     cta: "Compare the Tracks",
@@ -47,12 +47,12 @@ const tiers = [
   {
     number: "Deploy",
     name: "AI Build Day",
-    price: "$55,000",
-    priceNote: "flat fee · fill the room",
+    price: "$15K–$85K",
+    priceNote: "scoped to your team on a call",
     tagline:
       "One afternoon where every person on your team ships a real tool against their own real problem.",
     highlights: [
-      "Voice-agent onramp: everyone arrives with a problem picked and a leverage plan in hand",
+      "Every attendee automates one real workflow — modeled at $10K–$15K/yr in reclaimed time each",
       "Your own coached champions work the floor — the capability stays in-house",
       "Every tool ships as a reusable Skill, one on a schedule before the room clears",
       "Design → price → pitch finale, judged on business value",
@@ -67,15 +67,15 @@ const tiers = [
   {
     number: "Lead",
     name: "Embedded AI Partner",
-    price: "$15,000+",
-    priceNote: "per month",
+    price: "from $15,000",
+    priceNote: "per month · targeting 5–10× back",
     tagline:
-      "Rotating-seat coaching, strategic builds, and governance — an embedded partner, not a vendor who delivers and leaves.",
+      "An embedded partner whose job is returning a multiple of what you pay — in reclaimed hours, faster decisions, and capability that stays.",
     highlights: [
-      "Rotating seats: assessment + 3 sessions + one real build per person, then the seat moves on",
-      "Unlimited AI-led voice assessments + open office hours for all alumni",
-      "Fractional AI Officer: strategic builds, governance framework, executive briefings",
-      "AI Center of Excellence: an org-wide assistant that compounds context over time",
+      "Rotating seats put 2–3 people/month through the full program — 24–36 per year",
+      "Each person targets $10K–$15K/yr in reclaimed time: $360K–$540K/yr from seats alone",
+      "Strategic builds, governance, and executive briefings stack on top",
+      "The scoreboard tracks it all — validated hours, not vibes",
     ],
     cta: "Book a Call",
     ctaHref: BOOKING_URL,

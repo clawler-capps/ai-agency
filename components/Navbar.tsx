@@ -33,8 +33,8 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-8">
             {[
               { href: "/#how-it-works", label: "How It Works" },
+              { href: "/#framework", label: "Our Framework" },
               { href: "/pricing", label: "Pricing" },
-              { href: "/assessment", label: "Assessment" },
               { href: "/#faq", label: "FAQ" },
             ].map((link) => (
               <Link
@@ -48,9 +48,6 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/assessment" className="btn-secondary text-sm py-2 px-4">
-              Take Assessment
-            </Link>
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -81,8 +78,8 @@ export default function Navbar() {
             <nav className="flex flex-col gap-1 mt-2">
               {[
                 { href: "/#how-it-works", label: "How It Works" },
+                { href: "/#framework", label: "Our Framework" },
                 { href: "/pricing", label: "Pricing" },
-                { href: "/assessment", label: "Assessment" },
                 { href: "/#faq", label: "FAQ" },
               ].map((link) => (
                 <Link
@@ -95,9 +92,6 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-border">
-                <Link href="/assessment" className="btn-secondary text-sm text-center" onClick={() => setMenuOpen(false)}>
-                  Take Assessment
-                </Link>
                 <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm text-center">
                   Book a Call
                 </a>

@@ -76,9 +76,9 @@ const threeSs = [
 // ── Build Day — the five components of the stack ──────────────────────────────
 const buildDayStack = [
   {
-    title: "Per-person voice-agent onramp",
+    title: "Per-person assessment onramp",
     description:
-      "A 45-minute AI assessment call for every attendee before the event — everyone arrives with a real problem, sample files, and a personal leverage plan. No blank pages.",
+      "A leverage-assessment call for every attendee before the event — everyone arrives with a real problem, sample files, and a personal Leverage Map. No blank pages.",
   },
   {
     title: "Champion training",
@@ -105,22 +105,22 @@ const buildDayStack = [
 const buildDayTiers = [
   {
     name: "AI Build Day",
-    price: "$55,000",
     format: "Two in-person half-days, your champions on the floor",
     reach: "~40 people",
+    value: "Modeled value: $400K–$600K/yr in reclaimed time",
     featured: true,
   },
   {
     name: "Build Day + Pilot Sprint",
-    price: "$85,000",
     format: "The Build Day, plus pilot acceleration and a leadership readout",
     reach: "~40 people",
+    value: "For teams that want the top builds shipped, not just started",
   },
   {
     name: "Virtual Build Day",
-    price: "$15,000",
     format: "A lighter, expert-led virtual half-day for distributed teams",
     reach: "~15 people",
+    value: "Modeled value: $150K–$225K/yr in reclaimed time",
   },
 ];
 
@@ -133,7 +133,7 @@ const retainerTiers = [
     tagline: "The delivery engine — continuous capability-building across your team.",
     includes: [
       "3 rotating seats: assessment + 3 sessions + one real build per person",
-      "Unlimited AI-led voice assessments across the org",
+      "A Leverage Assessment for each person as their seat comes up",
       "Open office hours for all program alumni",
       "Async support + quarterly roadmap review",
     ],
@@ -279,12 +279,13 @@ export default function PricingPage() {
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="p-6 rounded-2xl bg-accent/light border border-accent/30">
               <p className="text-sm text-ink font-semibold mb-2">
-                Weekly Executive 1:1 — included free
+                What a coached person is worth
               </p>
               <p className="text-sm text-muted leading-relaxed">
-                Ongoing private coaching for the team lead (a $4,500/mo value), included for
-                the engagement duration. Built to make them the internal AI expert their
-                team turns to.
+                The typical result is <strong className="text-ink">$10K–$15K per year in
+                reclaimed time</strong> — roughly 10× the fee — plus a person who keeps
+                finding the next win on their own. That&apos;s the point: the capability
+                stays after we leave.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-paper border border-border">
@@ -359,23 +360,26 @@ export default function PricingPage() {
               >
                 {tier.featured && (
                   <div className="inline-flex px-2.5 py-1 rounded-md bg-accent text-white text-xs font-mono font-bold mb-3">
-                    Recommended
+                    The Flagship
                   </div>
                 )}
                 <h3 className="font-bold text-ink">{tier.name}</h3>
-                <div className="text-2xl font-black text-ink mt-1 mb-2">{tier.price}</div>
-                <p className="text-sm text-muted leading-relaxed">{tier.format}</p>
+                <p className="text-sm text-muted leading-relaxed mt-2">{tier.format}</p>
                 <p className="text-xs text-muted font-mono mt-2">{tier.reach}</p>
+                <p className="text-sm text-accent font-semibold mt-3">{tier.value}</p>
               </div>
             ))}
           </div>
 
-          <p className="text-xs text-muted max-w-2xl">
-            Flat fee — fill the room. Travel &amp; lodging at cost outside Sacramento; room,
-            AV, and catering are client-side. Medium and Large deploy champions from your
-            prior coaching engagement, so the natural sequence is: coach a few people first,
-            then convert the whole department in an afternoon.
-          </p>
+          <div className="p-5 rounded-xl bg-cream border border-border max-w-2xl">
+            <p className="text-sm text-ink font-semibold mb-1">Pricing</p>
+            <p className="text-sm text-muted leading-relaxed">
+              One flat fee — fill the room. Build Days are scoped to your team size and
+              format on a call; every attendee automates one real workflow, modeled at
+              $10K–$15K/yr in reclaimed time each. Travel &amp; lodging at cost outside
+              Sacramento; room, AV, and catering are client-side.
+            </p>
+          </div>
 
           <div className="mt-8">
             <a
@@ -401,13 +405,31 @@ export default function PricingPage() {
               Embedded AI Partner
             </h2>
             <p className="mt-3 text-white/60 max-w-xl leading-relaxed">
-              For teams that have cleared Assess and Enable and want an embedded partner.
-              Built on <strong className="text-white">rotating seats</strong>: each seat is an
-              assessment + 3 coaching sessions + one real build, then the seat rotates to the
-              next person — so capability keeps spreading month after month.
+              The goal is simple: <strong className="text-white">return a multiple of what
+              you pay, every month</strong> — in reclaimed hours, faster decisions, and a
+              team that keeps getting more capable. Rotating seats move person after person
+              through the full program, so the capability compounds instead of plateauing.
             </p>
             <p className="mt-3 text-white/80 max-w-xl leading-relaxed text-sm font-mono">
               Engagements start at $15,000/mo — upper tiers are scoped to your mandate on a call.
+            </p>
+          </div>
+
+          {/* The return math */}
+          <div className="mb-10 p-7 rounded-2xl bg-white/5 border border-white/10">
+            <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
+              The math we run toward
+            </p>
+            <p className="text-white/80 leading-relaxed max-w-3xl">
+              Rotating seats put <strong className="text-white">24–36 people a year</strong>{" "}
+              through the program. At the typical{" "}
+              <strong className="text-white">$10K–$15K/yr reclaimed per person</strong>,
+              that&apos;s <strong className="text-white">$360K–$540K/yr from coaching
+              alone</strong> — before strategic builds (median $14K/yr each), the adoption
+              ripple, and the enterprise upside of faster decisions. The target we hold
+              ourselves to: <strong className="text-accent">5–10× your investment in
+              annual value</strong>, tracked on your leverage scoreboard and validated with
+              you — not assumed.
             </p>
           </div>
 

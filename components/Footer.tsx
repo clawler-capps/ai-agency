@@ -57,11 +57,6 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <Link href="/assessment" className="text-sm text-white/60 hover:text-white transition-colors">
-                  Take the Assessment
-                </Link>
-              </li>
-              <li>
                 <Link href="/pricing" className="text-sm text-white/60 hover:text-white transition-colors">
                   View Pricing
                 </Link>

@@ -150,7 +150,7 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "The free self-assessment is 5 minutes. The AI Leverage Assessment is a one-hour interview per person, with your plan delivered within days. Coaching runs weekly — most people ship their first real build inside the first few sessions.",
+    a: "The AI Leverage Assessment is a one-hour interview per person, with your Leverage Map delivered within days. Coaching runs weekly — most people ship their first real build inside the first few sessions.",
   },
   {
     q: "What kinds of businesses do you work with?",
@@ -289,21 +289,30 @@ export default function HomePage() {
 
       <ServiceTiers />
 
-      {/* Assessment CTA */}
+      {/* The 10× Rule — assessment CTA */}
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="eyebrow mb-4">Free · 5 minutes · No account required</p>
+          <p className="eyebrow mb-4">The 10× Rule</p>
           <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight mb-5 text-balance">
-            Find your biggest AI quick win in the next 5 minutes
+            If we can&apos;t find 10× the fee, don&apos;t hire us
           </h2>
           <p className="text-lg text-muted mb-10 leading-relaxed">
-            Take the free 5-minute assessment. No tech knowledge needed. Get an instant
-            snapshot of where AI can save your business the most time — with ballpark ROI numbers.
+            The AI Leverage Assessment exists to prove value before you commit to
+            anything. One hour of conversation, and your Leverage Map shows where AI has
+            the highest leverage to save you time and make you money — whether that&apos;s
+            an off-the-shelf tool, a custom build, or a Claude-native system. If the map
+            doesn&apos;t identify at least 10× the $997 fee in annual value, we keep
+            digging until it does.
           </p>
-          <Link href="/assessment" className="btn-primary text-base px-10 py-4 inline-flex">
-            Take the Free 5-Min Assessment →
-          </Link>
-          <p className="mt-4 text-xs text-muted font-mono">FREE · NO ACCOUNT REQUIRED · RESULTS IN SECONDS</p>
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-base px-10 py-4 inline-flex"
+          >
+            Book Your Assessment — $997 →
+          </a>
+          <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · NO TECH KNOWLEDGE NEEDED · MAP DELIVERED WITHIN DAYS</p>
         </div>
       </section>
 
@@ -373,20 +382,17 @@ export default function HomePage() {
             <span className="text-accent">AI quick win?</span>
           </h2>
           <p className="text-white/60 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
-            Start with the free 5-min assessment, or book a 15-min intro call. No pitch,
-            no pressure — just a conversation about where AI can move the needle for your business.
+            Reach out and we&apos;ll set up a 15-minute intro call. No pitch, no pressure —
+            just a conversation about where AI can move the needle for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/assessment" className="btn-primary text-base px-10 py-4 w-full sm:w-auto">
-              Take the Free 5-Min Assessment →
-            </Link>
             <a
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors w-full sm:w-auto text-base"
+              className="btn-primary text-base px-10 py-4 w-full sm:w-auto"
             >
-              Book a 15-Min Call
+              Book a 15-Min Call →
             </a>
           </div>
         </div>

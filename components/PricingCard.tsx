@@ -8,6 +8,7 @@ interface PricingCardProps {
 export default function PricingCard({ showBookingButton = true }: PricingCardProps) {
   const includes = [
     "A one-hour workflow interview — a conversation about how you work, not a technical audit",
+    "Finds where AI has the highest leverage to save you time and make you money — off-the-shelf tool, custom build, or Claude-native system, whatever actually fits",
     "Every pain point plotted on a business-impact × effort priority map",
     "Solutions ranked by leverage — each with a best-in-class path and a Claude-native path",
     "Per-play stat strip: time replaced · added tool cost · real ROI",
@@ -36,7 +37,9 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
 
       <p className="text-muted text-sm leading-relaxed mb-6 pb-6 border-b border-border">
         A complete picture of where AI returns the most time and money for your team —
-        with ROI numbers you can defend, before you spend a dollar on tools.
+        with ROI numbers you can defend, before you spend a dollar on tools.{" "}
+        <strong className="text-ink">Built to identify at least 10× the fee in annual
+        value — or we keep digging.</strong>
       </p>
 
       <div className="mb-6 p-4 rounded-xl bg-paper border border-border">
