@@ -5,7 +5,7 @@ const steps = [
     name: "We find your leverage",
     description:
       "You walk us through your week — a conversation, not a technical audit. We find where AI saves you the most time.",
-    outcome: "Your Leverage Map: a ranked plan, with the numbers behind it.",
+    outcome: "Your Leverage Map: a one-page ranked plan of what to automate first — and what each play is worth per year.",
     color: "text-green-DEFAULT border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },
@@ -14,7 +14,7 @@ const steps = [
     title: "Enable",
     name: "We build it together",
     description:
-      "In your own accounts, you build systems you actually run — not demos you forget.",
+      "In your own accounts — your data stays in your systems — you build tools you actually run, not demos you forget.",
     outcome: "You leave every session with something working.",
     color: "text-blue-DEFAULT border-blue-border bg-blue-light",
     labelColor: "text-blue-DEFAULT",

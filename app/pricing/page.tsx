@@ -31,7 +31,7 @@ const planSections = [
     number: "03",
     title: "Solutions Ranked by Leverage — Two Paths Each",
     description:
-      "Each play comes with Path A (best-in-class build) and Path B (Claude-native, minimal new tools) plus a stat strip: time replaced · added tool cost · real ROI. You pick your complexity tolerance.",
+      "Each play comes with Path A (best-in-class build) and Path B (Claude-native, minimal new tools) plus a stat strip: time replaced · added tool cost · real ROI. You pick: the polished version, or the one that runs on tools you already pay for.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -176,8 +176,9 @@ export default function PricingPage() {
             <span className="text-accent">Lead.</span>
           </h1>
           <p className="text-lg text-muted max-w-xl leading-relaxed">
-            Every engagement starts with the AI Leverage Assessment. Each rung after
-            that is only recommended once the scoreboard shows it will pay for itself.
+            Every engagement starts with the <strong className="text-ink">$997 AI Leverage
+            Assessment</strong> — the only thing here you can buy without a call. Each rung
+            after that is only recommended once the scoreboard shows it will pay for itself.
           </p>
         </div>
       </section>
@@ -374,8 +375,10 @@ export default function PricingPage() {
           <div className="p-5 rounded-xl bg-cream border border-border max-w-2xl">
             <p className="text-sm text-ink font-semibold mb-1">Pricing</p>
             <p className="text-sm text-muted leading-relaxed">
-              One flat fee — fill the room. Build Days are scoped to your team size and
-              format on a call; every attendee automates one real workflow, modeled at
+              One flat fee — fill the room. Build Days run $15K–$85K: the spread is
+              headcount, format, and follow-through — from a virtual half-day for ~15
+              people to the full in-person flagship with a pilot sprint for ~40, scoped
+              on a call. Every attendee automates one real workflow, modeled at
               $10K–$15K/yr in reclaimed time each. Travel &amp; lodging at cost outside
               Sacramento; room, AV, and catering are client-side.
             </p>
@@ -430,6 +433,11 @@ export default function PricingPage() {
               ourselves to: <strong className="text-accent">5–10× your investment in
               annual value</strong>, tracked on your leverage scoreboard and validated with
               you — not assumed.
+            </p>
+            <p className="mt-4 text-white/60 text-sm leading-relaxed max-w-3xl">
+              Reclaimed hours are capacity, not cash — so hard-dollar wins (avoided tool
+              spend, avoided hires, cycle time on revenue) get tagged separately on the
+              scoreboard. Bring your CFO to the call; the model is theirs to stress-test.
             </p>
           </div>
 

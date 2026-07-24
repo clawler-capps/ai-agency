@@ -27,7 +27,7 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
       <div className="flex items-end justify-between mb-6">
         <div>
           <h3 className="text-2xl font-bold text-ink">AI Leverage Assessment</h3>
-          <p className="text-sm text-muted mt-1">One-time</p>
+          <p className="text-sm text-muted mt-1">One-time · most owners start with just themselves</p>
         </div>
         <div className="text-right">
           <div className="text-4xl font-black text-ink">$997</div>

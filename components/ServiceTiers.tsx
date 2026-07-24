@@ -68,11 +68,11 @@ const tiers = [
     number: "Lead",
     name: "Embedded AI Partner",
     price: "from $15,000",
-    priceNote: "per month · targeting 5–10× back",
+    priceNote: "per month · 5–10× target, on your scoreboard",
     tagline:
       "An embedded partner whose job is returning a multiple of what you pay — in reclaimed hours, faster decisions, and capability that stays.",
     highlights: [
-      "Rotating seats put 2–3 people/month through the full program — 24–36 per year",
+      "Each month, 2–3 of your people go through the full program — 24–36 a year, until the whole team runs this way",
       "Each person targets $10K–$15K/yr in reclaimed time: $360K–$540K/yr from seats alone",
       "Strategic builds, governance, and executive briefings stack on top",
       "The scoreboard tracks it all — validated hours, not vibes",
@@ -98,6 +98,11 @@ export default function ServiceTiers() {
           <p className="mt-4 text-lg text-muted max-w-xl">
             Every engagement starts with the AI Leverage Assessment. Each rung after
             that is only recommended once the scoreboard shows it will pay for itself.
+          </p>
+          <p className="mt-3 text-sm text-muted max-w-xl">
+            Most owner-run businesses start — and often stop — with the $997 Assessment
+            and a coached build or two. The bigger rungs exist for the teams that want
+            them; the scoreboard decides.
           </p>
         </div>
 

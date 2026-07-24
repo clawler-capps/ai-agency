@@ -165,6 +165,10 @@ const faqs = [
     a: "Every engagement runs against a leverage scoreboard. The assessment sets a target in hours per week; a build only counts as realized once you confirm the real hours it saves in practice. Proven, not promised.",
   },
   {
+    q: "We're a public company — how do you handle data, security, and compliance?",
+    a: "Everything is built in your accounts, under your access controls and approved tools — nothing leaves your systems. Client- and executive-facing outputs pass a human accuracy and compliance review before they ship. NDAs are standard, and for embedded engagements a governance framework for your division is a named deliverable, not a promise.",
+  },
+  {
     q: "Do you run on-site events?",
     a: "Yes — the AI Build Day: one afternoon where every person on your team ships a real tool against their own real problem, with your own coached champions working the floor. Every tool leaves as a reusable Skill, not a demo that dies in two weeks.",
   },
@@ -231,6 +235,11 @@ export default function HomePage() {
           </div>
           <p className="mt-6 text-xs text-muted font-mono">
             FIGURES FROM CURRENT CLIENT SCOREBOARDS · TIME VALUED AT A CONSERVATIVE $100/HR
+          </p>
+          <p className="mt-3 text-sm text-muted max-w-2xl">
+            Current engagements include an embedded partnership with a division of a
+            publicly traded company — run under NDA, with a compliance review gate on
+            executive-facing outputs.
           </p>
         </div>
       </section>
@@ -304,6 +313,10 @@ export default function HomePage() {
             doesn&apos;t identify at least 10× the $997 fee in annual value, we keep
             digging until it does.
           </p>
+          <p className="text-base text-ink font-semibold mb-10">
+            Bill $200/hr? Eight hours back a week is ~$77,000 a year — against a $997
+            assessment. That&apos;s the whole pitch.
+          </p>
           <a
             href={BOOKING_URL}
             target="_blank"
@@ -351,6 +364,23 @@ export default function HomePage() {
       </section>
       */}
 
+      {/* Who you're hiring */}
+      <section className="section-padding bg-cream section-divider">
+        <div className="max-w-3xl mx-auto">
+          <p className="eyebrow mb-3">Who you&apos;re hiring</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
+            One senior operator — not a bench of juniors billed at partner rates
+          </h2>
+          <p className="text-lg text-muted leading-relaxed">
+            Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
+            own people become the delivery team — champions get coached, tools ship as
+            reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
+            why the capability survives the engagement instead of walking out the door
+            with the consultant.
+          </p>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto">
@@ -375,7 +405,7 @@ export default function HomePage() {
       <section className="section-padding bg-ink text-white">
         <div className="max-w-3xl mx-auto text-center">
           <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-6">
-            Your next 30 minutes could save you 8+ hours every week
+            Your next 15 minutes could save you 8+ hours every week
           </p>
           <h2 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-6 text-balance">
             Ready to find your first{" "}

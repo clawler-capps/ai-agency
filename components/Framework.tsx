@@ -3,7 +3,7 @@ const layers = [
     number: "S1",
     title: "Source",
     description:
-      "Claude learns your world — so it stops giving generic answers and starts sounding like you.",
+      "Claude — the AI we build on, set up to know your business — learns your world, so it stops giving generic answers and starts sounding like you.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green-DEFAULT",
   },

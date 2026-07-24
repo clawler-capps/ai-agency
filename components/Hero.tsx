@@ -4,7 +4,7 @@ import { BOOKING_URL } from "@/lib/booking";
 const bullets = [
   "A one-hour conversation about your week — no technical background needed",
   "Walk away with a ranked, dollar-quantified plan you can act on this week",
-  "For owner-operated Sacramento businesses and enterprise teams alike",
+  "Proven with owner-operators and inside divisions of public companies alike",
 ];
 
 export default function Hero() {
@@ -32,9 +32,10 @@ export default function Hero() {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
-            Start with an AI Leverage Assessment: a one-hour conversation that finds
-            where AI saves you the most time and makes you the most money — built to
-            identify at least 10× its fee in annual value.
+            Start with the <strong className="font-semibold text-ink">$997 AI Leverage
+            Assessment</strong>: a one-hour conversation that finds where AI saves you the
+            most time and makes you the most money — built to identify at least 10× the
+            fee in annual value.
           </p>
 
           {/* Bullet proof points */}
@@ -55,12 +56,15 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="btn-primary text-base px-8 py-4"
             >
-              Book Your Assessment →
+              Book a Free 15-Min Intro →
             </a>
             <Link href="/pricing" className="btn-secondary text-base px-8 py-4">
               See Services &amp; Pricing
             </Link>
           </div>
+          <p className="mt-3 text-xs text-muted font-mono">
+            THE BUTTON OPENS AN EMAIL — NO FORMS, NO SCHEDULER. TYLER REPLIES WITHIN ONE BUSINESS DAY.
+          </p>
         </div>
       </div>
     </section>
