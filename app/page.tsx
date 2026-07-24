@@ -113,28 +113,18 @@ const notForYou = [
   "You're not willing to make small changes in how your team works to capture the wins.",
 ];
 
-// ── Testimonials ───────────────────────────────────────────────────────────────
+// ── Testimonials — real quotes, anonymized under NDA ──────────────────────────
 const testimonials = [
   {
-    quote:
-      "The assessment found 3 automations that saved us 15 hours a week. We covered the cost of the report in the first month.",
-    name: "Sarah M.",
-    role: "Owner, Coastal Realty Group",
-    initials: "SM",
+    quote: "It was worth the money. Return on investment.",
+    role: "Growth & Strategy executive",
+    company: "Publicly traded energy company",
   },
   {
     quote:
-      "I had no idea where to start with AI. Tyler mapped out exactly what to do first — and the ROI numbers made it a no-brainer.",
-    name: "James R.",
-    role: "Founder, Ridgeline Contractors",
-    initials: "JR",
-  },
-  {
-    quote:
-      "We were spending 20 hours a month on manual reporting. The dashboard automation Tyler recommended cut that to under 2.",
-    name: "Priya K.",
-    role: "VP Ops, TechBridge Consulting",
-    initials: "PK",
+      "The board deck that would have taken me days took about three hours — and it looked better than what I'd have done by hand. Honestly, I would have stopped at 'good enough.' Now it's a reusable Skill: one prompt, every quarter.",
+    role: "Gas & utility markets lead",
+    company: "Publicly traded energy company",
   },
 ];
 
@@ -310,8 +300,8 @@ export default function HomePage() {
             anything. One hour of conversation, and your Leverage Map shows where AI has
             the highest leverage to save you time and make you money — whether that&apos;s
             an off-the-shelf tool, a custom build, or a Claude-native system. If the map
-            doesn&apos;t identify at least 10× the $997 fee in annual value, we keep
-            digging until it does.
+            doesn&apos;t identify at least 10× the $997 fee in annual value,{" "}
+            <strong className="text-ink">you get your money back</strong>.
           </p>
           <p className="text-base text-ink font-semibold mb-10">
             Bill $200/hr? Eight hours back a week is ~$77,000 a year — against a $997
@@ -325,44 +315,38 @@ export default function HomePage() {
           >
             Book Your Assessment — $997 →
           </a>
-          <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · NO TECH KNOWLEDGE NEEDED · MAP DELIVERED WITHIN DAYS</p>
+          <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · 10× IDENTIFIED OR YOUR MONEY BACK · MAP DELIVERED WITHIN DAYS</p>
         </div>
       </section>
 
-      {/* Social proof — hidden until real customer testimonials are collected
-      <section className="section-padding bg-cream section-divider">
+      {/* Social proof — real quotes, anonymized under NDA */}
+      <section className="section-padding bg-ink text-white">
         <div className="max-w-6xl mx-auto">
           <div className="mb-12">
-            <p className="eyebrow mb-3">Client Results</p>
-            <h2 className="text-4xl font-black text-ink tracking-tight">What clients say</h2>
+            <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
+              Client Results
+            </p>
+            <h2 className="text-4xl font-black tracking-tight">What clients say</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t, i) => (
-              <div key={i} className="card-hover p-7">
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <span key={j} className="text-accent text-sm">★</span>
-                  ))}
-                </div>
-                <p className="text-ink/80 text-sm leading-relaxed mb-5 italic">
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-7">
+                <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-3 pt-4 border-t border-border">
-                  <div className="w-9 h-9 rounded-full bg-accent/light border border-accent/30 flex items-center justify-center text-xs font-bold text-accent">
-                    {t.initials}
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-ink">{t.name}</div>
-                    <div className="text-xs text-muted">{t.role}</div>
-                  </div>
+                <div className="pt-4 border-t border-white/10">
+                  <div className="text-sm font-semibold text-white">{t.role}</div>
+                  <div className="text-xs text-white/50">{t.company}</div>
                 </div>
               </div>
             ))}
           </div>
+          <p className="mt-6 text-xs text-white/40 font-mono">
+            REAL QUOTES FROM CURRENT ENGAGEMENTS · ANONYMIZED UNDER NDA
+          </p>
         </div>
       </section>
-      */}
 
       {/* Who you're hiring */}
       <section className="section-padding bg-cream section-divider">

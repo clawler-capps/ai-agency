@@ -38,8 +38,8 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
       <p className="text-muted text-sm leading-relaxed mb-6 pb-6 border-b border-border">
         A complete picture of where AI returns the most time and money for your team —
         with ROI numbers you can defend, before you spend a dollar on tools.{" "}
-        <strong className="text-ink">Built to identify at least 10× the fee in annual
-        value — or we keep digging.</strong>
+        <strong className="text-ink">At least 10× the fee identified in annual value —
+        or your money back.</strong>
       </p>
 
       <div className="mb-6 p-4 rounded-xl bg-paper border border-border">

@@ -12,7 +12,7 @@ const tiers = [
     highlights: [
       "Finds where AI has the highest leverage to save you time and make you money — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
       "Your Leverage Map: every play ranked by leverage, two build paths each",
-      "Built to identify at least 10× the fee in annual value — or we keep digging",
+      "At least 10× the fee identified in annual value — or your money back",
       "Sets the scoreboard every later engagement is measured against",
       "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
     ],

@@ -34,8 +34,8 @@ export default function Hero() {
           <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
             Start with the <strong className="font-semibold text-ink">$997 AI Leverage
             Assessment</strong>: a one-hour conversation that finds where AI saves you the
-            most time and makes you the most money — built to identify at least 10× the
-            fee in annual value.
+            most time and makes you the most money — at least 10× the fee identified in
+            annual value, or your money back.
           </p>
 
           {/* Bullet proof points */}
