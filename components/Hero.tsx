@@ -23,18 +23,34 @@ export default function Hero() {
             Sacramento AI Agency — Tyler Capps
           </p>
 
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-ink leading-[1.05] tracking-tight text-balance mb-6">
-            Reclaim{" "}
-            <span className="text-accent">8+ hours a week</span>
-            {" "}— without becoming a &ldquo;tech person&rdquo;
+          {/* Headline (the hook) */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-ink leading-[1.05] tracking-tight text-balance mb-6">
+            How to look like you hired{" "}
+            <span className="text-accent">a whole new team</span>
+            {" "}— without hiring anyone.
           </h1>
 
-          {/* Subheadline */}
+          {/* The story */}
+          <div className="max-w-2xl border-l-4 border-accent/40 pl-5 py-1 mb-6">
+            <p className="text-base sm:text-lg text-ink/80 italic leading-relaxed">
+              An executive walked into a high-stakes call planning to present the way
+              he always had. At the last minute, he swapped in something built days
+              before — an interactive dashboard instead of a deck. The room reacted
+              like a different company had shown up. People started using the tool
+              themselves, mid-call, to sell to their own side. His team didn&apos;t
+              grow the output — the system did.
+            </p>
+            <p className="mt-3 text-xs text-muted font-mono uppercase tracking-wide">
+              A real result, anonymized under NDA
+            </p>
+          </div>
+
+          {/* Bridge to the offer */}
           <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
-            Start with the <strong className="font-semibold text-ink">$997 AI Leverage
-            Assessment</strong>: a one-hour conversation that finds where AI saves you the
-            most time and makes you the most money — at least 10× the fee identified in
+            He didn&apos;t add headcount. He added one system, built once. That&apos;s
+            the whole model — and the{" "}
+            <strong className="font-semibold text-ink">AI Leverage Assessment</strong>{" "}
+            is where we find your version of it: at least 10× the fee identified in
             annual value, or your money back.
           </p>
 
