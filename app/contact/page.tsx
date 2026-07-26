@@ -6,10 +6,6 @@ export const metadata: Metadata = {
   title: "Contact — Sacramento AI Agency",
   description:
     "Have a question that isn't about booking a call? Send us a note and we'll get back to you as soon as we can.",
-  // Pre-launch: the page is reachable by direct URL (a dependent build relies on
-  // this slug) but intentionally unlinked and kept out of search results until
-  // it's fully wired up. Remove this block to make it publicly discoverable.
-  robots: { index: false, follow: false },
 };
 
 export default function ContactPage() {
