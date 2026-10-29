@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { forwardLead } from "@/lib/leads";
 
 interface QuestionnaireBody {
   name?: string;
@@ -41,40 +42,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const webhookUrl = process.env.QUESTIONNAIRE_WEBHOOK_URL;
-
-  // Forwarding to the webhook is best-effort: a missing OR failing webhook must
-  // never block the visitor from completing the form. We always log the payload
-  // so submissions stay recoverable from server logs even if forwarding fails.
-  if (!webhookUrl) {
-    console.warn(
-      "[questionnaire] QUESTIONNAIRE_WEBHOOK_URL is not set — skipping forward. Payload:",
-      body
-    );
-    return NextResponse.json({ success: true });
-  }
-
-  try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...body, submittedAt: new Date().toISOString() }),
-    });
-
-    if (!res.ok) {
-      console.error(
-        `[questionnaire] Webhook responded with ${res.status} ${res.statusText}. Payload:`,
-        body
-      );
-    }
-  } catch (err) {
-    console.error(
-      "[questionnaire] Failed to forward to webhook:",
-      err,
-      "Payload:",
-      body
-    );
-  }
+  // Forwarding is best-effort: a missing or failing webhook or email must
+  // never block the visitor. forwardLead logs the payload on failure so
+  // submissions stay recoverable from server logs.
+  const status = await forwardLead("questionnaire", { ...body });
+  console.log("[questionnaire] Submission:", { email, status });
 
   // Acknowledge the submission regardless of webhook outcome so the visitor
   // always sees the thank-you card. Failures are surfaced in the server logs.

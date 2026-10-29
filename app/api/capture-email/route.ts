@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { forwardLead } from "@/lib/leads";
 
 interface PillarPayload {
   pillar: string;
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Valid email is required" }, { status: 400 });
   }
 
-  console.log("[capture-email] New lead:", {
+  const status = await forwardLead("assessment", {
     name,
     email,
     company,
@@ -42,28 +43,7 @@ export async function POST(request: NextRequest) {
     pillars,
     answers,
   });
-
-  // ── Wire up Resend (or any email provider) here ────────────────────────────
-  // Example with Resend:
-  //
-  // import { Resend } from "resend";
-  // const resend = new Resend(process.env.RESEND_API_KEY);
-  //
-  // await resend.emails.send({
-  //   from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
-  //   to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
-  //   subject: `[${tier ?? "lead"}] ${company ?? name ?? email}`,
-  //   text: [
-  //     `Name: ${name}`,
-  //     `Email: ${email}`,
-  //     `Company: ${company}`,
-  //     `Industry: ${industry}`,
-  //     `Tier: ${tier} (${totalPct}%)`,
-  //     `Pillars: ${JSON.stringify(pillars, null, 2)}`,
-  //     `Answers: ${JSON.stringify(answers, null, 2)}`,
-  //   ].join("\n"),
-  // });
-  // ──────────────────────────────────────────────────────────────────────────
+  console.log("[capture-email] New lead:", { email, tier, status });
 
   return NextResponse.json({ success: true });
 }

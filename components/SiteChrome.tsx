@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 // Routes that should render without the global nav/footer (e.g. hidden,
 // share-only pages). The page provides its own minimal chrome.
@@ -23,6 +24,7 @@ export default function SiteChrome({
       {!bare && <Navbar />}
       <main>{children}</main>
       {!bare && <Footer />}
+      {!bare && <ChatWidget />}
     </>
   );
 }

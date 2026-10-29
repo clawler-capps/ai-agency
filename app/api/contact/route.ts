@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { postLeadWebhook } from "@/lib/leads";
 
 interface ContactBody {
   name?: string;
@@ -174,6 +175,9 @@ export async function POST(request: NextRequest) {
       { status: 502 }
     );
   }
+
+  // Email is already sent above, so only post to the CRM webhook here.
+  await postLeadWebhook("contact", { name, email, company, question });
 
   return NextResponse.json({ success: true });
 }

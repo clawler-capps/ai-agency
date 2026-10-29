@@ -373,7 +373,7 @@ export default function AssessmentForm() {
               and we&apos;ll map out the fastest path from where you are now.
             </p>
 
-            {/* Embedded scheduler — hidden until a real scheduler URL is configured */}
+            {/* Embedded scheduler — hidden until NEXT_PUBLIC_BOOKING_URL is set */}
             {BOOKING_EMBED_URL && (
               <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
                 <iframe
@@ -432,7 +432,7 @@ export default function AssessmentForm() {
         {/* Soft secondary CTA for everyone */}
         <div className="text-center pb-6">
           <a
-            href={BOOKING_URL}
+            href={isQualified ? "mailto:tyler@sacramentoaiagency.com" : BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ghost text-sm"
