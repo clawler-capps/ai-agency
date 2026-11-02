@@ -53,7 +53,7 @@ export default function ChatWidget() {
           <button
             type="button"
             onClick={() => getApi()?.openWidget?.()}
-            className="btn-secondary text-sm px-6 py-3"
+            className="btn-primary text-sm px-6 py-3"
           >
             Need a quick answer?
           </button>
