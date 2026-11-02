@@ -8,15 +8,31 @@ type LeadConnector = { chatWidget?: { openWidget?: () => void } };
 const getApi = () =>
   (window as unknown as { leadConnector?: LeadConnector }).leadConnector?.chatWidget;
 
+// The widget's GHL config sets placement to "embedded", which renders it always-open
+// after the footer and makes openWidget a no-op. Switch it to a floating bubble.
+// widgetPlacement is not part of GHL's documented API.
+const setFloatingPlacement = () => {
+  const el = document.querySelector<HTMLElement & { widgetPlacement?: string; active?: boolean }>(
+    "chat-widget"
+  );
+  if (el?.widgetPlacement === "embedded") {
+    el.widgetPlacement = "floating";
+    el.active = false;
+  }
+};
+
 // GoHighLevel (LeadConnector) chat widget, homepage only. The bubble stays in its
-// default bottom corner; this adds a "Chat with our AI" button that opens it via
+// default bottom corner; this adds a "Need a quick answer?" button that opens it via
 // the widget's public API (window.leadConnector.chatWidget.openWidget).
 export default function ChatWidget() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const onLoaded = () => setReady(true);
-    if (getApi()?.openWidget) setReady(true);
+    const onLoaded = () => {
+      setFloatingPlacement();
+      setReady(true);
+    };
+    if (getApi()?.openWidget) onLoaded();
     window.addEventListener("LC_chatWidgetLoaded", onLoaded);
 
     // The loader adds <chat-widget> to <body>, which survives client-side
@@ -39,7 +55,7 @@ export default function ChatWidget() {
             onClick={() => getApi()?.openWidget?.()}
             className="btn-secondary text-sm px-6 py-3"
           >
-            Chat with our AI →
+            Need a quick answer?
           </button>
         </div>
       )}
