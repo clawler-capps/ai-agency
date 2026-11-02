@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
@@ -33,6 +34,11 @@ export default function RootLayout({
       <body>
         <SiteChrome>{children}</SiteChrome>
         <Analytics />
+        <Script
+          src="https://link.msgsndr.com/js/external-tracking.js"
+          data-tracking-id="tk_286596f627e147ceb9d959e7ca082629"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BOOKING_URL } from "@/lib/booking";
+import ChatWidget from "@/components/ChatWidget";
 
 const bullets = [
   "A one-hour conversation about your week — no technical background needed",
@@ -17,6 +18,8 @@ export default function Hero() {
       <div className="absolute left-0 top-0 bottom-0 w-px bg-border hidden lg:block" style={{ left: "calc(50% - 384px)" }} />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <ChatWidget />
+
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <p className="eyebrow mb-6">
