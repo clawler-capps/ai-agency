@@ -9,6 +9,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Vercel Deploy Hook
+      - name: Check deploy hook secret
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
         run: |
-          curl -X POST "https://api.vercel.com/v1/integrations/deploy/prj_UOSZjsi00VOrPCeN6ZwFuYPPWEbG/RDaq1k3YyL"
+          if [ -z "$HOOK_URL" ]; then
+            echo "VERCEL_DEPLOY_HOOK_URL is empty. Add it under Settings, Secrets and variables, Actions." >&2
+            exit 1
+          fi
+
+      - name: Trigger Vercel Deploy Hook
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail -X POST "$HOOK_URL"

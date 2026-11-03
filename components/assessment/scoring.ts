@@ -19,9 +19,6 @@ export type AssessmentResult = {
   industry: string;           // e.g., "Construction & Trades"
   industryLabel: "A" | "B" | "C" | "D";
   sizeLabel: "A" | "B" | "C" | "D";
-  // Heuristic peer-relative framing — deterministic from score+industry
-  peerPercentile: number;     // 1–99: "Top X%"
-  peerFrame: string;          // pre-rendered string e.g. "Top 32% of Sacramento-area..."
   // Per-pillar narrative
   pillarSummaries: { pillar: Pillar; title: string; summary: string }[];
 };
@@ -112,14 +109,6 @@ export function scoreAssessment(answers: Answer[]): AssessmentResult {
     | "A" | "B" | "C" | "D";
   const industry = INDUSTRY_LABELS[industryAnswer] ?? "Sacramento Businesses";
 
-  // Heuristic peer-relative percentile.
-  // Higher score → smaller "Top X%". Anchored to keep results plausible:
-  // - AI-Leading: Top 5–18%
-  // - AI-Ready:   Top 19–42%
-  // - AI-Curious: Top 43–78%
-  const peerPercentile = computePeerPercentile(totalPct, industryAnswer);
-  const peerFrame = `Top ${peerPercentile}% of Sacramento-area ${industry.toLowerCase()} businesses`;
-
   // Build per-pillar narrative summaries.
   const pillarSummaries = pillars.map((p) => {
     const band = Math.max(0, Math.min(3, Math.floor(p.pct / 25.001)));
@@ -137,22 +126,8 @@ export function scoreAssessment(answers: Answer[]): AssessmentResult {
     industry,
     industryLabel: industryAnswer,
     sizeLabel: sizeAnswer,
-    peerPercentile,
-    peerFrame,
     pillarSummaries,
   };
-}
-
-function computePeerPercentile(totalPct: number, industry: "A" | "B" | "C" | "D"): number {
-  // Map score% (0–100) → percentile (78 at low end, 5 at high end), then nudge
-  // by industry so "AI-Ready in construction" feels more impressive than
-  // "AI-Ready in professional services". Result is deterministic.
-  const base = Math.round(78 - (totalPct / 100) * 73);
-  // Construction/trades + ag/manufacturing tend to be less digitized on
-  // average, so the same score signals a stronger relative position.
-  const industryAdjust: Record<string, number> = { A: -4, B: 2, C: -1, D: -2 };
-  const adjusted = base + (industryAdjust[industry] ?? 0);
-  return Math.max(3, Math.min(85, adjusted));
 }
 
 export const TIER_META: Record<Tier, {

@@ -21,13 +21,13 @@ const TIER_TAGLINE: Record<Tier, string> = {
 };
 
 export default function ShareBadge({ name, result }: Props) {
-  const { tier, peerPercentile, industry } = result;
+  const { tier, totalPct, industry } = result;
   const colors = TIER_COLORS[tier];
   const tagline = TIER_TAGLINE[tier];
   const displayName = name || "Sacramento Operator";
 
   const defaultPost =
-    `I just took the Sacramento AI Agency Opportunity Assessment and came out ${tagline} — Top ${peerPercentile}% of Sacramento-area ${industry.toLowerCase()} businesses.\n\n` +
+    `I just took the free AI Opportunity Snapshot from Sacramento AI Agency and came out ${tagline}, with an AI readiness score of ${totalPct}/100.\n\n` +
     `If you run a Sacramento business and want to see where AI fits in yours, the assessment is free and takes 5 minutes 👇`;
 
   const [shareText, setShareText] = useState(defaultPost);
@@ -35,8 +35,8 @@ export default function ShareBadge({ name, result }: Props) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   const svgMarkup = useMemo(
-    () => buildBadgeSvg({ tier, peerPercentile, industry, displayName, colors, tagline }),
-    [tier, peerPercentile, industry, displayName, colors, tagline]
+    () => buildBadgeSvg({ tier, totalPct, industry, displayName, colors, tagline }),
+    [tier, totalPct, industry, displayName, colors, tagline]
   );
 
   async function handleCopy() {
@@ -144,14 +144,14 @@ export default function ShareBadge({ name, result }: Props) {
 // ── SVG generator ────────────────────────────────────────────────────────────
 function buildBadgeSvg({
   tier,
-  peerPercentile,
+  totalPct,
   industry,
   displayName,
   colors,
   tagline,
 }: {
   tier: Tier;
-  peerPercentile: number;
+  totalPct: number;
   industry: string;
   displayName: string;
   colors: { from: string; to: string; ink: string; accent: string };
@@ -163,7 +163,7 @@ function buildBadgeSvg({
   const safeTagline = escapeXml(tagline);
   const safeTier = escapeXml(tier);
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="${safeTagline} — Top ${peerPercentile}% in ${safeIndustry}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="${safeTagline}, AI readiness score ${totalPct} out of 100">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${colors.from}" />
@@ -190,9 +190,9 @@ function buildBadgeSvg({
   <!-- Headline -->
   <text x="80" y="290" font-family="'DM Sans', system-ui, sans-serif" font-size="76" font-weight="900" fill="${colors.ink}" letter-spacing="-2">${safeTagline}</text>
 
-  <!-- Percentile callout -->
-  <text x="80" y="400" font-family="'DM Sans', system-ui, sans-serif" font-size="48" font-weight="700" fill="${colors.accent}">TOP ${peerPercentile}%</text>
-  <text x="80" y="450" font-family="'DM Sans', system-ui, sans-serif" font-size="26" font-weight="400" fill="${colors.ink}" fill-opacity="0.85">of Sacramento-area ${safeIndustry.toLowerCase()} businesses</text>
+  <!-- Score callout -->
+  <text x="80" y="400" font-family="'DM Sans', system-ui, sans-serif" font-size="48" font-weight="700" fill="${colors.accent}">${totalPct}/100</text>
+  <text x="80" y="450" font-family="'DM Sans', system-ui, sans-serif" font-size="26" font-weight="400" fill="${colors.ink}" fill-opacity="0.85">AI readiness score · ${safeIndustry}</text>
 
   <!-- Footer -->
   <line x1="80" y1="520" x2="1120" y2="520" stroke="${colors.ink}" stroke-opacity="0.25" stroke-width="1" />

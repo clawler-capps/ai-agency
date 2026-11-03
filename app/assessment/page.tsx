@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import AssessmentForm from "@/components/assessment/AssessmentForm";
+import { questions } from "@/components/assessment/questions";
 
 export const metadata: Metadata = {
-  title: "Free AI Opportunity Assessment — Sacramento AI Agency",
-  description:
-    "Answer 7 quick questions about your business and get an instant snapshot of where AI can save you the most time and money.",
+  title: "Free AI Opportunity Snapshot — Sacramento AI Agency",
+  description: `Answer ${questions.length} quick questions about your business and get a snapshot of where AI can save you the most time and money.`,
 };
 
 export default function AssessmentPage() {
