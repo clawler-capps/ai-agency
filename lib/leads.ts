@@ -47,19 +47,13 @@ export async function postLeadWebhook(
     console.log(`[leads] Webhook (${source}) skipped: FUNNEL_ENABLED is not true`);
     return "skipped";
   }
-  const urls: string[] = [];
-  if (process.env.LEAD_WEBHOOK_URL) urls.push(process.env.LEAD_WEBHOOK_URL);
-  // Legacy variable, questionnaire only.
-  if (source === "questionnaire" && process.env.QUESTIONNAIRE_WEBHOOK_URL) {
-    urls.push(process.env.QUESTIONNAIRE_WEBHOOK_URL);
-  }
-  if (urls.length === 0) {
+  const url = process.env.LEAD_WEBHOOK_URL;
+  if (!url) {
     console.warn(`[leads] Webhook (${source}) skipped: no webhook URL set`);
     return "skipped";
   }
   const body = { source, submittedAt: new Date().toISOString(), ...payload };
-  const results = await Promise.all(urls.map((u) => postJson(source, u, body)));
-  return results.every(Boolean) ? "sent" : "failed";
+  return (await postJson(source, url, body)) ? "sent" : "failed";
 }
 
 // Sends one email through Resend. Never throws. Returns the Resend id on success.

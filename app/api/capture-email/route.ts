@@ -118,8 +118,8 @@ export async function POST(request: NextRequest) {
     return fail("We couldn't save your results just now. Please try again in a moment.", 502);
   }
 
-  const address = process.env.MAILING_ADDRESS?.trim() ?? "";
-  const footer = `Sacramento AI Agency${address ? ` · ${address}` : ""}`;
+  // MAILING_ADDRESS is the full footer line, business name included.
+  const footer = process.env.MAILING_ADDRESS?.trim() || "Sacramento AI Agency";
   const confirmText = [
     `Hi ${firstName},`,
     "",
