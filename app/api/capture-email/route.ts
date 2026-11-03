@@ -1,20 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
+import { waitUntil } from "@vercel/functions";
 import { questions, SIZE_LABELS } from "@/components/assessment/questions";
 import { Answer, scoreAssessment } from "@/components/assessment/scoring";
-import { clamp, clientIp, createRateLimiter, EMAIL_RE, escapeHtml } from "@/lib/guard";
+import { clamp, clientIp, createRateLimiter, EMAIL_RE } from "@/lib/guard";
 import { formatLead, funnelEnabled, postLeadWebhook, sendEmail } from "@/lib/leads";
+import { deliverReport } from "@/lib/report";
+import { DEFAULT_HOURLY_VALUE, ROLES, estimateValue, matchOpportunity } from "@/lib/snapshot";
 
 // AI Opportunity Snapshot (/assessment) submissions.
-// 1. Post the lead to GoHighLevel (Inbound Webhook). If that fails, return an
-//    error so the visitor can retry and the lead isn't lost.
-// 2. Email the visitor an instant confirmation and notify Tyler.
-// The AI report email itself is Phase 2.
+// 1. Post the lead to GoHighLevel (Inbound Webhook) right away. If that fails,
+//    return an error so the visitor can retry and the lead isn't lost.
+// 2. After responding, build the AI report and email it (lib/report.ts), and
+//    notify Tyler.
+
+// Background report work (website fetch + up to two Claude attempts) needs
+// more than the default function time.
+export const maxDuration = 60;
 
 interface CaptureBody {
   name?: string;
   email?: string;
   company?: string;
   website?: string;
+  role?: string;
+  bottleneck?: string;
+  hoursPerWeek?: number | string;
+  hourlyValue?: number | string;
   consent?: boolean;
   answers?: { questionId?: number; label?: string }[];
   // Honeypot — real users never fill this in; bots often do.
@@ -44,7 +55,13 @@ function cleanAnswers(raw: CaptureBody["answers"]): Answer[] {
   return Array.from(byId.values());
 }
 
+function num(v: unknown): number {
+  const n = typeof v === "number" ? v : parseFloat(String(v ?? "").replace(/[$,]/g, ""));
+  return Number.isFinite(n) ? n : NaN;
+}
+
 export async function POST(request: NextRequest) {
+  const startedAt = Date.now();
   let body: CaptureBody;
   try {
     body = await request.json();
@@ -59,12 +76,23 @@ export async function POST(request: NextRequest) {
   const email = clamp(body.email, 200);
   const company = clamp(body.company, 200);
   const website = clamp(body.website, 300);
+  const bottleneck = clamp(body.bottleneck, 1000);
+  const role = ROLES.find((r) => r === body.role) ?? "Other";
   const consent = body.consent === true;
   const answers = cleanAnswers(body.answers);
+
+  const hoursRaw = num(body.hoursPerWeek);
+  const rateRaw = num(body.hourlyValue);
+  const hoursPerWeek = Math.round(Math.min(Math.max(hoursRaw, 0.5), 80) * 2) / 2;
+  const hourlyValue = Number.isNaN(rateRaw)
+    ? DEFAULT_HOURLY_VALUE
+    : Math.round(Math.min(Math.max(rateRaw, 10), 1000));
 
   if (!name) return fail("Please enter your name.", 400);
   if (!EMAIL_RE.test(email)) return fail("Please enter a valid email address.", 400);
   if (!company) return fail("Please enter your company name.", 400);
+  if (!bottleneck) return fail("Please tell us where you lose the most time.", 400);
+  if (Number.isNaN(hoursRaw)) return fail("Please enter roughly how many hours a week it takes.", 400);
   if (answers.length !== questions.length) {
     return fail("Some answers are missing. Please retake the snapshot.", 400);
   }
@@ -76,6 +104,7 @@ export async function POST(request: NextRequest) {
   const result = scoreAssessment(answers);
   const isTest = TEST_EMAILS.includes(email.toLowerCase());
   const firstName = name.split(/\s+/)[0];
+  const value = estimateValue(hoursPerWeek, hourlyValue);
 
   const answerFields: Record<string, string> = {};
   const summary: string[] = [];
@@ -101,7 +130,14 @@ export async function POST(request: NextRequest) {
     company,
     company_size: SIZE_LABELS[result.sizeLabel] ?? "",
     industry: result.industry,
+    role,
     website,
+    bottleneck,
+    hours_per_week: hoursPerWeek,
+    hourly_value: hourlyValue,
+    est_value_low: value.low,
+    est_value_high: value.high,
+    top_opportunity: matchOpportunity(bottleneck).title,
     score: result.totalPct,
     tier: result.tier,
     ...Object.fromEntries(result.pillars.map((p) => [`score_${p.pillar}`, p.pct])),
@@ -112,57 +148,45 @@ export async function POST(request: NextRequest) {
     tags: tags.join(","),
   };
 
+  // Save the lead first, so it's never lost even if the report fails later.
   const webhook = await postLeadWebhook("website-assessment", payload);
   if (funnelEnabled() && webhook !== "sent") {
     console.error(`[capture-email] Lead not saved: webhook=${webhook} test=${isTest}`);
     return fail("We couldn't save your results just now. Please try again in a moment.", 502);
   }
+  console.log(`[capture-email] webhook=${webhook} test=${isTest}`);
 
-  // MAILING_ADDRESS is the full footer line, business name included.
-  const footer = process.env.MAILING_ADDRESS?.trim() || "Sacramento AI Agency";
-  const confirmText = [
-    `Hi ${firstName},`,
-    "",
-    "Thanks for taking the AI Opportunity Snapshot. Your personalized report will be emailed within 15 minutes.",
-    "",
-    `Your quick result: ${result.tier}, with a readiness score of ${result.totalPct}/100.`,
-    "",
-    "Questions in the meantime? Just reply to this email. It comes straight to me.",
-    "",
-    "Tyler Capps",
-    "Sacramento AI Agency",
-    "",
-    "--",
-    footer,
-    "You're receiving this because you requested an AI Opportunity Snapshot at sacramentoaiagency.com.",
-  ].join("\n");
-  const confirmHtml = [
-    `<p>Hi ${escapeHtml(firstName)},</p>`,
-    "<p>Thanks for taking the AI Opportunity Snapshot. <strong>Your personalized report will be emailed within 15 minutes.</strong></p>",
-    `<p>Your quick result: <strong>${escapeHtml(result.tier)}</strong>, with a readiness score of ${result.totalPct}/100.</p>`,
-    "<p>Questions in the meantime? Just reply to this email. It comes straight to me.</p>",
-    "<p>Tyler Capps<br>Sacramento AI Agency</p>",
-    `<hr><p style="font-size:12px;color:#666">${escapeHtml(footer)}<br>You're receiving this because you requested an AI Opportunity Snapshot at sacramentoaiagency.com.</p>`,
-  ].join("\n");
-
-  const [confirm, notify] = await Promise.all([
-    sendEmail("snapshot-confirm", {
-      to: email,
-      subject: "Your AI Opportunity Snapshot is on its way",
-      text: confirmText,
-      html: confirmHtml,
-    }),
-    sendEmail("snapshot-notify", {
-      to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
-      replyTo: email,
-      subject: `${isTest ? "[TEST] " : ""}[snapshot] ${name}, ${company} (${result.tier} ${result.totalPct}%)`,
-      text: `Webhook: ${webhook}\n\n${formatLead("website-assessment", payload)}`,
-    }),
-  ]);
-
-  // Status only. Never log names, emails, or answers.
-  console.log(
-    `[capture-email] webhook=${webhook} confirm=${confirm.status} notify=${notify.status} test=${isTest}`
+  // Report email and Tyler's notification run after the response is sent.
+  waitUntil(
+    Promise.all([
+      deliverReport(
+        {
+          firstName,
+          name,
+          email,
+          company,
+          industry: result.industry,
+          companySize: payload.company_size,
+          role,
+          website,
+          tier: result.tier,
+          score: result.totalPct,
+          pillars: result.pillars.map((p) => ({ pillar: p.pillar, pct: p.pct })),
+          answersSummary: payload.answers_summary,
+          bottleneck,
+          hoursPerWeek,
+          hourlyValue,
+          isTest,
+        },
+        startedAt
+      ),
+      sendEmail("snapshot-notify", {
+        to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
+        replyTo: email,
+        subject: `${isTest ? "[TEST] " : ""}[snapshot] ${name}, ${company} (${result.tier}, ${value.low.toLocaleString("en-US")}–${value.high.toLocaleString("en-US")}/yr)`,
+        text: `Webhook: ${webhook}\n\n${formatLead("website-assessment", payload)}`,
+      }),
+    ]).catch((err) => console.error("[capture-email] Background work failed:", err?.name ?? "error"))
   );
 
   return NextResponse.json({ success: true });

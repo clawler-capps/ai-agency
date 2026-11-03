@@ -6,8 +6,21 @@ import { Answer, AssessmentResult, scoreAssessment, TIER_META, PILLAR_LABELS } f
 import ShareBadge from "./ShareBadge";
 
 import { BOOKING_URL, BOOKING_EMBED_URL } from "@/lib/booking";
+import {
+  DEFAULT_HOURLY_VALUE,
+  ROLES,
+  chatgptUrl,
+  claudeUrl,
+  estimateValue,
+  matchOpportunity,
+  tonightPrompt,
+  usd,
+} from "@/lib/snapshot";
 
-type Phase = "intro" | "questions" | "computing" | "gate" | "results";
+type Phase = "intro" | "questions" | "details" | "computing" | "gate" | "results";
+
+// How soon the report email arrives. Keep in line with measured send times.
+const REPORT_ETA = "usually within 2 minutes";
 
 export default function AssessmentForm() {
   const [phase, setPhase] = useState<Phase>("intro");
@@ -21,6 +34,11 @@ export default function AssessmentForm() {
   const [website, setWebsite] = useState("");
   const [consent, setConsent] = useState(false);
   const [fax, setFax] = useState(""); // honeypot
+  const [bottleneck, setBottleneck] = useState("");
+  const [hoursPerWeek, setHoursPerWeek] = useState("");
+  const [hourlyValue, setHourlyValue] = useState("");
+  const [role, setRole] = useState("");
+  const [copied, setCopied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -54,11 +72,23 @@ export default function AssessmentForm() {
       setStep(step + 1);
       setSelected(null);
     } else {
-      // Done with questions — show the "computing" teaser, then gate.
-      setPhase("computing");
-      setTimeout(() => setPhase("gate"), 2200);
+      // Done with multiple choice — ask about their biggest time drain.
+      setPhase("details");
     }
   }
+
+  function handleDetailsNext(e: React.FormEvent) {
+    e.preventDefault();
+    setPhase("computing");
+    setTimeout(() => setPhase("gate"), 1500);
+  }
+
+  // Same math the report email uses, shown on the results screen.
+  const hours = Math.min(Math.max(parseFloat(hoursPerWeek) || 0.5, 0.5), 80);
+  const rate = Math.min(Math.max(parseFloat(hourlyValue) || DEFAULT_HOURLY_VALUE, 10), 1000);
+  const value = estimateValue(Math.round(hours * 2) / 2, Math.round(rate));
+  const topOpportunity = matchOpportunity(bottleneck);
+  const prompt = tonightPrompt(bottleneck.trim(), value.hoursPerWeek, result?.industry);
 
   function handleBack() {
     if (step === 0) {
@@ -82,7 +112,19 @@ export default function AssessmentForm() {
       const res = await fetch("/api/capture-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, website, consent, answers, fax }),
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          website,
+          role,
+          bottleneck,
+          hoursPerWeek,
+          hourlyValue,
+          consent,
+          answers,
+          fax,
+        }),
       });
       const data = await res.json().catch(() => null);
       if (!res.ok || !data?.success) {
@@ -105,14 +147,14 @@ export default function AssessmentForm() {
   if (phase === "intro") {
     return (
       <div className="text-center py-12">
-        <p className="eyebrow mb-6">Free · 5 minutes · No tech knowledge needed</p>
+        <p className="eyebrow mb-6">Free · About 3 minutes · No tech knowledge needed</p>
         <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight mb-5">
           Free AI Opportunity Snapshot
         </h1>
         <p className="text-lg text-muted max-w-lg mx-auto mb-10 leading-relaxed">
           {totalSteps} quick questions — starting with the easy stuff. We&apos;ll score
-          your business across the 5 pillars of AI readiness and show you where AI
-          can save you the most time.
+          your business across the 5 pillars of AI readiness and show you what your
+          biggest time drain is costing you, in dollars, right on the next screen.
         </p>
         <button
           onClick={() => { setPhase("questions"); setStep(0); }}
@@ -198,6 +240,104 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
+  // DETAILS — the one free-text question that drives the dollar estimate
+  // ──────────────────────────────────────────────────────────────────────────
+  if (phase === "details") {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="card p-8">
+          <p className="eyebrow mb-3">Last step</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2 text-balance">
+            Where do you lose the most time?
+          </h2>
+          <p className="text-sm text-muted mb-6">
+            One task or chore, in your own words. We&apos;ll put a dollar figure on it.
+          </p>
+          <form onSubmit={handleDetailsNext} className="space-y-4">
+            <textarea
+              value={bottleneck}
+              onChange={(e) => setBottleneck(e.target.value)}
+              required
+              maxLength={1000}
+              rows={3}
+              placeholder="e.g. Writing up job estimates and chasing quotes that never get answered"
+              className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-ink mb-1.5">
+                  Hours a week it takes
+                </label>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min={0.5}
+                  max={80}
+                  step={0.5}
+                  value={hoursPerWeek}
+                  onChange={(e) => setHoursPerWeek(e.target.value)}
+                  required
+                  placeholder="e.g. 6"
+                  className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-ink mb-1.5">
+                  What an hour of it is worth ($)
+                </label>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min={10}
+                  max={1000}
+                  step={5}
+                  value={hourlyValue}
+                  onChange={(e) => setHourlyValue(e.target.value)}
+                  placeholder={String(DEFAULT_HOURLY_VALUE)}
+                  className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
+                />
+                <p className="mt-1 text-xs text-muted">
+                  Not sure? Leave it blank and we&apos;ll use ${DEFAULT_HOURLY_VALUE}/hr.
+                </p>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-1.5">Your role</label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
+              >
+                <option value="" disabled>
+                  Choose one
+                </option>
+                {ROLES.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => { setPhase("questions"); setStep(totalSteps - 1); }}
+                className="btn-ghost text-sm"
+              >
+                ← Back
+              </button>
+              <button type="submit" className="btn-primary px-8 py-3">
+                See My Results →
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
   // COMPUTING TEASER
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "computing") {
@@ -225,8 +365,8 @@ export default function AssessmentForm() {
             Where should we send your report?
           </h2>
           <p className="text-muted text-sm mb-6 leading-relaxed text-center">
-            We&apos;ll show your results on the next screen. Your personalized report will be
-            emailed within 15 minutes.
+            Your results appear on the next screen, and your full report goes to your inbox
+            ({REPORT_ETA}).
           </p>
 
           {/* Teaser strip — partial result hint */}
@@ -330,19 +470,124 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // RESULTS
+  // RESULTS — instant value first, then the readiness detail
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "results" && result) {
     const tierMeta = TIER_META[result.tier];
     const isQualified = tierMeta.cta === "schedule";
+    const copyPrompt = () =>
+      navigator.clipboard
+        ?.writeText(prompt)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        })
+        // Clipboard blocked; the prompt is still visible to select by hand.
+        .catch(() => {});
 
     return (
       <div className="max-w-3xl mx-auto space-y-6">
-        {/* Headline card */}
+        {/* Dollar value of their biggest time drain */}
         <div className="card p-8">
           <p className="eyebrow mb-3">
-            {name ? `${name}'s` : "Your"} AI Readiness Profile
+            {name ? `${name.split(/\s+/)[0]}'s` : "Your"} AI Opportunity Snapshot
           </p>
+          <p className="text-sm text-muted mb-1">Your top opportunity</p>
+          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-2 text-balance">
+            {topOpportunity.title}
+          </h2>
+          <p className="text-ink/80 leading-relaxed mb-6">{topOpportunity.how}</p>
+
+          <div className="rounded-xl bg-accent/light border border-accent/30 p-6 mb-4">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted mb-1">
+              Estimated value of fixing it
+            </p>
+            <p className="text-3xl sm:text-4xl font-black text-accent">
+              {usd(value.low)}–{usd(value.high)}
+              <span className="text-lg font-bold text-ink/70"> a year</span>
+            </p>
+            <p className="mt-3 text-sm text-ink/80 leading-relaxed">
+              {value.hoursPerWeek} hrs/week × {usd(value.hourlyValue)}/hr × 50 weeks ={" "}
+              <strong>{usd(value.annualCost)}</strong> a year spent on it today. AI typically
+              captures a conservative 30–60% of that.
+            </p>
+          </div>
+
+          <p className="text-sm text-ink font-semibold">
+            Your full report, with your top 3 opportunities, is on its way to {email} ({REPORT_ETA}).
+          </p>
+        </div>
+
+        {/* Try it tonight */}
+        <div className="card p-8">
+          <p className="eyebrow mb-3">Try it tonight</p>
+          <h3 className="text-xl font-bold text-ink mb-3">
+            Paste this into Claude or ChatGPT and get a head start
+          </h3>
+          <p className="rounded-xl bg-paper border border-border p-4 text-sm text-ink/90 leading-relaxed mb-4 whitespace-pre-wrap">
+            {prompt}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href={claudeUrl(prompt)} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
+              Open in Claude →
+            </a>
+            <a href={chatgptUrl(prompt)} target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm">
+              Open in ChatGPT →
+            </a>
+            <button type="button" onClick={copyPrompt} className="btn-secondary text-sm">
+              {copied ? "Copied ✓" : "Copy prompt"}
+            </button>
+          </div>
+        </div>
+
+        {/* Booking CTA */}
+        <div className="card p-8 bg-accent/light border-accent/30">
+          <p className="eyebrow mb-3 text-accent">Next step</p>
+          <h3 className="text-2xl font-black text-ink mb-2">
+            {isQualified
+              ? "You're ready. Let's scope your first project."
+              : "Want help turning this into hours back?"}
+          </h3>
+          <p className="text-ink/80 mb-6 leading-relaxed">
+            Book a free 15-minute call and we&apos;ll walk through your numbers and the fastest
+            first step from where you are now.
+          </p>
+
+          {/* Embedded scheduler — hidden until NEXT_PUBLIC_BOOKING_URL is set */}
+          {isQualified && BOOKING_EMBED_URL && (
+            <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
+              <iframe
+                src={BOOKING_EMBED_URL}
+                width="100%"
+                height="540"
+                frameBorder="0"
+                title="Schedule a call with Tyler Capps"
+                loading="lazy"
+              />
+            </div>
+          )}
+
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary w-full text-base py-4"
+          >
+            Book My Free 15-Minute Call →
+          </a>
+          <p className="mt-3 text-xs text-muted font-mono text-center">
+            15 MIN · FREE · NO PITCH, JUST A CONVERSATION
+          </p>
+          <p className="mt-4 text-center text-sm">
+            <a href="/pricing" className="text-muted underline hover:text-ink">
+              Or skip ahead to the $997 AI Leverage Assessment
+            </a>
+          </p>
+        </div>
+
+        {/* Readiness profile */}
+        <div className="card p-8">
+          <p className="eyebrow mb-3">AI readiness profile</p>
 
           <div className="flex items-start justify-between flex-wrap gap-4 mb-5">
             <div>
@@ -361,10 +606,7 @@ export default function AssessmentForm() {
             </div>
           </div>
 
-          <p className="text-ink/80 leading-relaxed mb-3">{tierMeta.blurb}</p>
-          <p className="text-sm text-ink font-semibold mb-6">
-            Your personalized report will be emailed within 15 minutes.
-          </p>
+          <p className="text-ink/80 leading-relaxed mb-6">{tierMeta.blurb}</p>
 
           {/* Pillar scores */}
           <div className="space-y-3">
@@ -404,86 +646,13 @@ export default function AssessmentForm() {
           </div>
         </div>
 
-        {/* Segmented CTA */}
-        {isQualified ? (
-          <div className="card p-8 bg-accent/light border-accent/30">
-            <p className="eyebrow mb-3 text-accent">Next Step — Schedule a Call</p>
-            <h3 className="text-2xl font-black text-ink mb-2">
-              You&apos;re ready. Let&apos;s scope your first project.
-            </h3>
-            <p className="text-ink/80 mb-6 leading-relaxed">
-              Businesses in your tier typically see ROI inside 30 days. Book a free 20-minute call
-              and we&apos;ll map out the fastest path from where you are now.
-            </p>
-
-            {/* Embedded scheduler — hidden until NEXT_PUBLIC_BOOKING_URL is set */}
-            {BOOKING_EMBED_URL && (
-              <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
-                <iframe
-                  src={BOOKING_EMBED_URL}
-                  width="100%"
-                  height="540"
-                  frameBorder="0"
-                  title="Schedule a call with Tyler Capps"
-                  loading="lazy"
-                />
-              </div>
-            )}
-
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary w-full text-base py-4"
-            >
-              Schedule My Call →
-            </a>
-            <p className="mt-3 text-xs text-muted font-mono text-center">
-              20 MIN · FREE · NO PITCH, JUST A CONVERSATION
-            </p>
-          </div>
-        ) : (
-          <div className="card p-8 bg-blue/light border-blue/border">
-            <p className="eyebrow mb-3" style={{ color: "var(--accent3)" }}>
-              Next Step — Check Your Email
-            </p>
-            <h3 className="text-2xl font-black text-ink mb-2">
-              Your personalized AI roadmap is on its way 📬
-            </h3>
-            <p className="text-ink/80 mb-5 leading-relaxed">
-              Your personalized report will be emailed to <strong>{email}</strong> within 15
-              minutes, with next steps for businesses at the {result.tier} level.
-            </p>
-            <div className="rounded-xl bg-paper border border-border p-5">
-              <p className="text-sm font-semibold text-ink mb-2">While you wait — three things you can do today:</p>
-              <ul className="space-y-2 text-sm text-ink/80">
-                <li className="flex gap-2"><span className="text-accent">→</span> List your top 3 most-repeated weekly tasks.</li>
-                <li className="flex gap-2"><span className="text-accent">→</span> Pick the one tool your team already uses well — that&apos;s the integration starting point.</li>
-                <li className="flex gap-2"><span className="text-accent">→</span> Watch your inbox for your report (within 15 minutes).</li>
-              </ul>
-            </div>
-            <p className="mt-4 text-xs text-muted">
-              Not seeing it? Check spam, or reply to any email and we&apos;ll resend.
-            </p>
-          </div>
-        )}
-
         {/* Share badge — always available */}
         <ShareBadge name={name} result={result} />
 
-        {/* Soft secondary CTA for everyone */}
-        <div className="text-center pb-6">
-          <a
-            href={isQualified ? "mailto:tyler@sacramentoaiagency.com" : BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost text-sm"
-          >
-            {isQualified
-              ? "Prefer to do this async? Email tyler@sacramentoaiagency.com →"
-              : "Want to skip ahead and book a call anyway? →"}
-          </a>
-        </div>
+        <p className="text-center text-xs text-muted pb-6">
+          Not seeing the report email? Check spam, or reply to tyler@sacramentoaiagency.com and
+          we&apos;ll resend.
+        </p>
       </div>
     );
   }
