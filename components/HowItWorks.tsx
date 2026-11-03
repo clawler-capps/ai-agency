@@ -35,9 +35,9 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works" className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-14">
+        <div className="mb-8 lg:mb-10">
           <p className="eyebrow mb-3">Your journey, in three stages</p>
-          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
             From &ldquo;I don&apos;t know where to start&rdquo; to a compounding system
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
@@ -48,7 +48,7 @@ export default function HowItWorks() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {steps.map((s, i) => (
-            <div key={i} className="card-hover p-8 group">
+            <div key={i} className="card-hover p-6 sm:p-8 group">
               {/* Step badge */}
               <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-mono font-bold mb-6 ${s.color}`}>
                 <span>{s.step}</span>

@@ -10,16 +10,11 @@ const bullets = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center bg-paper overflow-hidden">
+    <section className="relative bg-paper overflow-hidden">
       {/* Subtle texture */}
       <div className="absolute inset-0 bg-hero-texture pointer-events-none" />
 
-      {/* Decorative rule */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-border hidden lg:block" style={{ left: "calc(50% - 384px)" }} />
-
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
-        <ChatWidget />
-
+      <div className="relative max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-12 lg:pb-16">
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <p className="eyebrow mb-6">
@@ -58,7 +53,7 @@ export default function Hero() {
           </p>
 
           {/* Bullet proof points */}
-          <ul className="space-y-2.5 mb-10 max-w-xl">
+          <ul className="space-y-2.5 mb-8 max-w-xl">
             {bullets.map((b, i) => (
               <li key={i} className="flex items-start gap-3 text-ink/80">
                 <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
@@ -68,7 +63,7 @@ export default function Hero() {
           </ul>
 
           {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -80,9 +75,10 @@ export default function Hero() {
             <Link href="/pricing" className="btn-secondary text-base px-8 py-4">
               See Services &amp; Pricing
             </Link>
+            <ChatWidget />
           </div>
           <p className="mt-3 text-xs text-muted font-mono">
-            THE BUTTON OPENS AN EMAIL — NO FORMS, NO SCHEDULER. TYLER REPLIES WITHIN ONE BUSINESS DAY.
+            BOOKING OPENS AN EMAIL — NO FORMS, NO SCHEDULER. TYLER REPLIES WITHIN ONE BUSINESS DAY.
           </p>
         </div>
       </div>

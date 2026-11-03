@@ -42,9 +42,9 @@ export default function Framework() {
   return (
     <section id="framework" className="section-padding bg-paper section-divider">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-14">
+        <div className="mb-8 lg:mb-10">
           <p className="eyebrow mb-3">Our Core Framework</p>
-          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
             From Tool to System
           </h2>
           <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
@@ -60,7 +60,7 @@ export default function Framework() {
         <p className="font-mono text-xs tracking-widest uppercase text-muted mb-5">
           What you&apos;ll build — Source → Skills → Systems
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8 lg:mb-10">
           {layers.map((layer, i) => (
             <div key={i} className={`rounded-2xl border p-6 ${layer.color}`}>
               <div className={`text-xs font-mono font-bold mb-3 ${layer.labelColor}`}>
@@ -73,7 +73,7 @@ export default function Framework() {
         </div>
 
         {/* Two lanes */}
-        <div className="bg-ink text-white rounded-2xl p-8 sm:p-10">
+        <div className="bg-ink text-white rounded-2xl p-6 sm:p-10">
           <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
             How it scales
           </p>

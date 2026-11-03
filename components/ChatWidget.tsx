@@ -48,17 +48,14 @@ export default function ChatWidget() {
 
   return (
     <>
-      {ready && (
-        <div className="flex justify-center mb-8">
-          <button
-            type="button"
-            onClick={() => getApi()?.openWidget?.()}
-            className="btn-primary text-sm px-6 py-3"
-          >
-            Need a quick answer?
-          </button>
-        </div>
-      )}
+      {/* Hidden, not unmounted, until the widget loads so the layout doesn't jump */}
+      <button
+        type="button"
+        onClick={() => getApi()?.openWidget?.()}
+        className={`btn-primary text-base px-8 py-4 ${ready ? "" : "invisible"}`}
+      >
+        Need a quick answer?
+      </button>
       <Script
         src="https://widgets.leadconnectorhq.com/loader.js"
         data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
