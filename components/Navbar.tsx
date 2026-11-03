@@ -22,7 +22,7 @@ export default function Navbar() {
           : "bg-paper/80 backdrop-blur-sm"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-xl font-bold text-ink tracking-tight">Sacramento</span>
@@ -60,7 +60,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="md:hidden text-muted hover:text-ink transition-colors"
+            className="md:hidden p-2 -mr-2 text-muted hover:text-ink transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >

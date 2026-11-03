@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteChrome from "@/components/SiteChrome";
 import { Analytics } from "@vercel/analytics/next";
+import GhlTracking from "@/components/GhlTracking";
 
 export const metadata: Metadata = {
   title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body>
         <SiteChrome>{children}</SiteChrome>
         <Analytics />
+        <GhlTracking />
       </body>
     </html>
   );

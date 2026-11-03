@@ -172,11 +172,11 @@ export default function HomePage() {
       {/* Problem */}
       <section className="section-padding bg-ink text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-14">
+          <div className="mb-8 lg:mb-10">
             <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
               The Problem
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-balance max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-balance max-w-3xl">
               You&apos;re wearing every hat — and your team&apos;s buried in repetitive work
             </h2>
             <p className="mt-4 text-lg text-white/60 max-w-2xl leading-relaxed">
@@ -187,7 +187,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {problems.map((p, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-7 hover:border-white/20 transition-colors">
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7 hover:border-white/20 transition-colors">
                 <div className="text-3xl mb-4">{p.icon}</div>
                 <h3 className="text-lg font-bold mb-3">{p.title}</h3>
                 <p className="text-white/60 text-sm leading-relaxed mb-4">{p.description}</p>
@@ -208,15 +208,15 @@ export default function HomePage() {
       {/* Proof — anonymized numbers from live engagements */}
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8 lg:mb-10">
             <p className="eyebrow mb-3">Real Numbers</p>
-            <h2 className="text-4xl font-black text-ink tracking-tight text-balance max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight text-balance max-w-2xl">
               From live engagements — measured, then validated with the client
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {proofStats.map((p, i) => (
-              <div key={i} className="card-hover p-7">
+              <div key={i} className="card-hover p-5 sm:p-7">
                 <div className="text-3xl font-black text-accent mb-2">{p.stat}</div>
                 <p className="font-semibold text-ink mb-2">{p.label}</p>
                 <p className="text-sm text-muted leading-relaxed">{p.detail}</p>
@@ -237,9 +237,9 @@ export default function HomePage() {
       {/* Who this is built for */}
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-14">
+          <div className="mb-8 lg:mb-10">
             <p className="eyebrow mb-3">Who this is built for</p>
-            <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
               We built this for owner-operated businesses — and the teams scaling beyond them
             </h2>
             <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
@@ -249,9 +249,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 lg:mb-10">
             {industries.map((ind, i) => (
-              <div key={i} className="card-hover p-6 group">
+              <div key={i} className="card-hover p-5 sm:p-6 group">
                 <div className="flex items-start gap-4">
                   <span className="text-2xl mt-0.5">{ind.icon}</span>
                   <div>
@@ -264,7 +264,7 @@ export default function HomePage() {
           </div>
 
           {/* Not for you if... */}
-          <div className="bg-ink text-white rounded-2xl p-8 sm:p-10">
+          <div className="bg-ink text-white rounded-2xl p-6 sm:p-10">
             <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
               Honest disclaimer
             </p>
@@ -292,10 +292,10 @@ export default function HomePage() {
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto text-center">
           <p className="eyebrow mb-4">The 10× Rule</p>
-          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight mb-5 text-balance">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight mb-5 text-balance">
             If we can&apos;t find 10× the fee, don&apos;t hire us
           </h2>
-          <p className="text-lg text-muted mb-10 leading-relaxed">
+          <p className="text-lg text-muted mb-6 leading-relaxed">
             The AI Leverage Assessment exists to prove value before you commit to
             anything. One hour of conversation, and your Leverage Map shows the handful of
             places AI will actually move the needle for your business — and the many
@@ -304,7 +304,7 @@ export default function HomePage() {
             doesn&apos;t identify at least 10× the $997 fee in annual value,{" "}
             <strong className="text-ink">you get your money back</strong>.
           </p>
-          <p className="text-base text-ink font-semibold mb-10">
+          <p className="text-base text-ink font-semibold mb-8">
             Bill $200/hr? Eight hours back a week is ~$77,000 a year — against a $997
             assessment. That&apos;s the whole pitch.
           </p>
@@ -323,16 +323,16 @@ export default function HomePage() {
       {/* Social proof — real quotes, anonymized under NDA */}
       <section className="section-padding bg-ink text-white">
         <div className="max-w-6xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8 lg:mb-10">
             <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
               Client Results
             </p>
-            <h2 className="text-4xl font-black tracking-tight">What clients say</h2>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">What clients say</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-7">
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
                 <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
@@ -369,15 +369,15 @@ export default function HomePage() {
       {/* FAQ */}
       <section id="faq" className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8 lg:mb-10">
             <p className="eyebrow mb-3">FAQ</p>
-            <h2 className="text-4xl font-black text-ink tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
               Questions you might be asking
             </h2>
           </div>
           <div className="divide-y divide-border">
             {faqs.map((faq, i) => (
-              <div key={i} className="py-6">
+              <div key={i} className="py-5">
                 <h3 className="font-bold text-ink mb-2">{faq.q}</h3>
                 <p className="text-muted text-sm leading-relaxed">{faq.a}</p>
               </div>
@@ -392,11 +392,11 @@ export default function HomePage() {
           <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-6">
             Your next 15 minutes could save you 8+ hours every week
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-6 text-balance">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight tracking-tight mb-6 text-balance">
             Ready to find your first{" "}
             <span className="text-accent">AI quick win?</span>
           </h2>
-          <p className="text-white/60 text-lg mb-10 leading-relaxed max-w-xl mx-auto">
+          <p className="text-white/60 text-lg mb-8 leading-relaxed max-w-xl mx-auto">
             Reach out and we&apos;ll set up a 15-minute intro call. No pitch, no pressure —
             just a conversation about where AI can move the needle for your business.
           </p>

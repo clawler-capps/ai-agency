@@ -90,9 +90,9 @@ export default function ServiceTiers() {
   return (
     <section className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-14">
+        <div className="mb-8 lg:mb-10">
           <p className="eyebrow mb-3">The Service Ladder</p>
-          <h2 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight">
             Assess → Enable → Lead
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl">
@@ -108,7 +108,7 @@ export default function ServiceTiers() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {tiers.map((tier, i) => (
-            <div key={i} className={`card-hover p-8 border-2 ${tier.color}`}>
+            <div key={i} className={`card-hover p-6 sm:p-8 border-2 ${tier.color}`}>
               <div className="flex items-start justify-between mb-4">
                 <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-mono font-bold border ${tier.badgeColor}`}>
                   {tier.number}

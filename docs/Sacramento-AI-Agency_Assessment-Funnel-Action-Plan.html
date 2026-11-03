@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Action Plan: Free AI Assessment → GoHighLevel Funnel · Sacramento AI Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0f12;--paper:#f4f2ed;--cream:#faf8f3;--accent:#e85d26;--accent-hover:#d4501f;--accent-light:#e85d261a;--green:#1a6b4e;--green-light:#1a6b4e1a;--blue:#2d5dce;--blue-light:#2d5dce1a;--purple:#8b5cf6;--muted:#7c7a75;--border:#ddd9d0;--red:#b42318;--red-light:#b423181a;--amber:#b54708;--amber-light:#b547081a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:7.5rem;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;font-size:16px}
+a{color:var(--accent)}
+code,.mono{font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.85em}
+code{background:#0d0f120d;border:1px solid var(--border);border-radius:6px;padding:.05em .35em;word-break:break-word}
+pre{font-family:"Space Mono",ui-monospace,Menlo,monospace;font-size:.8rem;background:var(--ink);color:#f4f2ed;border-radius:12px;padding:12px 14px;overflow-x:auto;margin:.5rem 0;line-height:1.5}
+.wrap{max-width:60rem;margin:0 auto;padding:0 16px}
+/* Header */
+header.top{position:sticky;top:0;z-index:20;background:#f4f2edf2;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+.logo{font-weight:700;font-size:1.15rem;letter-spacing:-.02em;text-decoration:none;color:var(--ink);white-space:nowrap}
+.logo .ai{color:var(--accent)}
+.progress-wrap{flex:1;max-width:260px;display:flex;align-items:center;gap:8px}
+.progress{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.progress>div{height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .3s}
+.progress-label{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--muted);white-space:nowrap}
+nav.toc{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}
+nav.toc::-webkit-scrollbar{display:none}
+nav.toc a{flex:none;font-size:.78rem;font-weight:500;text-decoration:none;color:var(--muted);border:1px solid var(--border);background:var(--cream);border-radius:99px;padding:4px 10px}
+nav.toc a:hover{color:var(--ink);border-color:#0d0f1240}
+/* Hero */
+.hero{padding:36px 0 18px;background:radial-gradient(ellipse 100% 60% at 70% 0%,rgba(232,93,38,.08),transparent)}
+.eyebrow{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;margin:.4rem 0 .6rem}
+h1 .hl{color:var(--accent)}
+h2{font-size:clamp(1.35rem,3.6vw,1.8rem);font-weight:900;letter-spacing:-.02em;line-height:1.15;margin:.25rem 0 .4rem}
+h3{font-size:1.05rem;font-weight:700;margin:1.1rem 0 .4rem}
+.lead{color:#0d0f12cc;font-size:1.02rem;max-width:44rem}
+.meta{margin-top:10px;font-size:.82rem;color:var(--muted)}
+/* Controls */
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0 4px}
+.controls .lbl{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.chip{font:inherit;font-size:.82rem;font-weight:500;border:1px solid var(--border);background:var(--cream);color:var(--ink);border-radius:99px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn{font:inherit;font-weight:700;font-size:.85rem;border-radius:12px;padding:8px 14px;cursor:pointer;border:1px solid #0d0f1233;background:transparent;color:var(--ink)}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn.danger.armed{background:var(--red);color:#fff}
+.toggle-done{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--muted)}
+/* Sections */
+section{padding:28px 0;border-top:1px solid var(--border)}
+.card{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:16px}
+.grid2{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
+.sec-progress{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--muted)}
+/* Steps */
+ol.steps,ul.steps{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:10px;counter-reset:s}
+.step{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:4px 10px;transition:opacity .2s,border-color .2s}
+.step:hover{border-color:#0d0f1233}
+ol.steps>.step{counter-increment:s}
+.step input[type=checkbox]{width:22px;height:22px;margin-top:2px;accent-color:var(--accent);cursor:pointer}
+.step .title{font-weight:700;line-height:1.35}
+ol.steps>.step .title::before{content:counter(s) ". ";color:var(--accent);font-family:"Space Mono",monospace;font-size:.85em}
+.step .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.step .body{grid-column:2;font-size:.92rem;color:#0d0f12d9}
+.step .body p{margin:.35rem 0}
+.step .body ul,.step .body ol{margin:.35rem 0 .35rem 1.1rem}
+.step .body li{margin:.15rem 0}
+.step.done{opacity:.55}
+.step.done .title{text-decoration:line-through;text-decoration-color:var(--accent)}
+.hide-done .step.done{display:none}
+.step.filtered{display:none}
+.tag{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;border-radius:99px;padding:2px 9px;border:1px solid transparent;white-space:nowrap}
+.t-tyler{background:var(--accent-light);color:var(--accent-hover);border-color:#e85d2640}
+.t-claude{background:var(--blue-light);color:var(--blue);border-color:#2d5dce40}
+.t-together{background:var(--green-light);color:var(--green);border-color:#1a6b4e40}
+.t-time{background:#0d0f120d;color:var(--muted);font-family:"Space Mono",monospace;font-weight:400}
+.sev{font-size:.68rem;font-weight:700;border-radius:6px;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.sev-crit{background:var(--red);color:#fff}
+.sev-high{background:var(--amber-light);color:var(--amber);border:1px solid #b5470840}
+.sev-med{background:var(--blue-light);color:var(--blue);border:1px solid #2d5dce40}
+.sev-low{background:#0d0f120d;color:var(--muted);border:1px solid var(--border)}
+.path{font-family:"Space Mono",monospace;font-size:.8rem;background:var(--accent-light);border-left:3px solid var(--accent);padding:6px 10px;border-radius:0 8px 8px 0;margin:.4rem 0;display:block}
+.note{font-size:.85rem;color:var(--muted)}
+.warn{background:var(--amber-light);border:1px solid #b5470840;border-radius:12px;padding:10px 12px;font-size:.88rem;margin:.6rem 0}
+/* Tables */
+.tbl{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:.6rem 0;border:1px solid var(--border);border-radius:12px;background:var(--cream)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:520px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--paper);font-weight:400}
+tr:last-child td{border-bottom:0}
+.yes{color:var(--green);font-weight:700}.no{color:var(--red);font-weight:700}
+/* Diagram */
+.flow{display:flex;flex-direction:column;gap:0;align-items:stretch;margin-top:12px}
+.node{background:var(--cream);border:1.5px solid var(--border);border-radius:14px;padding:10px 12px}
+.node b{display:block;font-size:.95rem}
+.node span{font-size:.8rem;color:var(--muted)}
+.node.site{border-color:var(--ink)}
+.node.ghl{border-color:var(--green)}
+.node.n8n{border-color:var(--purple)}
+.node.claude{border-color:var(--accent);background:var(--accent-light)}
+.node.mail{border-color:var(--blue)}
+.arrow{text-align:center;color:var(--accent);font-weight:900;font-size:1.1rem;line-height:1.4}
+.arrow small{display:block;font-size:.68rem;color:var(--muted);font-weight:400;font-family:"Space Mono",monospace}
+.split{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.split{grid-template-columns:1fr 1fr 1fr}}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}
+@media(min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--ink);color:#fff;border-radius:12px;padding:10px 12px}
+.kpi .v{color:var(--accent);font-family:"Space Mono",monospace;font-weight:700;font-size:1.05rem}
+.kpi .l{color:#ffffffa6;font-size:.72rem;font-family:"Space Mono",monospace}
+footer{padding:28px 0 60px;border-top:1px solid var(--border);font-size:.82rem;color:var(--muted)}
+.empty-filter{display:none;font-size:.85rem;color:var(--muted);padding:8px 2px}
+@media print{header.top{position:static}.controls,nav.toc{display:none}.step{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#summary">Sacramento <span class="ai">AI</span> Agency</a>
+      <div class="progress-wrap" title="Overall progress">
+        <div class="progress"><div id="pbar"></div></div>
+        <span class="progress-label" id="plabel">0/0</span>
+      </div>
+    </div>
+    <nav class="toc" aria-label="Sections">
+      <a href="#summary">Summary</a>
+      <a href="#issues">Site issues</a>
+      <a href="#questions">Open questions</a>
+      <a href="#p0">Phase 0</a>
+      <a href="#p1">Phase 1</a>
+      <a href="#p2">Phase 2</a>
+      <a href="#p3">Phase 3</a>
+      <a href="#p4">Phase 4</a>
+      <a href="#fields">Fields &amp; env</a>
+      <a href="#access">Access</a>
+      <a href="#gaps">Competitors</a>
+      <a href="#launch">Launch tests</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ═════════════ SUMMARY ═════════════ -->
+<div class="hero" id="summary">
+  <p class="eyebrow">Internal action plan · Nov 3, 2026 · Planning only</p>
+  <h1>Free AI Assessment → <span class="hl">GoHighLevel</span> funnel</h1>
+  <p class="lead">The goal: turn <code>/assessment</code> back into a lead magnet. Each visitor is captured in GHL with tags and lands in a pipeline. They get an instant confirmation email, then a personalized AI report written by Claude within 15 minutes (target 1–2). The report's call to action points to the paid AI Leverage Assessment.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">&lt; $0.10</div><div class="l">cost per lead*</div></div>
+    <div class="kpi"><div class="v">~$0.03–0.08</div><div class="l">Claude per report*</div></div>
+    <div class="kpi"><div class="v">16–26 h</div><div class="l">build time</div></div>
+    <div class="kpi"><div class="v">1–2 h</div><div class="l">Tyler setup</div></div>
+  </div>
+  <p class="note" style="margin-top:6px">*Estimate. Claude Sonnet 5.5 is $2 in / $10 out per million tokens (Anthropic pricing page). Resend is free up to 3,000 emails/mo (secondary source).</p>
+
+  <div class="controls" role="group" aria-label="Filter steps by owner">
+    <span class="lbl">Show</span>
+    <button class="chip" data-filter="all" aria-pressed="true">All steps</button>
+    <button class="chip" data-filter="tyler" aria-pressed="false">Only mine (Tyler)</button>
+    <button class="chip" data-filter="tyler,together" aria-pressed="false">Mine + Together</button>
+    <button class="chip" data-filter="claude" aria-pressed="false">Claude</button>
+  </div>
+  <div class="controls">
+    <label class="toggle-done"><input type="checkbox" id="hideDone"> Hide completed</label>
+    <button class="btn danger" id="resetBtn" type="button">Reset checklist</button>
+  </div>
+  <div class="legend">
+    <span class="tag t-tyler">Tyler (human)</span>
+    <span class="tag t-claude">Claude (with access)</span>
+    <span class="tag t-together">Together</span>
+  </div>
+
+  <h3 style="margin-top:22px">Recommended architecture</h3>
+  <div class="flow" aria-label="Architecture diagram">
+    <div class="node site"><b>1 · Visitor takes the quiz on sacramentoaiagency.com/assessment</b><span>Answers + name, email, company, company size, website, consent checkbox</span></div>
+    <div class="arrow">↓<small>POST /api/capture-email · honeypot + rate limit + Turnstile</small></div>
+    <div class="split">
+      <div class="node ghl"><b>2a · GHL (instant, synchronous)</b><span>Upsert contact → tags + custom fields → opportunity in "Free Assessment" pipeline</span></div>
+      <div class="node mail"><b>2b · Resend confirmation</b><span>"Thanks… your results will be sent within 15 minutes." Sent in seconds.</span></div>
+      <div class="node site"><b>2c · On-page snapshot</b><span>Tier + pillar scores shown right away</span></div>
+    </div>
+    <div class="arrow">↓<small>signed webhook (X-Webhook-Secret) with answers + GHL contact ID</small></div>
+    <div class="node n8n"><b>3 · n8n workflow</b><span>Optional homepage fetch → build prompt → retries → failure branch alerts Tyler</span></div>
+    <div class="arrow">↓</div>
+    <div class="node claude"><b>4 · Claude API (Sonnet 5.5)</b><span>Returns JSON: top 3 opportunities, hrs/wk, $/yr with the math shown, today vs with-AI steps, DIY prompt, CTA</span></div>
+    <div class="arrow">↓</div>
+    <div class="split">
+      <div class="node mail"><b>5a · Resend results email</b><span>Branded HTML report from reports@sacramentoaiagency.com</span></div>
+      <div class="node ghl"><b>5b · GHL update</b><span>Note with report · tag report-sent · stage → Report Sent</span></div>
+      <div class="node ghl"><b>5c · GHL follow-up</b><span>Alert Tyler · nurture (consent only) · 20-min "still pending" safety alert</span></div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:10px"><b>Why a mix:</b> the lead is saved in GHL before any AI runs, so it's never lost. The quiz keeps the site's design. You can edit the prompt and email in n8n without a code deploy. GHL stays the single place for the pipeline and follow-up.</p>
+</div>
+
+<!-- ═════════════ ISSUES ═════════════ -->
+<section id="issues">
+  <p class="eyebrow">Repo audit</p>
+  <h2>Site issues found <span class="sec-progress" data-sec-progress></span></h2>
+  <p class="note">Check each one off as it's fixed. File references are in the <code>clawler-capps/ai-agency</code> repo.</p>
+  <ul class="steps">
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-1"><div><div class="title">Leads are lost: <code>/api/capture-email</code> only runs console.log</div><div class="tags"><span class="sev sev-crit">Critical</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">See <code>app/api/capture-email/route.ts</code> lines 35–44. The Resend code is commented out. Nothing goes to GHL. Fixed in Phase 1.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-2"><div><div class="title">The results page promises an email that never sends</div><div class="tags"><span class="sev sev-crit">Critical</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">"We've sent a detailed report… usually arrives within 10 minutes" (<code>AssessmentForm.tsx</code> ~408–424). Fixed by Phases 1–2.</div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="iss-3"><div><div class="title">10 modified files are uncommitted, plus untracked files (accidental-deploy risk)</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-together">Together</span></div></div><div class="body">Modified: <code>app/globals.css</code>, <code>app/layout.tsx</code>, <code>app/page.tsx</code>, <code>components/ChatWidget.tsx</code>, <code>Footer.tsx</code>, <code>Framework.tsx</code>, <code>Hero.tsx</code>, <code>HowItWorks.tsx</code>, <code>Navbar.tsx</code>, <code>ServiceTiers.tsx</code>.<br>Untracked: <code>components/GhlTracking.tsx</code> (layout.tsx imports it, so they must ship together), <code>docs/connect-site-to-go-high-level.md</code>, the James Larson playbook HTML, the plan docs, and <code>.claude/</code>.<br>Pushing to <code>main</code> deploys live, so decide before Phase 1 (see Open questions).</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-4"><div><div class="title">The "Top X% of Sacramento-area businesses" ranking is made up</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body"><code>computePeerPercentile</code> in <code>scoring.ts</code> is a formula, not data, and <code>ShareBadge.tsx</code> spreads it on LinkedIn. This is a credibility and earnings-claim risk. Remove it, or replace it with real stats after 50+ submissions.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-5"><div><div class="title">The form ignores API failures: every visitor sees success</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">The client never checks <code>res.ok</code>, and <code>catch</code> swallows errors. Show a real retry message when the save fails.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-6"><div><div class="title">No bot or spam protection on the assessment endpoint</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">Reuse the honeypots, IP rate limit and length clamps from <code>app/api/contact/route.ts</code>, and add Cloudflare Turnstile.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-7"><div><div class="title">No consent checkbox and no unsubscribe, despite "No spam. Unsubscribe any time."</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">Add an unchecked "Send me occasional tips" box, plus a physical address and an unsubscribe link in emails (CAN-SPAM; not legal advice).</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="iss-8"><div><div class="title">DNS: root domain has no SPF record and no DMARC record</div><div class="tags"><span class="sev sev-high">High</span><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Checked Nov 3 via dns.google. Google DKIM and the Resend records (DKIM + <code>send.</code> SPF/MX) are present. Fixed in Phase 0, step 0.9.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-9"><div><div class="title">Stripe success_url sends $997 buyers to the free quiz</div><div class="tags"><span class="sev sev-med">Medium</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body"><code>app/api/checkout/route.ts</code> → <code>/assessment?payment=success</code>, which nothing handles. Point it to a thank-you page or booking page.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-10"><div><div class="title">The booking CTA is a mailto stopgap; the embedded scheduler is hidden</div><div class="tags"><span class="sev sev-med">Medium</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body"><code>lib/booking.ts</code>: <code>BOOKING_EMBED_URL = null</code>. Replace it with a GHL calendar link (Phase 3).</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-11"><div><div class="title">Personal info is written to server logs</div><div class="tags"><span class="sev sev-med">Medium</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">Name, email, company and answers are logged in full. Log only a contact ID and status.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-12"><div><div class="title">The free quiz's name clashes with the paid assessment</div><div class="tags"><span class="sev sev-med">Medium</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">"Free AI Opportunity Assessment" vs the "$997 AI Leverage Assessment". Rename the free one (e.g. "AI Opportunity Snapshot").</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-13"><div><div class="title">Generic output: no free-text bottleneck, no $ ROI, no ranked opportunities</div><div class="tags"><span class="sev sev-med">Medium</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">Everyone in the same score band gets the same pillar text. Fixed in Phases 2–3.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-14"><div><div class="title">The quiz isn't linked anywhere on the site</div><div class="tags"><span class="sev sev-low">Low</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body">Links were removed in commit <code>8b6fac9</code> (single-CTA decision). Re-add one after launch (Phase 4).</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="iss-15"><div><div class="title">Copy mismatches: "7 questions" vs 9; a "20-min" call vs 15 elsewhere</div><div class="tags"><span class="sev sev-low">Low</span><span class="tag t-claude">Claude (with access)</span></div></div><div class="body"><code>app/assessment/page.tsx</code> metadata; results-page CTA copy.</div></li>
+  </ul>
+  <h3>Reusable as-is</h3>
+  <p class="note">Quiz shell and progress UI · pillar scoring (as a readiness snapshot) · the contact route's anti-abuse and Resend error handling · the questionnaire route's n8n forwarding · Resend + the authenticated domain · the GHL tracking script and chat widget.</p>
+</section>
+
+<!-- ═════════════ QUESTIONS ═════════════ -->
+<section id="questions">
+  <p class="eyebrow">Decisions needed before building</p>
+  <h2>Open questions for Tyler <span class="sec-progress" data-sec-progress></span></h2>
+  <ul class="steps">
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-1"><div><div class="title">Is n8n on n8n Cloud or self-hosted, and what's the URL?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">If it's self-hosted: where, and is it monitored and backed up? A down n8n delays reports, but leads are still safe in GHL.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-2"><div><div class="title">What should happen to the 10 uncommitted files?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Options: (a) review and commit them as their own change before the funnel work, (b) stash them, or (c) discard them. <code>GhlTracking.tsx</code> must go with <code>layout.tsx</code>.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-3"><div><div class="title">CTA: $997 or $1,000 paid assessment? And which booking link?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">The site says $997 with a 10× money-back guarantee. Use a GHL calendar (recommended), Cal.com, or keep the mailto for now? Free 15-min call first, or straight to the paid checkout?</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-4"><div><div class="title">Which address do emails come from, and where do replies go?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Suggested: From <code>Tyler at Sacramento AI Agency &lt;reports@sacramentoaiagency.com&gt;</code>, Reply-To <code>tyler@sacramentoaiagency.com</code>. The current env uses <code>contact@</code>.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-5"><div><div class="title">Which physical mailing address goes in the email footer (CAN-SPAM)?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">A PO box or registered agent address is fine.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-6"><div><div class="title">Test in a separate GHL sub-account, or in production with a "test" tag?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Recommended: production plus a <code>test-lead</code> tag, using zephyrways@gmail.com, then delete the test contacts. Vercel previews should not create contacts.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-7"><div><div class="title">Is your GHL login agency-level or sub-account only? Are premium triggers/actions enabled?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">This affects whether we can use GHL's premium workflow steps. The core plan doesn't need them.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-8"><div><div class="title">Should the report read the visitor's website (like Certified AI Partners)?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">It makes the report noticeably more personal and adds about $0.02/report. The website field would be optional.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-9"><div><div class="title">Rename the free quiz? Keep the LinkedIn share badge?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Suggested: "AI Opportunity Snapshot". Keep the badge only with tier wording, without the fake percentile.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="q-10"><div><div class="title">Should non-consenting leads get one personal follow-up from you?</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div><div class="body">Recommended: the report plus one personal check-in for everyone. The nurture sequence goes only to people who tick the consent box.</div></li>
+  </ul>
+</section>
+
+<!-- ═════════════ PHASE 0 ═════════════ -->
+<section id="p0">
+  <p class="eyebrow">Phase 0 · ~1–2 h · Tyler at the Mac</p>
+  <h2>Setup: accounts, keys, DNS <span class="sec-progress" data-sec-progress></span></h2>
+  <div class="warn"><b>Secrets rule:</b> create each key and paste it straight into <code>ai-agency/.env.local</code> (already gitignored by <code>.env*.local</code>). Never paste keys into chat, email, or a committed file. Menu names are approximate because GHL changes them often.</div>
+  <ol class="steps">
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-1"><div><div class="title">Sign in once in Chrome to every tool</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">10 min</span></div></div><div class="body">GitHub, Vercel, GHL, n8n, Resend, platform.claude.com and Cloudflare. Complete any 2FA yourself. Claude never types passwords or 2FA codes.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-2"><div><div class="title">Confirm the CLIs on the Mac are signed in</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">5 min</span></div></div><div class="body">In Terminal: <pre>gh auth status
+vercel whoami
+cd ~/Documents/Claude/Workspace/ai-agency &amp;&amp; vercel link   # if not linked yet</pre>If either is signed out, run <code>gh auth login</code> or <code>vercel login</code> and finish in the browser.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-3"><div><div class="title">GHL: create a Private Integration token</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">10 min</span></div></div><div class="body"><span class="path">GHL sub-account → Settings → Private Integrations → Create new Integration</span>Name it <code>Website Assessment Funnel</code>. Scopes (exact labels may differ):<ul><li>Contacts: view + edit</li><li>Opportunities: view + edit</li><li>Custom fields (locations/customFields): view + edit</li><li>Tags (locations/tags): view + edit</li><li>Calendars: view (for the booking link)</li></ul>Copy the token (it's shown once) → <code>.env.local</code> as <code>GHL_PRIVATE_TOKEN=</code>. Rotate it if it's ever exposed.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-4"><div><div class="title">GHL: copy the Location (sub-account) ID</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">2 min</span></div></div><div class="body"><span class="path">Settings → Business Profile → Location ID</span>(It also appears in the URL: <code>/location/&lt;ID&gt;/…</code>.) → <code>GHL_LOCATION_ID=</code>. Not a secret.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-5"><div><div class="title">Anthropic: add billing and a spend limit, then create an API key</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">10 min</span></div></div><div class="body"><span class="path">platform.claude.com → Settings → Billing → add credits ($10–20 is plenty to start)</span><span class="path">Settings → Limits → set a monthly spend limit (e.g. $20)</span><span class="path">Settings → API Keys → Create Key → name "saa-assessment-n8n"</span>Paste it as <code>ANTHROPIC_API_KEY=</code>. This is separate from your Claude Pro/Max subscription, which doesn't include API access.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-6"><div><div class="title">Resend: confirm the domain is verified and create a sending-only key</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">5 min</span></div></div><div class="body"><span class="path">resend.com → Domains → sacramentoaiagency.com → status should be "Verified"</span><span class="path">API Keys → Create API Key → Permission: Sending access → Domain: sacramentoaiagency.com</span>Name it <code>n8n-assessment-reports</code> → <code>RESEND_API_KEY_N8N=</code>. (The site keeps its existing <code>RESEND_API_KEY</code>.)</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-7"><div><div class="title">Cloudflare: create a Turnstile widget</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">5 min</span></div></div><div class="body"><span class="path">dash.cloudflare.com → Turnstile → Add widget</span>Name: <code>SAA assessment</code> · Hostnames: <code>sacramentoaiagency.com</code>, <code>www.sacramentoaiagency.com</code>, <code>localhost</code> · Mode: Managed (or Invisible).<br>Copy the Site Key → <code>NEXT_PUBLIC_TURNSTILE_SITE_KEY=</code> and the Secret Key → <code>TURNSTILE_SECRET_KEY=</code>. Free.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-8"><div><div class="title">n8n: note the instance URL and confirm Claude can reach it</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">5 min</span></div></div><div class="body">Sign in in Chrome. In n8n, create an API key so workflows can be built over the API:<span class="path">n8n → Settings → n8n API → Create an API key</span>→ <code>N8N_API_KEY=</code> and <code>N8N_BASE_URL=</code>. Then make up a random secret for the webhook (Claude can generate it locally) → <code>N8N_WEBHOOK_SECRET=</code>.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-9"><div><div class="title">DNS (Namecheap): add root SPF and DMARC</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">10 min</span></div></div><div class="body"><span class="path">Namecheap → Domain List → sacramentoaiagency.com → Manage → Advanced DNS → Add New Record</span><ul><li>TXT · Host <code>@</code> · Value <code>v=spf1 include:_spf.google.com ~all</code></li><li>TXT · Host <code>_dmarc</code> · Value <code>v=DMARC1; p=none; rua=mailto:tyler@sacramentoaiagency.com; fo=1</code></li></ul>Don't touch the existing <code>resend._domainkey</code>, <code>send</code>, <code>google._domainkey</code> or MX records. After 2–4 clean weeks of DMARC reports, change <code>p=none</code> to <code>p=quarantine</code>.</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-10"><div><div class="title">(Later, for nurture) GHL: set up a dedicated email sending domain</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">20 min</span></div></div><div class="body"><span class="path">GHL → Settings → Email Services → Dedicated Domain → Add domain (e.g. mail.sacramentoaiagency.com)</span>Add the DNS records GHL shows in Namecheap, then click Verify. This is only needed before GHL itself sends nurture emails (Phase 4).</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p0-11"><div><div class="title">Tell Claude "Phase 0 done" and answer the open questions</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">5 min</span></div></div><div class="body">Claude checks that the expected <em>variable names</em> exist in <code>.env.local</code> without printing their values.</div></li>
+  </ol>
+</section>
+
+<!-- ═════════════ PHASE 1 ═════════════ -->
+<section id="p1">
+  <p class="eyebrow">Phase 1 · ~4–6 h · stop the leak</p>
+  <h2>Capture every lead in GHL + instant confirmation <span class="sec-progress" data-sec-progress></span></h2>
+  <ol class="steps">
+    <li class="step" data-owner="together"><input type="checkbox" id="p1-1"><div><div class="title">Resolve the 10 uncommitted files and create a working branch</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">15 min</span></div></div><div class="body">Follow your answer to open question 2. Claude then works on the branch <code>feat/assessment-funnel</code>; <code>main</code> deploys only when you approve.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p1-2"><div><div class="title">Create the GHL custom fields, tags and pipeline</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">45 min</span></div></div><div class="body">Built through the GHL API with your token (or the signed-in browser, with your OK). The exact list is in <a href="#fields">Fields &amp; env</a>. Claude records the resulting IDs in <code>.env.local</code>.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p1-3"><div><div class="title">Rewrite <code>/api/capture-email</code></div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">2 h</span></div></div><div class="body"><ul><li>Validate input; check the honeypots, IP rate limit and Turnstile token; clamp field lengths</li><li><code>POST https://services.leadconnectorhq.com/contacts/upsert</code> with name, email, companyName, website, <code>source: "website-assessment"</code>, custom fields, then add tags</li><li>Create an opportunity in the "Free Assessment" pipeline at stage <em>New</em></li><li>Send the confirmation email through Resend (Reply-To = Tyler)</li><li>Fire the n8n webhook with the GHL contact ID (don't block the visitor)</li><li>Return an error only if the GHL save fails; never log personal info</li><li>Run only on Production (or only when <code>FUNNEL_ENABLED=true</code>), so previews don't create contacts</li></ul></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p1-4"><div><div class="title">Update the quiz UI: consent checkbox, Turnstile, real error handling, honest copy</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">1 h</span></div></div><div class="body">Check <code>res.ok</code>. Remove the made-up percentile and the "benchmarking against peers" line. Fix "7 questions". Change the promise to "Your personalized report will be emailed within 15 minutes."</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p1-5"><div><div class="title">Set the Vercel env vars from <code>.env.local</code> using the signed-in CLI</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">15 min</span></div></div><div class="body">Run from Claude Code on the Mac, using <code>vercel env add NAME production</code> fed from <code>.env.local</code>, so values never appear in chat. Then check with <code>vercel env ls</code> (names only).</div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="p1-6"><div><div class="title">Test on a Vercel preview, then approve the merge to main</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">30 min</span></div></div><div class="body">Claude pushes the branch with <code>gh</code>. You review the preview, and a test lead (zephyrways@gmail.com, tag <code>test-lead</code>) goes through with production keys enabled only for the test. You approve, Claude merges, and Vercel deploys.</div></li>
+  </ol>
+</section>
+
+<!-- ═════════════ PHASE 2 ═════════════ -->
+<section id="p2">
+  <p class="eyebrow">Phase 2 · ~5–8 h · the AI report</p>
+  <h2>n8n + Claude → personalized report email <span class="sec-progress" data-sec-progress></span></h2>
+  <ol class="steps">
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p2-1"><div><div class="title">Add credentials in n8n (you paste the keys)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">10 min</span></div></div><div class="body"><span class="path">n8n → Credentials → Add credential</span><ul><li>Anthropic (or "Header Auth": <code>x-api-key</code>) → paste <code>ANTHROPIC_API_KEY</code></li><li>Header Auth "Resend" → <code>Authorization: Bearer &lt;RESEND_API_KEY_N8N&gt;</code></li><li>Header Auth "GHL" → <code>Authorization: Bearer &lt;GHL_PRIVATE_TOKEN&gt;</code></li><li>Header Auth "Webhook secret" → <code>X-Webhook-Secret: &lt;N8N_WEBHOOK_SECRET&gt;</code></li></ul></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p2-2"><div><div class="title">Build the n8n workflow "SAA – Assessment Report"</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">3 h</span></div></div><div class="body">Built through the n8n API or the signed-in browser:<ol><li>Webhook (POST, header auth) → respond 200 immediately</li><li>Optional: fetch the visitor's homepage → strip to about 3,000 words</li><li>Claude (Sonnet 5.5): system prompt + answers → strict JSON</li><li>Validate the JSON; retry once; if it still fails, use a fallback template</li><li>Render the branded HTML email (same colors as this page)</li><li>Send through the Resend API</li><li>GHL: add a note with the report summary; tag <code>report-sent</code>, remove <code>report-pending</code>; set <code>assessment_report_status=sent</code>, top opportunity and $ value; move the opportunity to <em>Report Sent</em></li><li>Error branch: email Tyler and set status <code>failed</code></li></ol></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p2-3"><div><div class="title">Write the report prompt and email template</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">2 h</span></div></div><div class="body">Sections: personal headline → readiness snapshot (tier + pillars) → <b>top 3 opportunities</b>, each with hrs/wk and <b>$/yr = hours × rate × 50 wks × capture %</b> (formula shown), effort and a suggested tool → #1 opportunity, today vs with AI → "try it tonight" prompt → assumptions → CTA to the paid assessment + booking link → address + unsubscribe.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p2-4"><div><div class="title">GHL safety workflow: alert if a report is still pending after 20 min</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">30 min</span></div></div><div class="body"><span class="path">GHL → Automation → Workflows → Create</span>Trigger: tag <code>report-pending</code> added → Wait 20 min → If the contact still has <code>report-pending</code> → internal notification to Tyler. Also add a new-lead alert to Tyler. Built with your OK in the signed-in browser.</div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="p2-5"><div><div class="title">Review 3 sample reports (one per tier) before go-live</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">30 min</span></div></div><div class="body">You check the tone, the numbers and the CTA. Claude adjusts the prompt in n8n (no site deploy needed).</div></li>
+  </ol>
+</section>
+
+<!-- ═════════════ PHASE 3 ═════════════ -->
+<section id="p3">
+  <p class="eyebrow">Phase 3 · ~4–6 h · close the gap with competitors</p>
+  <h2>Better questions, $ ROI, instant preview, real CTA <span class="sec-progress" data-sec-progress></span></h2>
+  <ol class="steps">
+    <li class="step" data-owner="claude"><input type="checkbox" id="p3-1"><div><div class="title">Add 4–5 inputs to the quiz</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">2 h</span></div></div><div class="body"><ul><li>"Where does your business lose the most time?" (free text, 1–2 sentences)</li><li>Hours per week spent on that (ranges)</li><li>What's an hour of your time worth? ($ ranges, or a revenue band)</li><li>Company website (optional)</li><li>Your role: owner / CEO-GM / shared decision / other</li></ul>Keep the whole quiz to about 3 minutes.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p3-2"><div><div class="title">Instant on-page preview with a $ range</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">1 h</span></div></div><div class="body">Show the tier, pillar bars and an estimated annual value range right away (deterministic math, no AI wait). Then: "Your full ranked report is on its way."</div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="p3-3"><div><div class="title">Create the GHL booking calendar</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span><span class="tag t-time">20 min</span></div></div><div class="body"><span class="path">GHL → Calendars → Calendar Settings → Create Calendar (e.g. "15-min Intro" or "AI Leverage Assessment")</span>Set your availability and connect your Google Calendar, then share the booking link with Claude.</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p3-4"><div><div class="title">Wire the booking link and the paid-assessment CTA</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">45 min</span></div></div><div class="body">Update <code>lib/booking.ts</code> (<code>BOOKING_URL</code> + <code>BOOKING_EMBED_URL</code>) and fix the Stripe success URL. CTA copy: "This found 3 opportunities. The AI Leverage Assessment maps all of them. If it doesn't find 10× the fee, you get your money back."</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p3-5"><div><div class="title">Add a "Try it tonight" prompt block with Open in Claude / ChatGPT</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">30 min</span></div></div><div class="body">On the results page and in the email. It builds trust at zero cost.</div></li>
+  </ol>
+</section>
+
+<!-- ═════════════ PHASE 4 ═════════════ -->
+<section id="p4">
+  <p class="eyebrow">Phase 4 · ~2–4 h · follow-up + launch</p>
+  <h2>Nurture, measurement, relaunch <span class="sec-progress" data-sec-progress></span></h2>
+  <ol class="steps">
+    <li class="step" data-owner="together"><input type="checkbox" id="p4-1"><div><div class="title">GHL nurture workflow (consent only)</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">1.5 h</span></div></div><div class="body">Trigger: tag <code>report-sent</code> AND <code>marketing-consent</code>. Day 2: personal check-in from Tyler. Day 5: a short case study. Day 10: offer the paid assessment. Stop if they book (tag <code>call-booked</code>). Claude drafts the copy; you approve it. This needs the GHL sending domain (step 0.10).</div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="p4-2"><div><div class="title">Analytics events: start, complete, submit, CTA click</div><div class="tags"><span class="tag t-claude">Claude (with access)</span><span class="tag t-time">30 min</span></div></div><div class="body">Vercel Analytics custom events. This gives you a simple completion-rate funnel.</div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="p4-3"><div><div class="title">Re-link <code>/assessment</code> from the homepage and nav</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">20 min</span></div></div><div class="body">You decide where the second CTA fits. Claude implements it.</div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="p4-4"><div><div class="title">Run the launch test checklist, then go live</div><div class="tags"><span class="tag t-together">Together</span><span class="tag t-time">1 h</span></div></div><div class="body">See <a href="#launch">Launch tests</a>. Delete the test contacts afterward.</div></li>
+  </ol>
+</section>
+
+<!-- ═════════════ FIELDS & ENV ═════════════ -->
+<section id="fields">
+  <p class="eyebrow">Reference</p>
+  <h2>GHL custom fields, tags, pipeline &amp; env vars</h2>
+  <h3>Contact custom fields (folder: "Assessment")</h3>
+  <div class="tbl"><table>
+    <tr><th>Field name</th><th>Key</th><th>Type</th></tr>
+    <tr><td>Assessment Industry</td><td><code>assessment_industry</code></td><td>Single line</td></tr>
+    <tr><td>Assessment Team Size</td><td><code>assessment_team_size</code></td><td>Dropdown: Solo / 2–10 / 11–50 / 50+</td></tr>
+    <tr><td>Assessment Role</td><td><code>assessment_role</code></td><td>Single line</td></tr>
+    <tr><td>Assessment Website</td><td><code>assessment_website</code></td><td>Single line</td></tr>
+    <tr><td>Assessment Tier</td><td><code>assessment_tier</code></td><td>Dropdown: AI-Curious / AI-Ready / AI-Leading</td></tr>
+    <tr><td>Assessment Score</td><td><code>assessment_score</code></td><td>Number (0–100)</td></tr>
+    <tr><td>Assessment Pillars</td><td><code>assessment_pillars</code></td><td>Multi-line (e.g. "Data 50 · Process 38 …")</td></tr>
+    <tr><td>Assessment Bottleneck</td><td><code>assessment_bottleneck</code></td><td>Multi-line</td></tr>
+    <tr><td>Assessment Hours / Week</td><td><code>assessment_hours_per_week</code></td><td>Number</td></tr>
+    <tr><td>Assessment Hourly Value</td><td><code>assessment_hourly_value</code></td><td>Monetary</td></tr>
+    <tr><td>Assessment Top Opportunity</td><td><code>assessment_top_opportunity</code></td><td>Single line</td></tr>
+    <tr><td>Assessment Est. Annual Value</td><td><code>assessment_est_annual_value</code></td><td>Monetary</td></tr>
+    <tr><td>Assessment Answers (JSON)</td><td><code>assessment_answers_json</code></td><td>Multi-line</td></tr>
+    <tr><td>Assessment Submitted At</td><td><code>assessment_submitted_at</code></td><td>Date</td></tr>
+    <tr><td>Assessment Report Status</td><td><code>assessment_report_status</code></td><td>Dropdown: pending / sent / failed</td></tr>
+    <tr><td>Marketing Consent</td><td><code>marketing_consent</code></td><td>Checkbox (+ timestamp in a note)</td></tr>
+  </table></div>
+  <p class="note"><span class="path">GHL → Settings → Custom Fields → Add Field → choose type → name → folder "Assessment"</span></p>
+
+  <h3>Tags</h3>
+  <p><code>assessment-submitted</code> · <code>assessment-ai-curious</code> · <code>assessment-ai-ready</code> · <code>assessment-ai-leading</code> · <code>report-pending</code> · <code>report-sent</code> · <code>report-failed</code> · <code>marketing-consent</code> · <code>call-booked</code> · <code>test-lead</code></p>
+
+  <h3>Pipeline: "Free Assessment"</h3>
+  <p>New → Report Sent → Engaged (replied/clicked) → Call Booked → Paid Assessment → Retainer · Lost</p>
+  <p class="note"><span class="path">GHL → Opportunities → Pipelines → Create new pipeline</span></p>
+
+  <h3>Env vars</h3>
+  <div class="tbl"><table>
+    <tr><th>Name</th><th>Where</th><th>Secret?</th><th>Source</th></tr>
+    <tr><td><code>GHL_PRIVATE_TOKEN</code></td><td>Vercel + n8n</td><td class="no">Yes</td><td>Step 0.3</td></tr>
+    <tr><td><code>GHL_LOCATION_ID</code></td><td>Vercel + n8n</td><td>No</td><td>Step 0.4</td></tr>
+    <tr><td><code>GHL_PIPELINE_ID</code>, <code>GHL_STAGE_NEW_ID</code>, <code>GHL_STAGE_REPORT_SENT_ID</code></td><td>Vercel + n8n</td><td>No</td><td>Step 1.2</td></tr>
+    <tr><td><code>GHL_CF_*</code> (custom field IDs)</td><td>Vercel + n8n</td><td>No</td><td>Step 1.2</td></tr>
+    <tr><td><code>N8N_ASSESSMENT_WEBHOOK_URL</code></td><td>Vercel</td><td class="no">Yes (treat as secret)</td><td>Step 2.2</td></tr>
+    <tr><td><code>N8N_WEBHOOK_SECRET</code></td><td>Vercel + n8n</td><td class="no">Yes</td><td>Step 0.8</td></tr>
+    <tr><td><code>N8N_API_KEY</code>, <code>N8N_BASE_URL</code></td><td>.env.local only</td><td class="no">Yes</td><td>Step 0.8</td></tr>
+    <tr><td><code>ANTHROPIC_API_KEY</code></td><td>n8n only</td><td class="no">Yes</td><td>Step 0.5</td></tr>
+    <tr><td><code>RESEND_API_KEY</code></td><td>Vercel (check it exists)</td><td class="no">Yes</td><td>Existing</td></tr>
+    <tr><td><code>RESEND_API_KEY_N8N</code></td><td>n8n only</td><td class="no">Yes</td><td>Step 0.6</td></tr>
+    <tr><td><code>RESEND_FROM_EMAIL</code>, <code>RESEND_REPLY_TO</code></td><td>Vercel + n8n</td><td>No</td><td>Open question 4</td></tr>
+    <tr><td><code>TYLER_NOTIFICATION_EMAIL</code></td><td>Vercel + n8n</td><td>No</td><td>Existing</td></tr>
+    <tr><td><code>TURNSTILE_SECRET_KEY</code></td><td>Vercel</td><td class="no">Yes</td><td>Step 0.7</td></tr>
+    <tr><td><code>NEXT_PUBLIC_TURNSTILE_SITE_KEY</code></td><td>Vercel</td><td>No (public)</td><td>Step 0.7</td></tr>
+    <tr><td><code>FUNNEL_ENABLED</code></td><td>Vercel (Production only)</td><td>No</td><td><code>true</code> on Production</td></tr>
+  </table></div>
+</section>
+
+<!-- ═════════════ ACCESS ═════════════ -->
+<section id="access">
+  <p class="eyebrow">Access approach (no password manager sharing)</p>
+  <h2>Access checklist <span class="sec-progress" data-sec-progress></span></h2>
+  <div class="card">
+    <b>How access works (instead of sharing LastPass)</b>
+    <ul style="margin:.5rem 0 0 1.1rem;font-size:.92rem">
+      <li>Tyler signs in once in Chrome to <b>GitHub, Vercel, GHL, n8n, Resend, Anthropic and Cloudflare</b>. <b>Claude never types passwords or 2FA codes.</b></li>
+      <li>Tyler creates the API keys and saves them in the local, gitignored <code>ai-agency/.env.local</code>.</li>
+      <li>Claude then uses the already-authenticated <code>gh</code> and <code>vercel</code> CLIs on the Mac (from Claude Code) to set Vercel env vars and push code. It builds the GHL and n8n setup through their APIs or the signed-in browser.</li>
+      <li><b>Payments and billing stay with Tyler</b> (Anthropic credits, GHL plan and wallet, Resend/Cloudflare plans).</li>
+    </ul>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <h3>Tyler creates or approves</h3>
+      <ul class="steps">
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t1"><div><div class="title">GHL Private Integration token + Location ID</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t2"><div><div class="title">Anthropic API key, billing and spend limit</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t3"><div><div class="title">Resend sending-only key; confirm the domain is Verified</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t4"><div><div class="title">Cloudflare Turnstile keys</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t5"><div><div class="title">n8n API key + paste credentials into n8n</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t6"><div><div class="title">DNS records (SPF, DMARC, GHL sending domain)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t7"><div><div class="title">GHL calendar availability + email copy approval</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+        <li class="step" data-owner="tyler"><input type="checkbox" id="ac-t8"><div><div class="title">Approve every merge to <code>main</code> (live deploy)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Claude can do once you're signed in</h3>
+      <ul class="steps">
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c1"><div><div class="title">All site code, on a branch, pushed with <code>gh</code></div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c2"><div><div class="title">Vercel env vars set from <code>.env.local</code> with the <code>vercel</code> CLI</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c3"><div><div class="title">GHL custom fields, tags, pipeline (API)</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c4"><div><div class="title">GHL workflows: alerts, pending check, nurture (browser, with your OK)</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c5"><div><div class="title">n8n workflow build + prompt + email template</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+        <li class="step" data-owner="claude"><input type="checkbox" id="ac-c6"><div><div class="title">Test submissions + verifying GHL records and emails</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+      </ul>
+    </div>
+  </div>
+  <h3>Needs Tyler at the Mac</h3>
+  <ul class="steps">
+    <li class="step" data-owner="tyler"><input type="checkbox" id="ac-m1"><div><div class="title">Sign-ins and 2FA prompts (Chrome + <code>gh</code>/<code>vercel</code> logins)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="ac-m2"><div><div class="title">Pasting every secret into <code>.env.local</code> and n8n credentials</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="ac-m3"><div><div class="title">Approving Chrome site permissions and Claude Code tool prompts</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="ac-m4"><div><div class="title">Billing: Anthropic credits, GHL wallet/premium features</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="ac-m5"><div><div class="title">DNS edits in Namecheap</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+  </ul>
+</section>
+
+<!-- ═════════════ COMPETITORS ═════════════ -->
+<section id="gaps">
+  <p class="eyebrow">Competitive audit · taken Nov 3, 2026</p>
+  <h2>Competitor gap summary</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>Certified AI Partners</th><th>Claude Academy</th><th>Corey Ganim</th><th>Yours today</th></tr>
+    <tr><td>Format</td><td>10-step AI quiz</td><td>Hours calculator</td><td>Human mini-assessment (2 calls)*</td><td>9-question quiz</td></tr>
+    <tr><td>Free-text bottleneck</td><td class="yes">Yes</td><td>—</td><td>On the call</td><td class="no">No</td></tr>
+    <tr><td>$ value, math shown</td><td class="yes">Yes, editable</td><td class="yes">Yes</td><td>In the paid report</td><td class="no">No</td></tr>
+    <tr><td>Email gate</td><td>After generating (blurred report)</td><td>Optional</td><td>Template needs email + phone</td><td>Before results</td></tr>
+    <tr><td>Time</td><td>~2 min + 15 s</td><td>~1 min</td><td>2 × 15 min</td><td>~3 min</td></tr>
+    <tr><td>Delivery</td><td class="yes">On-page + email &lt;1 min with PDF</td><td class="yes">Email ~2 min</td><td>—</td><td class="no">Never sent</td></tr>
+    <tr><td>DIY prompt</td><td class="yes">Open in Claude/ChatGPT</td><td>Free book</td><td>—</td><td class="no">No</td></tr>
+    <tr><td>CTA</td><td>"Book full assessment, bring this report"</td><td>Free 15-min call → $1K Hours Audit (guarantee)</td><td>$999 assessment → Concierge</td><td>Mailto / generic</td></tr>
+    <tr><td>CAN-SPAM footer</td><td>Terms only</td><td class="yes">Address + unsubscribe</td><td>Newsletter</td><td class="no">No</td></tr>
+  </table></div>
+  <p class="note">*Corey's process is from a third-party write-up; he has no self-serve online assessment. His template opt-in wasn't submitted because it requires a phone number. Both emailed reports (CAP, Claude Academy) arrived in zephyrways@gmail.com.</p>
+</section>
+
+<!-- ═════════════ LAUNCH TESTS ═════════════ -->
+<section id="launch">
+  <p class="eyebrow">Before go-live</p>
+  <h2>Launch test checklist <span class="sec-progress" data-sec-progress></span></h2>
+  <ul class="steps">
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-1"><div><div class="title">3 test submissions, one per tier (zephyrways@gmail.com, tag test-lead)</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-2"><div><div class="title">GHL: contact created and updated (resubmitting doesn't duplicate), tags, every custom field, opportunity at the right stage</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="lt-3"><div><div class="title">Confirmation email arrives within 1 min, in Inbox (not Spam), in Gmail and Outlook/iPhone</div><div class="tags"><span class="tag t-together">Together</span></div></div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="lt-4"><div><div class="title">Report email arrives within 15 min (target 2); numbers match the answers; links work</div><div class="tags"><span class="tag t-together">Together</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-5"><div><div class="title">Email headers show SPF, DKIM and DMARC = pass; mail-tester.com score ≥ 9/10</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-6"><div><div class="title">The unsubscribe link works and the address footer shows</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-7"><div><div class="title">Bot checks: filled honeypot → silently dropped; 6th submit from one IP → rate-limited; missing Turnstile → rejected</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-8"><div><div class="title">Failure drill: break the n8n Claude credential → Tyler gets the alert; the 20-min pending alert fires</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-9"><div><div class="title">GHL down or bad token → the visitor sees a retry message (not fake success)</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-10"><div><div class="title">A Vercel preview deploy does NOT create GHL contacts</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-11"><div><div class="title">No personal info in the Vercel function logs</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="together"><input type="checkbox" id="lt-12"><div><div class="title">Mobile walkthrough on your iPhone: quiz, results, email</div><div class="tags"><span class="tag t-together">Together</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="lt-13"><div><div class="title">Booking link books a real slot on your calendar (then cancel it)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+    <li class="step" data-owner="claude"><input type="checkbox" id="lt-14"><div><div class="title">Delete all test-lead contacts and opportunities in GHL</div><div class="tags"><span class="tag t-claude">Claude (with access)</span></div></div></li>
+    <li class="step" data-owner="tyler"><input type="checkbox" id="lt-15"><div><div class="title">Anthropic usage page shows the expected cost per report (about $0.03–0.08)</div><div class="tags"><span class="tag t-tyler">Tyler (human)</span></div></div></li>
+  </ul>
+  <p class="empty-filter" id="emptyNote">No steps match this filter in some sections.</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Unverified:</b> exact GHL scope names and menu paths; GHL premium trigger fees (about $0.01/run after 100 free, per secondary sources); Resend paid-tier prices; whether the Resend dashboard shows "Verified"; whether a GHL sending domain exists under another subdomain; Corey Ganim's process (secondhand). DNS was checked Nov 3, 2026 via dns.google. Claude pricing is from platform.claude.com. Not legal advice.</p>
+    <p style="margin-top:8px">Sacramento <span style="color:var(--accent);font-weight:700">AI</span> Agency · Internal planning document · Checkbox progress is saved in this browser only.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY = "saa-assessment-funnel-plan-v1";
+  var state = {};
+  function load(){ try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ state = {}; } }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.step input[type=checkbox]'));
+  function stepOf(cb){ return cb.closest('.step'); }
+  function refresh(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(cb){ var s = stepOf(cb); s.classList.toggle('done', cb.checked); if (cb.checked) done++; });
+    document.getElementById('pbar').style.width = (total ? Math.round(done/total*100) : 0) + '%';
+    document.getElementById('plabel').textContent = done + '/' + total + ' done';
+    document.querySelectorAll('section').forEach(function(sec){
+      var el = sec.querySelector('[data-sec-progress]'); if (!el) return;
+      var cbs = sec.querySelectorAll('.step input[type=checkbox]'), d = 0;
+      cbs.forEach(function(c){ if (c.checked) d++; });
+      el.textContent = '· ' + d + '/' + cbs.length;
+    });
+  }
+  load();
+  boxes.forEach(function(cb){
+    if (state[cb.id]) cb.checked = true;
+    cb.addEventListener('change', function(){ if (cb.checked) state[cb.id] = 1; else delete state[cb.id]; save(); refresh(); });
+  });
+  // Clicking the step title toggles its checkbox
+  document.querySelectorAll('.step .title').forEach(function(t){
+    t.style.cursor = 'pointer';
+    t.addEventListener('click', function(e){ if (e.target.tagName === 'A') return; var cb = t.closest('.step').querySelector('input[type=checkbox]'); cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); });
+  });
+  // Owner filter
+  var FKEY = KEY + '-filter';
+  function applyFilter(f){
+    var allowed = f === 'all' ? null : f.split(',');
+    document.querySelectorAll('.step').forEach(function(s){
+      var o = s.getAttribute('data-owner');
+      s.classList.toggle('filtered', !!allowed && allowed.indexOf(o) === -1);
+    });
+    document.querySelectorAll('.chip[data-filter]').forEach(function(c){ c.setAttribute('aria-pressed', c.getAttribute('data-filter') === f ? 'true' : 'false'); });
+    try { localStorage.setItem(FKEY, f); } catch(e){}
+  }
+  document.querySelectorAll('.chip[data-filter]').forEach(function(c){ c.addEventListener('click', function(){ applyFilter(c.getAttribute('data-filter')); }); });
+  var savedF = 'all'; try { savedF = localStorage.getItem(FKEY) || 'all'; } catch(e){}
+  applyFilter(savedF);
+  // Hide completed
+  var HKEY = KEY + '-hide', hd = document.getElementById('hideDone');
+  try { hd.checked = localStorage.getItem(HKEY) === '1'; } catch(e){}
+  function applyHide(){ document.body.classList.toggle('hide-done', hd.checked); try { localStorage.setItem(HKEY, hd.checked ? '1' : '0'); } catch(e){} }
+  hd.addEventListener('change', applyHide); applyHide();
+  // Reset (two-tap confirm, no blocking dialog)
+  var rb = document.getElementById('resetBtn'), armed = false, timer;
+  rb.addEventListener('click', function(){
+    if (!armed){ armed = true; rb.classList.add('armed'); rb.textContent = 'Tap again to clear all'; timer = setTimeout(function(){ armed = false; rb.classList.remove('armed'); rb.textContent = 'Reset checklist'; }, 4000); return; }
+    clearTimeout(timer); armed = false; state = {};
+    try { localStorage.removeItem(KEY); } catch(e){}
+    boxes.forEach(function(cb){ cb.checked = false; });
+    rb.classList.remove('armed'); rb.textContent = 'Reset checklist'; refresh();
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>

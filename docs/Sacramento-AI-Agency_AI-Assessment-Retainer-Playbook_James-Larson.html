@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playbook: AI Assessment → Retainer (James Larson / Corey Ganim) · Sacramento AI Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0f12;--paper:#f4f2ed;--cream:#faf8f3;--accent:#e85d26;--accent-hover:#d4501f;--accent-light:#e85d261a;--green:#1a6b4e;--green-light:#1a6b4e1a;--green-border:#1a6b4e40;--blue:#2d5dce;--blue-light:#2d5dce1a;--blue-border:#2d5dce40;--purple:#8b5cf6;--purple-light:#8b5cf61a;--purple-border:#8b5cf640;--muted:#7c7a75;--border:#ddd9d0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{max-width:100vw;overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;font-size:15px}
+a{color:var(--accent)}
+.wrap{max-width:76rem;margin:0 auto;padding:0 1rem}
+@media(min-width:640px){.wrap{padding:0 1.5rem}}
+header.top{position:sticky;top:0;z-index:50;background:rgba(244,242,237,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.brandrow{display:flex;align-items:center;justify-content:space-between;height:56px;gap:1rem}
+.wordmark{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.wordmark .ai{color:var(--accent)}
+.eyebrow{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tabs{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:thin;padding-bottom:.5rem;-webkit-overflow-scrolling:touch}
+.tabs button{flex:0 0 auto;font:inherit;font-size:.85rem;font-weight:500;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:.6rem;padding:.4rem .75rem;cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:var(--ink);background:rgba(13,15,18,.05)}
+.tabs button[aria-selected="true"]{color:#fff;background:var(--accent);border-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding:1.5rem 0 3rem}
+section[role=tabpanel]{display:none;animation:fadeUp .35s ease-out}
+section[role=tabpanel].active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin:.35rem 0 .6rem}
+h2{font-size:1.35rem;font-weight:900;letter-spacing:-.02em;margin:1.6rem 0 .6rem}
+h3{font-size:1.02rem;font-weight:700;margin:.2rem 0 .4rem}
+p{margin:.4rem 0}
+.lede{color:#3a3936;max-width:52rem}
+.card{background:var(--cream);border:1px solid var(--border);border-radius:1rem;padding:1rem 1.1rem}
+.grid{display:grid;gap:.9rem}
+@media(min-width:720px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+ul,ol{padding-left:1.15rem;margin:.3rem 0}
+li{margin:.28rem 0}
+.stats{display:flex;flex-wrap:wrap;gap:.6rem;margin:.8rem 0}
+.stat{background:var(--ink);color:#fff;border-radius:.8rem;padding:.6rem 1rem;min-width:120px}
+.stat b{display:block;color:var(--accent);font-family:"Space Mono",monospace;font-size:1.1rem}
+.stat span{font-family:"Space Mono",monospace;font-size:.68rem;color:rgba(255,255,255,.65);letter-spacing:.03em}
+.tag{display:inline-block;font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.04em;padding:.05rem .4rem;border-radius:.35rem;border:1px solid;vertical-align:1px;white-space:nowrap;margin-left:.15rem}
+.t-tr{color:var(--muted);border-color:var(--border);background:#fff}
+.t-web{color:var(--blue);border-color:var(--blue-border);background:var(--blue-light)}
+.t-ours{color:var(--accent);border-color:rgba(232,93,38,.35);background:var(--accent-light);font-weight:700}
+.t-repo{color:var(--green);border-color:var(--green-border);background:var(--green-light)}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:.8rem;color:var(--muted);margin:.4rem 0 1rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:.9rem;background:var(--cream);margin:.6rem 0}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:560px}
+th,td{text-align:left;padding:.55rem .75rem;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+tr:last-child td{border-bottom:none}
+.ours{border-left:4px solid var(--accent);background:#fff;border-radius:.7rem;padding:.75rem 1rem;margin:.8rem 0}
+.ours .label{font-family:"Space Mono",monospace;font-size:.68rem;color:var(--accent);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.flag{border-left:4px solid #b45309;background:#fff8eb}
+.step{display:flex;gap:.8rem;align-items:flex-start}
+.num{flex:0 0 2rem;height:2rem;border-radius:.6rem;background:var(--accent);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace}
+.time{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--green);background:var(--green-light);border:1px solid var(--green-border);border-radius:.35rem;padding:.05rem .4rem}
+.script{background:var(--ink);color:#f4f2ed;border-radius:.9rem;padding:1rem 1.1rem;margin:.6rem 0}
+.script .eyebrow{color:#a8a59f}
+.script p{color:#f4f2ed}
+.pill{display:inline-block;background:var(--accent-light);color:var(--accent);border:1px solid rgba(232,93,38,.3);border-radius:999px;padding:.1rem .6rem;font-size:.78rem;font-weight:700}
+.btn{display:inline-flex;gap:.4rem;align-items:center;padding:.55rem 1rem;border-radius:.7rem;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:.88rem;border:none;cursor:pointer}
+.btn:hover{background:var(--accent-hover)}
+.check li{list-style:none;position:relative;padding-left:1.4rem}
+.check li::before{content:"☐";position:absolute;left:0;color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:1.2rem 0 2rem;color:var(--muted);font-size:.8rem}
+.exec h2{margin-top:1rem}
+@media print{header.top{position:static}.tabs{display:none}section[role=tabpanel]{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brandrow">
+      <div class="wordmark">Sacramento <span class="ai">AI</span> Agency</div>
+      <div class="eyebrow">Internal playbook · Nov 2026</div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Playbook sections">
+      <button role="tab" id="tab-summary" aria-controls="summary" aria-selected="true">1 · Executive Summary</button>
+      <button role="tab" id="tab-outreach" aria-controls="outreach" aria-selected="false" tabindex="-1">2 · Outreach</button>
+      <button role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1">3 · Delivery Steps</button>
+      <button role="tab" id="tab-roi" aria-controls="roi" aria-selected="false" tabindex="-1">4 · ROI Math</button>
+      <button role="tab" id="tab-pricing" aria-controls="pricing" aria-selected="false" tabindex="-1">5 · Pricing &amp; Negotiation</button>
+      <button role="tab" id="tab-scripts" aria-controls="scripts" aria-selected="false" tabindex="-1">6 · Scripts</button>
+      <button role="tab" id="tab-stack" aria-controls="stack" aria-selected="false" tabindex="-1">7 · Tech Stack</button>
+      <button role="tab" id="tab-apply" aria-controls="apply" aria-selected="false" tabindex="-1">8 · Apply to SAA (30 days)</button>
+      <button role="tab" id="tab-flags" aria-controls="flags" aria-selected="false" tabindex="-1">9 · Flagged / Unverified</button>
+      <button role="tab" id="tab-sources" aria-controls="sources" aria-selected="false" tabindex="-1">10 · Sources</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ 1. EXECUTIVE SUMMARY ============ -->
+<section role="tabpanel" id="summary" aria-labelledby="tab-summary" class="active exec">
+  <p class="eyebrow">Executive summary playbook</p>
+  <h1>Free 15-min assessment → paid deep assessment → $15K/mo “AI department”</h1>
+  <p class="lede">James Larson (23, BYU accounting) and co-founders of Certified AI Partners walked into local offices offering free AI assessments, then moved upmarket to $10M+ companies and closed a $15K/month retainer with a multi-state construction company in about 6 weeks. <span class="tag t-tr">(transcript)</span></p>
+  <div class="legend">Tags: <span class="tag t-tr">(transcript)</span> <span class="tag t-web">source: website</span> <span class="tag t-repo">source: our repo</span> <span class="tag t-ours">Our take</span></div>
+
+  <div class="stats">
+    <div class="stat"><b>$15K/mo</b><span>first retainer · 6 mo</span></div>
+    <div class="stat"><b>$10/15/25K</b><span>3-tier anchor</span></div>
+    <div class="stat"><b>$1K → $5K</b><span>assessment price</span></div>
+    <div class="stat"><b>~15</b><span>dept heads interviewed</span></div>
+    <div class="stat"><b>19</b><span>workflows mapped</span></div>
+    <div class="stat"><b>~6 wks</b><span>sales cycle</span></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card">
+      <p class="eyebrow">1 · Get in the door</p>
+      <ul>
+        <li>Walk in: free 15-min assessment, “yes or yes” close <span class="tag t-tr">(transcript)</span></li>
+        <li>Upmarket: warm intros + “ask for advice,” not a pitch <span class="tag t-tr">(transcript)</span></li>
+        <li>Chamber talk + QR mini-assessment = one email to set up <span class="tag t-tr">(transcript)</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">2 · Assess &amp; demo</p>
+      <ul>
+        <li>CEO vision → ~15 dept heads → pre-call survey → recorded interviews <span class="tag t-tr">(transcript)</span></li>
+        <li>Ask for real work samples; build live demos on their data <span class="tag t-tr">(transcript)</span></li>
+        <li>Present a ranked ROI map to the whole C-suite at once <span class="tag t-tr">(transcript)</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">3 · Close &amp; deliver</p>
+      <ul>
+        <li>Three tiers, anchor high; they closed at $15K/mo for 6 months <span class="tag t-tr">(transcript)</span></li>
+        <li>Floor: ~$5K/mo maintenance after renegotiation <span class="tag t-tr">(transcript)</span></li>
+        <li>Deliver = build workflows + train staff on Claude <span class="tag t-tr">(transcript)</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ours"><span class="label">Our take · do these first</span>
+    <ol>
+      <li><b>Fix lead capture before any QR/chamber push.</b> Our repo notes say the site's free <code>/assessment</code> quiz isn't wired to GoHighLevel and loses every lead. <span class="tag t-repo">source: docs/connect-site-to-go-high-level.md</span></li>
+      <li><b>Add a company-wide tier above the $997 per-person assessment.</b> Price it at $5K–$10K and credit it toward month one of the retainer.</li>
+      <li><b>Copy the pre-call survey and the "send us a real example" ask.</b> Together they turn a report into a live demo, and the demo is what sells.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 2. OUTREACH ============ -->
+<section role="tabpanel" id="outreach" aria-labelledby="tab-outreach" hidden>
+  <p class="eyebrow">Initial outreach / first contact</p>
+  <h1>How they found clients</h1>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Channel</th><th>What they did</th><th>Best for</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td><b>Walk-ins</b></td><td>Literally walked into local CPA firms, orthopedic and dental offices offering a free 15-min assessment. James had done door-to-door pest control sales before.</td><td>Learning the process, early reps, testimonials</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>Warm intros</b></td><td>Asked their personal network: “Do you know anyone running a company like this? Could you introduce us?” This led to the construction client (UT/AZ/CA).</td><td>$10M+ companies</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>“Ask for advice” meetings</b></td><td>Met business owners to ask for advice, not to pitch. Many replied, “actually, I need this in my company.”</td><td>Upmarket, no track record</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>LinkedIn outreach</b></td><td>"A lot" of LinkedIn outreach. They post weekly and answer DMs.</td><td>C-suite at mid-market</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>Cold email to C-suite</b></td><td>Pulled CEO / C-suite emails off company websites. Each email said what they'd done, asked for advice, and asked for 15 minutes this week.</td><td>Mid-market</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>Events</b></td><td>Went to events. Got word of mouth from them.</td><td>Pipeline volume</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td><b>Chamber of Commerce talk</b></td><td>Sent one email offering an AI talk. The chamber emailed it to about 40 businesses (mostly smaller ones). A QR code led to a quick mini-assessment, and each attendee got their own report by email.</td><td>Brand, referrals to bigger cos</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+    </tbody>
+  </table></div>
+  <p>Their site now runs this mini-assessment as a 10-question web flow. It reads your website, asks about bottlenecks, hours, tools, revenue and decision-maker status, then emails a "#1 AI opportunity" report in about a minute. <span class="tag t-web">source: certifiedaipartners.com</span></p>
+
+  <h2>The walk-in pitch (paraphrased)</h2>
+  <div class="script"><p class="eyebrow">Walk-in · paraphrased</p>
+    <p>“Hi, I'm James, a college student who really knows AI. We're doing a free 15-minute assessment. It shows the top places your practice could use AI and puts a dollar amount on each. Want to do it now, or tomorrow?”</p>
+  </div>
+  <p>The close is a "yes or yes" choice: now or tomorrow, never "would you like to?" <span class="tag t-tr">(transcript)</span></p>
+
+  <h2>Frameworks &amp; references cited</h2>
+  <div class="grid g2">
+    <div class="card"><h3>Alex Hormozi: “make it easy to say yes”</h3><p>Make the offer so easy they'd feel stupid saying no. Here that means free, 15 minutes, and a dollar figure attached. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Hormozi: “sell expensive things to rich people”</h3><p>Corey's point: the work for a $10M company is about the same as for a $500K one, but the budget is far bigger. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Hormozi: “who do I already know?”</h3><p>Define the ICP, then mine your network (people you follow, who follow you, personal contacts) for intros. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Chris Koerner's podcast + Corey's assessment model</h3><p>James heard Corey describe the assessment model on Chris Koerner's podcast. He calls it "the piece I've been missing" after being stuck in HVAC voice AI. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>treg.to people search</h3><p>Corey's pick for pay-per-use contact data, so you can pull C-suite emails and phone numbers at scale. See the Tech Stack and Flagged tabs. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Corey: chambers of commerce</h3><p>James got the chamber idea from one of Corey's podcasts. <span class="tag t-tr">(transcript)</span></p></div>
+  </div>
+
+  <h2>Business size: the pivot</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th></th><th>Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td>Target</td><td>Small local practices that walked in the door</td><td>Companies doing $10M+ in revenue, “just moved from small to medium” <span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Retainer quoted</td><td>$2–3K/mo, and many still couldn't afford it</td><td>$15K/mo closed <span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Math</td><td colspan="2">About six $2.5K clients equal one $15K client. Landing one is easier than landing six. <span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Trade-off</td><td colspan="2">Longer sales cycle (~6 weeks) but “can pay out 10x” <span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Today</td><td colspan="2">Site positions them as “the dedicated AI department for $10M+ companies” in construction, home services, healthcare, professional services, real estate <span class="tag t-web">source: certifiedaipartners.com</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="ours"><span class="label">Our take</span><p>Youth was their edge: owners in their 40s to 60s see them as AI-native and like giving advice to young people. Our version of "ask for advice" should lean on Sacramento roots and local proof instead, for example: "I'm building the AI practice for Sacramento businesses. What would you want from one?"</p></div>
+</section>
+
+<!-- ============ 3. DELIVERY STEPS ============ -->
+<section role="tabpanel" id="delivery" aria-labelledby="tab-delivery" hidden>
+  <p class="eyebrow">Each delivery step, with timing</p>
+  <h1>From walk-in to retainer</h1>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">1</div><div>
+    <h3>Free walk-in assessment <span class="time">15 min + report in ~1 min</span></h3>
+    <ul>
+      <li>Start any notetaker. Tell them: “I'm just going to record this so I don't forget.” <span class="tag t-tr">(transcript)</span></li>
+      <li>Talk for 15 minutes about pain points ("try and twist on them") and which software they use. <span class="tag t-tr">(transcript)</span></li>
+      <li>The transcript goes to a simple <b>n8n / Make.com</b> automation. AI picks the top opportunities and fills in a premade template. <span class="tag t-tr">(transcript)</span></li>
+      <li>Hit send while standing in front of them. They have the report <b>within a minute</b>. <span class="tag t-tr">(transcript)</span></li>
+      <li>Corey: this removes the usual "call, research, second call" gap. “Time kills all deals.” <span class="tag t-tr">(transcript)</span></li>
+    </ul>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">2</div><div>
+    <h3>Upsell to the deeper assessment <span class="time">1 hr meeting + 1–2 days (up to a week) to deliver</span></h3>
+    <ul>
+      <li>Pitch: "That was 15 minutes. We barely skimmed your business. We have a paid upgrade." <span class="tag t-tr">(transcript)</span></li>
+      <li>For early clients they did it <b>free in exchange for honest feedback</b>, framed openly: "I'm starting out." <span class="tag t-tr">(transcript)</span></li>
+      <li>Take a day or two before delivering. Corey: an instant report on a paid assessment makes the client wonder why they paid $1K. <span class="tag t-tr">(transcript)</span></li>
+      <li>Goal: quote them on becoming their "AI department." <span class="tag t-tr">(transcript)</span></li>
+    </ul>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">3</div><div>
+    <h3>Enterprise assessment ($10M+ companies) <span class="time">~7.5 hrs of interviews + build time</span></h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Stage</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>3a</td><td><b>CEO vision meeting</b></td><td>“What's your vision; where do you want it to go?” The client grew fast, overhead grew with it, and when growth stalled, margins got squeezed. Goal: <i>keep growing without adding headcount</i> (not "AI to fire people"). <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>3b</td><td><b>Interview list</b></td><td>The CEO handed over about 15 department heads, with emails and phone numbers. <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>3c</td><td><b>Pre-call survey</b> (built with Claude Code)</td><td>Collects pain points, software in use, and what they want off their plate. <b>It ends by requiring them to book a 30+ minute Google Meet.</b> <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>3d</td><td><b>Recorded interviews</b></td><td>All 15 recorded. You already know their pains from the survey, so the call goes deeper. <b>Ask for examples of real work</b> (e.g., inspection reports and the final proposals) so you can build mini demos. <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>3e</td><td><b>Opportunity map</b> (Claude Code)</td><td>All transcripts and data go into Claude Code. Output: a page that ranks AI opportunities by ROI, grouped by company area. Corey: “it kind of sells itself.” <span class="tag t-tr">(transcript)</span></td></tr>
+      </tbody>
+    </table></div>
+    <p>Corey's #1 takeaway: <b>survey before the call</b> makes every interview far more efficient. <span class="tag t-tr">(transcript)</span></p>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">4</div><div>
+    <h3>C-suite presentation with live demos <span class="time">1 meeting · decision ~1 week later</span></h3>
+    <ul>
+      <li>Whole C-suite in the room (CEO, CFO, CLO…). Screen-share the map. <span class="tag t-tr">(transcript)</span></li>
+      <li>For each workflow: “here's what your people told us, here's how it's done today, here are the steps.” <span class="tag t-tr">(transcript)</span></li>
+      <li><b>Inspection-to-proposal demo:</b> real examples come in through a webhook. AI reads the site plan (counts wells, estimates debris) and drafts a priced proposal, compared side by side with what employee "Jordan" produced ($3,575). Pretty close on the first try, and staff tweak the price before sending. <span class="tag t-tr">(transcript)</span></li>
+      <li>They built a second demo for the CFO: getting payroll into the accounting software. They repeated this for each workflow they found. <span class="tag t-tr">(transcript)</span></li>
+      <li>Corey: having everyone in the room means no skeptic gets left out of the excitement. <span class="tag t-tr">(transcript)</span></li>
+    </ul>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Inspection → proposal numbers</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Proposals per year (split across ~4 people)</td><td>~1,800 <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Time per proposal: today → with AI</td><td>~1 hour → ~3 minutes <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Conservative throughput lift</td><td>10% ≈ 180 more proposals/yr <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Value of that one workflow</td><td>~$209K/yr <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Workflows mapped</td><td>19 <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Year one (ramp-up)</td><td>$255–285K <span class="tag t-tr">(transcript)</span></td></tr>
+        <tr><td>Steady state per year</td><td>$430–475K <span class="tag t-tr">(transcript)</span></td></tr>
+      </tbody>
+    </table></div>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">5</div><div>
+    <h3>Pricing the assessment</h3>
+    <ul>
+      <li>First enterprise assessment: <b>$1,000</b> (“pulled it out of our pockets”). <span class="tag t-tr">(transcript)</span></li>
+      <li>Now: quoted and closed one at <b>$5,000</b> last week. <span class="tag t-tr">(transcript)</span></li>
+      <li>Corey: $5K is the minimum, $10–15K is reasonable, and <b>credit the assessment fee toward the build</b> (all up front or spread over ~3 months). <span class="tag t-tr">(transcript)</span></li>
+      <li>Today's site: assessment is "priced to your size" and <b>free if they can't find 10+ hours/week</b> of savings. <span class="tag t-web">source: certifiedaipartners.com/pricing</span></li>
+    </ul>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">6</div><div>
+    <h3>Three-tier proposal → close <span class="time">CEO follow-up the next week</span></h3>
+    <ul>
+      <li>Tiers: <b>$10K / $15K / $25K per month</b>. They hoped to land $10K. <span class="tag t-tr">(transcript)</span></li>
+      <li>The CEO came back saying they were looking at the <b>$25K</b> plan. They negotiated to the top tier's scope at about <b>$15K/mo for 6 months</b>. <span class="tag t-tr">(transcript)</span></li>
+      <li>After 6 months they renegotiate. Worst case, a <b>maintenance plan of at least ~$5K/mo</b>. <span class="tag t-tr">(transcript)</span></li>
+    </ul>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">7</div><div>
+    <h3>Delivery: build + train</h3>
+    <ul>
+      <li>They act as the client's AI department, building the 19 mapped workflows. <span class="tag t-tr">(transcript)</span></li>
+      <li>They train employees on general Claude use: being effective with AI, connecting it to their software, and reducing token usage. <span class="tag t-tr">(transcript)</span></li>
+      <li>Today's site adds monthly company-wide trainings, 1:1 coaching, a <b>monthly ROI dashboard</b>, and a 90-day implementation plan. <span class="tag t-web">source: certifiedaipartners.com</span></li>
+    </ul>
+  </div></div>
+
+  <div class="card step" style="margin:.8rem 0"><div class="num">8</div><div>
+    <h3>Pipeline &amp; capacity</h3>
+    <ul>
+      <li>Sales cycle for the construction deal: <b>~6 weeks</b>. <span class="tag t-tr">(transcript)</span></li>
+      <li>Pipeline: <b>~5 companies</b> in assessment, working toward the presentation. <span class="tag t-tr">(transcript)</span></li>
+      <li>Hired a <b>BYU CS student</b> to do the builds. The 3 founders focus on lead gen. <span class="tag t-tr">(transcript)</span></li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ============ 4. ROI MATH ============ -->
+<section role="tabpanel" id="roi" aria-labelledby="tab-roi" hidden>
+  <p class="eyebrow">ROI-math method</p>
+  <h1>Value = hours saved × wage + throughput gains</h1>
+  <div class="grid g2">
+    <div class="card"><h3>Lever 1: saved hours</h3><p>Hours saved × what they pay those employees. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Lever 2: throughput (the big one)</h3><p>More revenue-generating activity, like more proposals out the door at their real win rate and gross margin. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Stay conservative</h3><p>Under-promise, over-deliver. Say so out loud: "we'd hate to tell you one thing and not deliver." Clients appreciated it. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Systems scale with the business</h3><p>Corey: estimates are a snapshot. Grow 20% and a $255K year-one value could be ~$300K in year two. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>The unquantified upside</h3><p>Putting the team on Claude/Codex connected to all their software has no clean ROI number, but they "understood the magnitude." There's also quality-of-life and mental bandwidth. <span class="tag t-tr">(transcript)</span></p></div>
+    <div class="card"><h3>Their published guarantee</h3><p>"The workflows we build pay for our fee within the first year," tracked on a monthly dashboard. <span class="tag t-web">source: certifiedaipartners.com/pricing</span></p></div>
+  </div>
+
+  <h2>Worked example: the inspection-to-proposal workflow</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Step</th><th>Math</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td>Volume</td><td>~1,800 proposals/yr</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Time saved</td><td>~57 min each → ≈ 1,700 hrs/yr freed (~0.8 FTE)</td><td><span class="tag t-ours">Our take</span> (arithmetic)</td></tr>
+      <tr><td>Throughput</td><td>10% lift = ~180 more proposals/yr</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Value</td><td>≈ $209K/yr, built on their win rates and gross margins</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Implied value per extra proposal</td><td>$209K ÷ 180 ≈ $1,160 (inputs not disclosed)</td><td><span class="tag t-ours">Our take</span> (inferred)</td></tr>
+      <tr><td>Payback vs. fee</td><td>Year-one $255–285K vs. 6 × $15K = $90K → ~3× in year one</td><td><span class="tag t-ours">Our take</span> (arithmetic)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="ours"><span class="label">Our take · reusable formula</span>
+    <p><b>Annual value</b> = (hrs saved/task × tasks/yr × loaded wage) + (extra units × win rate × gross profit/unit)</p>
+    <ul>
+      <li>Use the client's own numbers from the interviews. Say "you told us…" to make the figures defensible.</li>
+      <li>Cap throughput lift at 10% unless they give you a higher number.</li>
+      <li>Show a year-one figure that accounts for ramp-up and a separate steady-state figure, as James did.</li>
+      <li>This matches our site's "10× the fee" promise, and the same math can feed our Leverage Map. <span class="tag t-repo">source: components/ServiceTiers.tsx</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 5. PRICING & NEGOTIATION ============ -->
+<section role="tabpanel" id="pricing" aria-labelledby="tab-pricing" hidden>
+  <p class="eyebrow">Pricing and negotiation</p>
+  <h1>Anchor high. Credit the assessment. Keep a floor.</h1>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Item</th><th>Their number</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td>Small-business retainer (too low)</td><td>$2–3K/mo</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Enterprise assessment</td><td>$1K → $5K. Corey suggests $10–15K.</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Tier anchor</td><td>$10K / $15K / $25K per month</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Closed</td><td>$15K/mo × 6 months (highest-tier scope, negotiated)</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Floor after term</td><td>Maintenance plan, ≥ ~$5K/mo</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Current public pricing</td><td>Engagements “from $10,000/month.” Tiers are Focus (1 build at a time), Operate (2 in parallel), Embed (3 in parallel, on-site, they cover the AI tool bill). No listed tier prices.</td><td><span class="tag t-web">source: certifiedaipartners.com/pricing</span></td></tr>
+      <tr><td>Their market estimate</td><td>Outsourced AI departments run $5K–$30K/mo in 2026</td><td><span class="tag t-web">source: certifiedaipartners.com/team/james-larson (article title)</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Negotiation moves</h2>
+  <ul>
+    <li><b>Double your comfortable price</b> and lead with that. Worst case is a no. Usually they counter above what you would have charged. (Corey) <span class="tag t-tr">(transcript)</span></li>
+    <li><b>Three options</b> leave room to negotiate down to a higher level than you'd have reached. <span class="tag t-tr">(transcript)</span></li>
+    <li><b>Don't pigeonhole yourself</b>: “go bigger than you think is possible.” <span class="tag t-tr">(transcript)</span></li>
+    <li><b>Credit the assessment fee</b> against month one, or spread it over three months, so the next step is a no-brainer. <span class="tag t-tr">(transcript)</span></li>
+    <li><b>Fixed term + renegotiation</b> (6 months), with maintenance as a downside floor. <span class="tag t-tr">(transcript)</span></li>
+  </ul>
+
+  <div class="ours"><span class="label">Our take · mapped to our ladder</span>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Our rung (site today)</th><th>Price</th><th>Role in this playbook</th></tr></thead>
+      <tbody>
+        <tr><td>AI Leverage Assessment <span class="tag t-repo">repo</span></td><td>$997 / person</td><td>The walk-in upsell for owner-run businesses (James's "deeper 1-hr").</td></tr>
+        <tr><td><i>New:</i> Company AI Opportunity Assessment</td><td>$5K–$10K</td><td>The enterprise version (survey, ~15 interviews, demos, C-suite readout). <b>100% credited</b> to month one.</td></tr>
+        <tr><td>AI Fluency Coaching <span class="tag t-repo">repo</span></td><td>$1,500 / person</td><td>The "train staff on Claude" piece, sold separately or bundled into tiers.</td></tr>
+        <tr><td>AI Build Day <span class="tag t-repo">repo</span></td><td>$15K–$85K</td><td>Optional kickoff event inside a retainer.</td></tr>
+        <tr><td>Embedded AI Partner <span class="tag t-repo">repo</span></td><td>from $15K/mo</td><td>Present 3 tiers, e.g. <b>$15K / $25K / $40K</b>, plus a $5K maintenance floor.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Our site already says "from $15,000" for the top rung, so anchor at or above James's numbers, not below them.</p>
+  </div>
+</section>
+
+<!-- ============ 6. SCRIPTS ============ -->
+<section role="tabpanel" id="scripts" aria-labelledby="tab-scripts" hidden>
+  <p class="eyebrow">Scripts and talking points (paraphrased)</p>
+  <h1>What to say at each step</h1>
+  <div class="grid g2">
+    <div class="script"><p class="eyebrow">Walk-in opener <span class="tag t-tr">(transcript)</span></p>
+      <p>"Hi, I'm [name]. I help local businesses use AI. We're doing a free 15-minute assessment that shows your top AI opportunities with a dollar figure next to each. Do you have 15 minutes now, or is tomorrow better?"</p></div>
+    <div class="script"><p class="eyebrow">Recording permission <span class="tag t-tr">(transcript)</span></p>
+      <p>"Mind if I record this? It's just so I don't forget anything."</p></div>
+    <div class="script"><p class="eyebrow">Upsell after the free report <span class="tag t-tr">(transcript)</span></p>
+      <p>"That was 15 minutes, so we barely skimmed what you do. The full version is a one-hour session. I take a day or two to rank every opportunity for you."</p></div>
+    <div class="script"><p class="eyebrow">Free-for-feedback (early clients) <span class="tag t-tr">(transcript)</span></p>
+      <p>"To be transparent, I'm starting out. If you'll go through the full process and tell me what I could do better, I'll do it free."</p></div>
+    <div class="script"><p class="eyebrow">Warm-intro ask <span class="tag t-tr">(transcript)</span></p>
+      <p>"Here's what we're doing. Do you know anyone running a company doing $10M+ that's growing out of small-business mode? Would you introduce us?"</p></div>
+    <div class="script"><p class="eyebrow">Advice-ask email to a CEO <span class="tag t-tr">(transcript)</span></p>
+      <p>"Here's what we've done so far. You've built a successful business, and I'd love your advice if you have 15 minutes this week."</p></div>
+    <div class="script"><p class="eyebrow">CEO vision question <span class="tag t-tr">(transcript)</span></p>
+      <p>"What's your vision for the company, and where do you want it to go?" Then: "Give us everyone we need to interview."</p></div>
+    <div class="script"><p class="eyebrow">Interview ask <span class="tag t-tr">(transcript)</span></p>
+      <p>"Can you send a couple of real examples, like the inspection report and the proposal you sent? Redacted is fine."</p></div>
+    <div class="script"><p class="eyebrow">ROI framing <span class="tag t-tr">(transcript)</span></p>
+      <p>"These are your numbers. We kept them conservative on purpose, because we'd hate to promise something we can't deliver. They're also a snapshot. As you grow, the systems grow with you."</p></div>
+    <div class="script"><p class="eyebrow">Positioning (non-threatening) <span class="tag t-tr">(transcript)</span></p>
+      <p>"This isn't about cutting people. It's how you keep growing without adding headcount."</p></div>
+    <div class="script"><p class="eyebrow">Chamber pitch email <span class="tag t-tr">(transcript)</span></p>
+      <p>"Would your members want someone to come talk about AI? I'll bring a quick QR-code assessment so every attendee leaves with their own report."</p></div>
+    <div class="script"><p class="eyebrow">Assessment credit <span class="tag t-tr">(transcript)</span></p>
+      <p>"Since you've already paid for the assessment, we'll take it off your first month."</p></div>
+  </div>
+  <div class="ours"><span class="label">Our take · Sacramento versions</span>
+    <ul>
+      <li>Walk-in: "I run Sacramento AI Agency, right here in town…" Local beats "college student" for us.</li>
+      <li>Close every free report with one CTA: book the $997 assessment through our GHL booking link.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 7. TECH STACK ============ -->
+<section role="tabpanel" id="stack" aria-labelledby="tab-stack" hidden>
+  <p class="eyebrow">Tools / tech stack</p>
+  <h1>What they use, and where it fits</h1>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Tool</th><th>Used for</th><th>Step</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td>Any AI notetaker</td><td>Records the 15-min walk-in and the stakeholder interviews</td><td>1, 3d</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>n8n or Make.com</td><td>Transcript → AI → premade report template → email within ~1 min</td><td>1</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Claude Code</td><td>Builds the pre-call survey, the ranked opportunity map, and live demos from client examples</td><td>3c, 3e, 4</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Webhook</td><td>Feeds the client's sample report into the demo</td><td>4</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Google Meet</td><td>Required 30+ min booking at the end of the survey</td><td>3c</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>Claude / Codex</td><td>Staff training, connected to the client's software</td><td>7</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>LinkedIn</td><td>Outreach, weekly posts, DMs</td><td>Outreach</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>treg.to/people-search</td><td>Pay-per-use contact data. Corey: "OpenRouter for agent tools," with access to Apollo, Hunter and True People Search, open source on GitHub. Corey's tool, not James's.</td><td>Outreach</td><td><span class="tag t-tr">(transcript)</span></td></tr>
+      <tr><td>treg.to (site)</td><td>One token for 123 providers / 1B+ contacts (Apollo, Hunter, Tomba, PDL). Pay per answer, misses are free. Email-find from $0.0005. Published run: 27 people, 20 verified emails for $0.58. Open source on GitHub. New teams get $1 free.</td><td>Outreach</td><td><span class="tag t-web">source: treg.to/people-search</span></td></tr>
+      <tr><td>Monthly ROI dashboard</td><td>Shows hours saved and dollars back to the client each month</td><td>7</td><td><span class="tag t-web">source: certifiedaipartners.com</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="ours"><span class="label">Our take · our stack equivalent</span>
+    <ul>
+      <li><b>GoHighLevel</b> handles booking, pipeline, contacts, follow-up email, and the inbound webhook from the site's <code>/assessment</code>. <span class="tag t-repo">source: docs/connect-site-to-go-high-level.md</span></li>
+      <li><b>Walk-in report:</b> notetaker → GHL workflow or n8n → Claude → templated email from GHL. Same flow as James's.</li>
+      <li><b>Claude Code:</b> survey generator, Leverage Map page, demo builds.</li>
+      <li><b>treg.to:</b> test it with the $1 credit on 25 Sacramento $10M+ companies before committing.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 8. APPLY TO SAA ============ -->
+<section role="tabpanel" id="apply" aria-labelledby="tab-apply" hidden>
+  <p class="eyebrow">Apply to Sacramento AI Agency</p>
+  <h1>30-day action plan</h1>
+  <p class="lede">Everything on this tab is <span class="tag t-ours">Our take</span> unless tagged otherwise. It builds on our current $997 assessment, the $15K/mo Embedded rung, and the GHL setup.</p>
+
+  <div class="grid g2">
+    <div class="card"><p class="eyebrow">Week 1 · Days 1–7 · Plumbing</p>
+      <ul class="check">
+        <li>Connect <code>/assessment</code> to GHL (webhook → workflow → contact + tag + email). It currently loses every lead. <span class="tag t-repo">source: repo doc</span></li>
+        <li>Build the 15-min walk-in flow: notetaker → GHL/n8n → Claude → branded report emailed in ~1 min.</li>
+        <li>Create a GHL pipeline: Free mini → $997 assessment → Company assessment → C-suite readout → Proposal → Retainer.</li>
+        <li>Write the ICP: Sacramento-region companies doing $10M+ that just went from small to mid-size.</li>
+        <li>"Who do I already know?" List 50 people who could introduce you to that ICP.</li>
+      </ul></div>
+    <div class="card"><p class="eyebrow">Week 2 · Days 8–14 · Walk-ins &amp; chambers</p>
+      <ul class="check">
+        <li>Walk into 20 offices: CPA firms, dental, orthopedic (James's list), plus home-service and construction offices.</li>
+        <li>Run free 15-min assessments. Offer 2–3 of them a free deeper version in exchange for feedback and a testimonial.</li>
+        <li>Email the chambers offering a free AI talk: Sacramento Metro Chamber, Roseville, Folsom, Elk Grove, Rancho Cordova, El Dorado Hills, Sacramento Hispanic Chamber, North Sacramento. <span class="tag t-web">source: localwiki.org/sac, eldoradohillschamber.org</span></li>
+        <li>Send 10 warm-intro / advice asks from the Week-1 list.</li>
+      </ul></div>
+    <div class="card"><p class="eyebrow">Week 3 · Days 15–21 · Upmarket</p>
+      <ul class="check">
+        <li>Pull 50 C-suite contacts at Sacramento $10M+ companies (company websites, LinkedIn, treg.to trial).</li>
+        <li>Send the advice-ask email plus a LinkedIn connect to each. Goal: 5 advice calls.</li>
+        <li>Build the company-assessment kit in Claude Code: pre-call survey that forces a 30-min booking, interview guide, Leverage Map template, demo scaffold.</li>
+        <li>Make a chamber talk deck with a QR code to <code>/assessment</code>.</li>
+      </ul></div>
+    <div class="card"><p class="eyebrow">Week 4 · Days 22–30 · Sell the big one</p>
+      <ul class="check">
+        <li>Give the first chamber talk. Tag attendees in GHL. Follow up within 24 hrs.</li>
+        <li>Pitch the first company assessment at <b>$5K–$10K, credited to month one</b>.</li>
+        <li>Prep a 3-tier proposal ($15K / $25K / $40K per month, $5K maintenance floor).</li>
+        <li>Line up a builder: a Sacramento State or UC Davis CS student, as James did with BYU.</li>
+        <li>Review: walk-ins, minis sent, $997s sold, advice calls, assessments in pipeline.</li>
+      </ul></div>
+  </div>
+
+  <h2>30-day scoreboard targets</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Metric</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>Walk-in free assessments delivered</td><td>15</td></tr>
+      <tr><td>Chamber talks booked</td><td>2 (1 delivered)</td></tr>
+      <tr><td>Advice calls with $10M+ owners/execs</td><td>5</td></tr>
+      <tr><td>$997 assessments sold (or free-for-feedback)</td><td>3</td></tr>
+      <tr><td>Company assessments in pipeline</td><td>1–2</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="ours"><span class="label">Our take · how this fits what we have</span>
+    <ul>
+      <li><b>$997 assessment stays</b> as the small-business product and the walk-in upsell. Don't discount it. Use free-for-feedback only for the first 2–3.</li>
+      <li><b>Add the company-wide assessment</b> as a bridge from $997 to the $15K/mo Embedded Partner.</li>
+      <li><b>Capacity is the risk for a solo operator.</b> A ~6-week cycle plus a 19-workflow build needs a builder. Hire before you close, not after.</li>
+      <li><b>Expect slower cash.</b> Big deals take ~6 weeks, so keep $997 sales running in parallel.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 9. FLAGGED ============ -->
+<section role="tabpanel" id="flags" aria-labelledby="tab-flags" hidden>
+  <p class="eyebrow">Flagged / unverified</p>
+  <h1>Check these before quoting them</h1>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Item</th><th>Issue</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Co-founder names</td><td>The brief spells them "Carter Wearig" and "Brendan Parker." Their site spells them <b>Carter Wirig</b> and <b>Brenden Parker</b>.</td><td><span class="tag t-web">source: certifiedaipartners.com/about</span> Use the site spelling.</td></tr>
+      <tr><td>treg.to cost claim</td><td>Corey said "point point zero zero eight cents" a contact, or 1,000 verified contacts for ~$8. Ambiguous. treg's site lists email-find from $0.0005, Apollo at $0.026/contact, and a published run at $0.029 per verified result (≈ $29 per 1,000).</td><td><span class="tag t-web">source: treg.to/people-search</span> Treat "$8 per 1,000" as optimistic.</td></tr>
+      <tr><td>treg data sources</td><td>Corey named Apollo, Hunter and True People Search. The site lists Apollo, Hunter, Tomba, PDL and others. We didn't see True People Search listed.</td><td>Partially verified</td></tr>
+      <tr><td>"1-in-100,000 still 1,000× ROI"</td><td>Off-the-cuff math in the conversation. Not a real benchmark.</td><td><span class="tag t-ours">Our take</span> don't repeat it.</td></tr>
+      <tr><td>$209K / $255–285K / $430–475K</td><td>Their projections for one client, not measured results. Inputs (win rate, margin) weren't disclosed.</td><td>Unverified (transcript only)</td></tr>
+      <tr><td>"15K/mo first retainer"</td><td>Client was named only as a construction company across UT/AZ/CA. Not independently confirmed.</td><td>Unverified</td></tr>
+      <tr><td>Site stats ($500K+ value, 27+ clients, 300+ hrs/mo, 40+ systems)</td><td>Self-reported marketing figures</td><td><span class="tag t-web">source: certifiedaipartners.com</span> unaudited</td></tr>
+      <tr><td>James's LinkedIn</td><td>Their site links it (linkedin.com/in/jameswlarson1). Our fetch timed out, so we couldn't read the profile. Age (23), BYU accounting and the 18 months in AI come from the transcript only.</td><td>Not reachable</td></tr>
+      <tr><td>Hormozi quotes</td><td>Paraphrased by James and Corey. Not checked against Hormozi's original wording.</td><td>Paraphrase</td></tr>
+      <tr><td>Chamber details</td><td>Directory listings can be outdated (e.g., Folsom's listed address is old). Check each chamber's current contact before emailing.</td><td><span class="tag t-web">source: localwiki.org/sac</span></td></tr>
+      <tr><td>Our price for $997 vs "$1K"</td><td>The brief says $1K. Our site shows $997 per person.</td><td><span class="tag t-repo">source: components/ServiceTiers.tsx</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 10. SOURCES ============ -->
+<section role="tabpanel" id="sources" aria-labelledby="tab-sources" hidden>
+  <p class="eyebrow">Sources</p>
+  <h1>Where each tag comes from</h1>
+  <ul>
+    <li><span class="tag t-tr">(transcript)</span> Corey Ganim (Build With AI) interview with James Larson. Transcript provided by Tyler. Paraphrased.</li>
+    <li><span class="tag t-web">web</span> <a href="https://certifiedaipartners.com/">certifiedaipartners.com</a> (home), <a href="https://certifiedaipartners.com/pricing/">/pricing</a>, <a href="https://certifiedaipartners.com/about/">/about</a>, <a href="https://certifiedaipartners.com/team/james-larson/">/team/james-larson</a>. Fetched Nov 3, 2026.</li>
+    <li><span class="tag t-web">web</span> <a href="https://treg.to/people-search">treg.to/people-search</a>. Fetched Nov 3, 2026.</li>
+    <li><span class="tag t-web">web</span> <a href="https://localwiki.org/sac/Chambers_of_Commerce">localwiki.org/sac: Chambers of Commerce</a>, <a href="https://eldoradohillschamber.org/advocacy/united-chamber-advocacy-network-ucan">El Dorado Hills Chamber: UCAN</a>.</li>
+    <li><span class="tag t-web">web</span> James Larson LinkedIn (<a href="https://www.linkedin.com/in/jameswlarson1/">linkedin.com/in/jameswlarson1</a>). Linked from their site but not reachable by our fetch.</li>
+    <li><span class="tag t-repo">repo</span> Sacramento AI Agency site repo: <code>components/ServiceTiers.tsx</code>, <code>app/pricing/page.tsx</code>, <code>docs/connect-site-to-go-high-level.md</code>, <code>tailwind.config.ts</code>, <code>app/globals.css</code>.</li>
+    <li><span class="tag t-ours">Our take</span> Our own analysis and recommendations.</li>
+  </ul>
+</section>
+
+</main>
+<footer><div class="wrap">Sacramento <b style="color:var(--accent)">AI</b> Agency · Internal playbook · Not for client distribution · Paraphrased from a public interview, with short quotes only.</div></footer>
+
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels=[].slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  function show(id,focus){
+    tabs.forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;if(on){if(focus)t.focus();t.scrollIntoView({block:'nearest',inline:'nearest'});}});
+    panels.forEach(function(p){var on=p.id===id;p.classList.toggle('active',on);p.hidden=!on;});
+    if(history.replaceState)history.replaceState(null,'','#'+id);
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.getAttribute('aria-controls'));});
+    t.addEventListener('keydown',function(e){
+      var n=null;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;
+      if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;
+      if(n!==null){e.preventDefault();show(tabs[n].getAttribute('aria-controls'),true);}
+    });
+  });
+  var h=location.hash.slice(1);if(h&&document.getElementById(h)&&document.getElementById(h).getAttribute('role')==='tabpanel')show(h);
+})();
+</script>
+</body>
+</html>
