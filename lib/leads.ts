@@ -1,12 +1,23 @@
 // Server-side only. Import from API routes, never from client components.
+//
+// Logging rule: never log names, emails, or answers. Log status only, so
+// Vercel logs hold no personal data.
 import { Resend } from "resend";
 
-export type LeadSource = "assessment" | "contact" | "questionnaire";
-type Status = "sent" | "skipped" | "failed";
+export type LeadSource = "website-assessment" | "contact" | "questionnaire";
+export type Status = "sent" | "skipped" | "failed";
 
 const WEBHOOK_TIMEOUT_MS = 5000;
 
-async function postJson(url: string, body: unknown): Promise<boolean> {
+export const FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL ?? "Tyler at Sacramento AI Agency <reports@sacramentoaiagency.com>";
+export const REPLY_TO = process.env.RESEND_REPLY_TO ?? "tyler@sacramentoaiagency.com";
+
+// Only production posts to the CRM. Preview deploys leave FUNNEL_ENABLED unset
+// so test submissions never create GoHighLevel contacts.
+export const funnelEnabled = () => process.env.FUNNEL_ENABLED === "true";
+
+async function postJson(source: LeadSource, url: string, body: unknown): Promise<boolean> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), WEBHOOK_TIMEOUT_MS);
   try {
@@ -16,24 +27,26 @@ async function postJson(url: string, body: unknown): Promise<boolean> {
       body: JSON.stringify(body),
       signal: controller.signal,
     });
-    if (!res.ok) {
-      console.error(`[leads] Webhook responded ${res.status} ${res.statusText}. Payload:`, body);
-      return false;
-    }
-    return true;
+    console.log(`[leads] Webhook (${source}) responded ${res.status}`);
+    return res.ok;
   } catch (err) {
-    console.error("[leads] Webhook post failed:", err, "Payload:", body);
+    console.error(`[leads] Webhook (${source}) post failed:`, err instanceof Error ? err.name : "error");
     return false;
   } finally {
     clearTimeout(timer);
   }
 }
 
-// Best-effort webhook post. Never throws.
+// Posts to LEAD_WEBHOOK_URL (GoHighLevel Inbound Webhook). Never throws.
+// "skipped" means the funnel is off or no URL is set.
 export async function postLeadWebhook(
   source: LeadSource,
   payload: Record<string, unknown>
 ): Promise<Status> {
+  if (!funnelEnabled()) {
+    console.log(`[leads] Webhook (${source}) skipped: FUNNEL_ENABLED is not true`);
+    return "skipped";
+  }
   const urls: string[] = [];
   if (process.env.LEAD_WEBHOOK_URL) urls.push(process.env.LEAD_WEBHOOK_URL);
   // Legacy variable, questionnaire only.
@@ -41,27 +54,48 @@ export async function postLeadWebhook(
     urls.push(process.env.QUESTIONNAIRE_WEBHOOK_URL);
   }
   if (urls.length === 0) {
-    console.warn(`[leads] No webhook URL set, skipping forward (${source}). Payload:`, payload);
+    console.warn(`[leads] Webhook (${source}) skipped: no webhook URL set`);
     return "skipped";
   }
   const body = { source, submittedAt: new Date().toISOString(), ...payload };
-  const results = await Promise.all(urls.map((u) => postJson(u, body)));
+  const results = await Promise.all(urls.map((u) => postJson(source, u, body)));
   return results.every(Boolean) ? "sent" : "failed";
+}
+
+// Sends one email through Resend. Never throws. Returns the Resend id on success.
+export async function sendEmail(
+  label: string,
+  message: { to: string; subject: string; text: string; html?: string; replyTo?: string }
+): Promise<{ status: Status; id?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !message.to) {
+    console.warn(`[leads] Email (${label}) skipped: Resend not configured`);
+    return { status: "skipped" };
+  }
+  try {
+    // Resend resolves with an error field instead of throwing.
+    const { data, error } = await new Resend(apiKey).emails.send({
+      from: FROM_EMAIL,
+      to: message.to,
+      reply_to: message.replyTo ?? REPLY_TO,
+      subject: message.subject,
+      text: message.text,
+      ...(message.html ? { html: message.html } : {}),
+    });
+    if (error) {
+      console.error(`[leads] Email (${label}) failed: ${error.name}`);
+      return { status: "failed" };
+    }
+    console.log(`[leads] Email (${label}) sent: ${data?.id}`);
+    return { status: "sent", id: data?.id };
+  } catch (err) {
+    console.error(`[leads] Email (${label}) failed:`, err instanceof Error ? err.name : "error");
+    return { status: "failed" };
+  }
 }
 
 function str(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
-}
-
-function buildSubject(source: LeadSource, p: Record<string, unknown>): string {
-  const who = [str(p.name), str(p.company) || str(p.business)].filter(Boolean).join(", ") || str(p.email) || "new lead";
-  if (source === "assessment") {
-    const tier = str(p.tier);
-    const pct = typeof p.totalPct === "number" ? ` ${Math.round(p.totalPct)}%` : "";
-    const detail = tier ? ` (${tier}${pct})` : "";
-    return `[assessment] ${who}${detail}`;
-  }
-  return `[${source}] ${who}`;
 }
 
 function formatValue(v: unknown): string {
@@ -71,7 +105,8 @@ function formatValue(v: unknown): string {
   return JSON.stringify(v, null, 2);
 }
 
-function buildBody(source: LeadSource, p: Record<string, unknown>): string {
+// Plain-text dump of a lead for Tyler's notification email.
+export function formatLead(source: LeadSource, p: Record<string, unknown>): string {
   const lines = [`Source: ${source}`];
   for (const [key, value] of Object.entries(p)) {
     const text = formatValue(value);
@@ -80,43 +115,22 @@ function buildBody(source: LeadSource, p: Record<string, unknown>): string {
   return lines.join("\n");
 }
 
-// Best-effort notification email. Never throws.
-async function sendLeadEmail(
-  source: LeadSource,
-  payload: Record<string, unknown>
-): Promise<Status> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.TYLER_NOTIFICATION_EMAIL;
-  if (!apiKey || !to) return "skipped";
-  try {
-    const resend = new Resend(apiKey);
-    const email = str(payload.email);
-    // Resend resolves with an error field instead of throwing.
-    const { error } = await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
-      to,
-      ...(email ? { reply_to: email } : {}),
-      subject: buildSubject(source, payload),
-      text: buildBody(source, payload),
-    });
-    if (error) {
-      console.error("[leads] Resend returned an error:", error, "Payload:", payload);
-      return "failed";
-    }
-    return "sent";
-  } catch (err) {
-    console.error("[leads] Email send failed:", err, "Payload:", payload);
-    return "failed";
-  }
-}
-
+// Webhook post plus a notification email to Tyler, both best effort.
 export async function forwardLead(
   source: LeadSource,
   payload: Record<string, unknown>
 ): Promise<{ webhook: Status; email: Status }> {
+  const who =
+    [str(payload.name), str(payload.company) || str(payload.business)].filter(Boolean).join(", ") ||
+    "new lead";
   const [webhook, email] = await Promise.all([
     postLeadWebhook(source, payload),
-    sendLeadEmail(source, payload),
+    sendEmail(`${source}-notify`, {
+      to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
+      replyTo: str(payload.email) || undefined,
+      subject: `[${source}] ${who}`,
+      text: formatLead(source, payload),
+    }),
   ]);
-  return { webhook, email };
+  return { webhook, email: email.status };
 }

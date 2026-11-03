@@ -43,10 +43,10 @@ export async function POST(request: NextRequest) {
   }
 
   // Forwarding is best-effort: a missing or failing webhook or email must
-  // never block the visitor. forwardLead logs the payload on failure so
-  // submissions stay recoverable from server logs.
+  // never block the visitor. Tyler's notification email holds the details;
+  // logs hold status only.
   const status = await forwardLead("questionnaire", { ...body });
-  console.log("[questionnaire] Submission:", { email, status });
+  console.log("[questionnaire] Submission:", status);
 
   // Acknowledge the submission regardless of webhook outcome so the visitor
   // always sees the thank-you card. Failures are surfaced in the server logs.

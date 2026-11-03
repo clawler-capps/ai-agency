@@ -18,8 +18,12 @@ export default function AssessmentForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
+  const [website, setWebsite] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [fax, setFax] = useState(""); // honeypot
   const [submitting, setSubmitting] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const result = useMemo<AssessmentResult | null>(() => {
     if (answers.length < questions.length) return null;
@@ -67,31 +71,31 @@ export default function AssessmentForm() {
   async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault();
     setEmailError(null);
+    setSubmitError(null);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("Please enter a valid email.");
       return;
     }
     setSubmitting(true);
     try {
-      await fetch("/api/capture-email", {
+      // The server re-scores from the raw answers, so only those are sent.
+      const res = await fetch("/api/capture-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          company,
-          tier: result?.tier,
-          totalPct: result?.totalPct,
-          pillars: result?.pillars,
-          industry: result?.industry,
-          answers,
-        }),
+        body: JSON.stringify({ name, email, company, website, consent, answers, fax }),
       });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        setSubmitError(
+          data?.error ?? "We couldn't save your results just now. Please try again in a moment."
+        );
+        return;
+      }
+      setPhase("results");
     } catch {
-      // Non-blocking — we still show results.
+      setSubmitError("We couldn't reach the server. Check your connection and try again.");
     } finally {
       setSubmitting(false);
-      setPhase("results");
     }
   }
 
@@ -103,18 +107,18 @@ export default function AssessmentForm() {
       <div className="text-center py-12">
         <p className="eyebrow mb-6">Free · 5 minutes · No tech knowledge needed</p>
         <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight mb-5">
-          Free AI Opportunity Assessment
+          Free AI Opportunity Snapshot
         </h1>
         <p className="text-lg text-muted max-w-lg mx-auto mb-10 leading-relaxed">
-          Nine quick questions — starting with the easy stuff. We&apos;ll score
-          your business across the 5 pillars of AI readiness and show you exactly
-          where you stand against your peers.
+          {totalSteps} quick questions — starting with the easy stuff. We&apos;ll score
+          your business across the 5 pillars of AI readiness and show you where AI
+          can save you the most time.
         </p>
         <button
           onClick={() => { setPhase("questions"); setStep(0); }}
           className="btn-primary text-base px-10 py-4"
         >
-          Start the Assessment →
+          Start the Snapshot →
         </button>
         <p className="mt-4 text-xs text-muted font-mono">
           FIRST QUESTION IS A 1-CLICK PICK · NO EMAIL UNTIL THE END
@@ -203,8 +207,7 @@ export default function AssessmentForm() {
         <p className="eyebrow mb-3">Scoring your responses</p>
         <h2 className="text-2xl font-bold text-ink mb-3">Building your AI readiness profile…</h2>
         <p className="text-muted text-sm leading-relaxed">
-          Cross-referencing your answers against the 5 pillars of AI readiness and benchmarking
-          against Sacramento-area peers.
+          Scoring your answers across the 5 pillars of AI readiness.
         </p>
       </div>
     );
@@ -222,8 +225,8 @@ export default function AssessmentForm() {
             Where should we send your report?
           </h2>
           <p className="text-muted text-sm mb-6 leading-relaxed text-center">
-            We&apos;ll show your full results on the next screen — and email you a copy of your
-            personalized AI roadmap.
+            We&apos;ll show your results on the next screen. Your personalized report will be
+            emailed within 15 minutes.
           </p>
 
           {/* Teaser strip — partial result hint */}
@@ -270,15 +273,55 @@ export default function AssessmentForm() {
                 className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
               />
             </div>
+            <div>
+              <label className="block text-sm font-semibold text-ink mb-1.5">
+                Website <span className="font-normal text-muted">(optional)</span>
+              </label>
+              <input
+                type="text"
+                inputMode="url"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                placeholder="yourbusiness.com"
+                className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
+              />
+            </div>
+            {/* Honeypot — hidden from people, tempting to bots */}
+            <div className="hidden" aria-hidden="true">
+              <label>
+                Fax
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={fax}
+                  onChange={(e) => setFax(e.target.value)}
+                />
+              </label>
+            </div>
+            <label className="flex items-start gap-3 text-sm text-ink/80 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 accent-accent"
+              />
+              <span>Send me occasional tips from Sacramento AI Agency. Optional.</span>
+            </label>
             <button
               type="submit"
               disabled={submitting}
               className="btn-primary w-full py-4 text-base disabled:opacity-50"
             >
-              {submitting ? "Unlocking…" : "Show My Full Results →"}
+              {submitting ? "Saving…" : submitError ? "Try Again →" : "Show My Results →"}
             </button>
+            {submitError && (
+              <p role="alert" className="text-sm text-accent text-center">
+                {submitError}
+              </p>
+            )}
             <p className="text-xs text-muted text-center font-mono">
-              NO SPAM. UNSUBSCRIBE ANY TIME.
+              NO SPAM. WE ONLY SEND YOUR REPORT UNLESS YOU OPT IN ABOVE.
             </p>
           </form>
         </div>
@@ -310,18 +353,18 @@ export default function AssessmentForm() {
             </div>
             <div className="text-right">
               <div className="text-xs font-mono uppercase tracking-widest text-muted mb-1">
-                Peer ranking
+                Readiness score
               </div>
               <div className="text-2xl font-black text-accent">
-                Top {result.peerPercentile}%
-              </div>
-              <div className="text-xs text-muted mt-0.5">
-                of Sacramento-area {result.industry.toLowerCase()} businesses
+                {result.totalPct}/100
               </div>
             </div>
           </div>
 
-          <p className="text-ink/80 leading-relaxed mb-6">{tierMeta.blurb}</p>
+          <p className="text-ink/80 leading-relaxed mb-3">{tierMeta.blurb}</p>
+          <p className="text-sm text-ink font-semibold mb-6">
+            Your personalized report will be emailed within 15 minutes.
+          </p>
 
           {/* Pillar scores */}
           <div className="space-y-3">
@@ -408,16 +451,15 @@ export default function AssessmentForm() {
               Your personalized AI roadmap is on its way 📬
             </h3>
             <p className="text-ink/80 mb-5 leading-relaxed">
-              We&apos;ve sent a detailed report to <strong>{email}</strong> with the exact next
-              steps for your stage — including the 1-week, 1-month, and 1-quarter milestones we
-              recommend for businesses at the {result.tier} level.
+              Your personalized report will be emailed to <strong>{email}</strong> within 15
+              minutes, with next steps for businesses at the {result.tier} level.
             </p>
             <div className="rounded-xl bg-paper border border-border p-5">
               <p className="text-sm font-semibold text-ink mb-2">While you wait — three things you can do today:</p>
               <ul className="space-y-2 text-sm text-ink/80">
                 <li className="flex gap-2"><span className="text-accent">→</span> List your top 3 most-repeated weekly tasks.</li>
                 <li className="flex gap-2"><span className="text-accent">→</span> Pick the one tool your team already uses well — that&apos;s the integration starting point.</li>
-                <li className="flex gap-2"><span className="text-accent">→</span> Watch your inbox for your roadmap (usually arrives within 10 minutes).</li>
+                <li className="flex gap-2"><span className="text-accent">→</span> Watch your inbox for your report (within 15 minutes).</li>
               </ul>
             </div>
             <p className="mt-4 text-xs text-muted">

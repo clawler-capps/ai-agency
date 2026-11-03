@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { clamp, clientIp, createRateLimiter, escapeHtml } from "@/lib/guard";
 import { postLeadWebhook } from "@/lib/leads";
 
 interface ContactBody {
@@ -12,38 +13,8 @@ interface ContactBody {
   fax?: string;
 }
 
-// ── Simple in-memory rate limit ──────────────────────────────────────────────
-// Keeps a single visitor (by IP) from flooding Tyler's inbox. This lives in
-// module memory, so it resets on redeploy and isn't shared across serverless
-// instances — it's a courtesy guardrail against over-emailing, not a hardened
-// defense. The honeypot + input caps below do the heavier anti-abuse lifting.
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
-const RATE_LIMIT_MAX = 5; // max submissions per IP per window
-const hits = new Map<string, number[]>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT_MAX) {
-    hits.set(ip, recent);
-    return true;
-  }
-  recent.push(now);
-  hits.set(ip, recent);
-  return false;
-}
-
-// Prevent header injection and inbox-bloat by capping field lengths.
-const clamp = (s: string, max: number) => s.trim().slice(0, max);
-
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+// Max 5 submissions per IP per hour. See lib/guard.ts for the caveats.
+const isRateLimited = createRateLimiter(5, 60 * 60 * 1000);
 
 export async function POST(request: NextRequest) {
   let body: ContactBody;
@@ -62,10 +33,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   }
 
-  const name = clamp(body.name ?? "", 120);
-  const email = clamp(body.email ?? "", 200);
-  const company = clamp(body.company ?? "", 200);
-  const question = clamp(body.question ?? "", 5000);
+  const name = clamp(body.name, 120);
+  const email = clamp(body.email, 200);
+  const company = clamp(body.company, 200);
+  const question = clamp(body.question, 5000);
 
   if (!name) {
     return NextResponse.json(
@@ -86,12 +57,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
-    "unknown";
-
-  if (isRateLimited(ip)) {
+  if (isRateLimited(clientIp(request))) {
     return NextResponse.json(
       {
         success: false,
