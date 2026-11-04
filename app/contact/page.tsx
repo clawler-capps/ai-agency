@@ -39,8 +39,8 @@ export default function ContactPage() {
       <section className="section-padding bg-cream section-divider">
         <ContactForm />
         <p className="mt-8 text-center text-sm text-muted max-w-xl mx-auto">
-          We&apos;re a small team based in Sacramento, so replies come from us
-          directly — not a ticket queue. Thanks for your patience, and talk soon.
+          I&apos;m based in Sacramento, so replies come from me directly. Thanks for
+          your patience, and talk soon.
         </p>
       </section>
     </div>
