@@ -394,6 +394,19 @@ export default function HomePage() {
               We&apos;d rather tell you up front than waste an hour on a call.
             </p>
           </div>
+
+          {/* Snapshot CTA, closes the gap before the service ladder */}
+          <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <p className="text-xl font-bold text-ink">Sound like your business?</p>
+            <BookingLink
+              location="fit-snapshot"
+              label={SNAPSHOT_LABEL}
+              href="/assessment"
+              className="btn-primary w-full sm:w-auto text-base px-8 py-4"
+            >
+              {SNAPSHOT_LABEL}
+            </BookingLink>
+          </div>
         </div>
       </section>
 
