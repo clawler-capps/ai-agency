@@ -14,6 +14,29 @@ export const ROLES = [
   "Other",
 ] as const;
 
+export const REVENUE_BANDS = [
+  "Under $500K",
+  "$500K–$1M",
+  "$1–5M",
+  "$5–10M",
+  "$10–50M",
+  "$50M+",
+] as const;
+
+// Shown when the AI follow-up options can't be fetched in time.
+export const FOLLOWUP_FALLBACK = [
+  "Gathering information from different places",
+  "Writing or typing it up by hand",
+  "Waiting on other people to reply or approve",
+  "Fixing mistakes and double-checking",
+];
+
+export const FOLLOWUP_QUESTION = "Where does that work slow down?";
+
+// One short line under the gate and in the email footer.
+export const PRIVACY_LINE =
+  "Your answers (and your website, if you shared it) are processed by AI to write your snapshot. We never sell your information.";
+
 export type ValueEstimate = {
   hoursPerWeek: number;
   hourlyValue: number;
@@ -28,13 +51,21 @@ export const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 // Round to the nearest $100 so estimates don't look falsely precise.
 const round100 = (n: number) => Math.round(n / 100) * 100;
 
-export function estimateValue(hoursPerWeek: number, hourlyValue: number): ValueEstimate {
+// captureLow/captureHigh are fractions (0.3 = 30%). The results page lets
+// visitors change them; the email always uses the defaults.
+export function estimateValue(
+  hoursPerWeek: number,
+  hourlyValue: number,
+  captureLow = CAPTURE_LOW,
+  captureHigh = CAPTURE_HIGH
+): ValueEstimate {
   const annualCost = hoursPerWeek * hourlyValue * WEEKS_PER_YEAR;
-  const low = round100(annualCost * CAPTURE_LOW);
-  const high = round100(annualCost * CAPTURE_HIGH);
+  const low = round100(annualCost * captureLow);
+  const high = round100(annualCost * captureHigh);
+  const pct = (f: number) => Math.round(f * 100);
   const math =
     `${hoursPerWeek} hrs/week × ${usd(hourlyValue)}/hr × ${WEEKS_PER_YEAR} weeks = ` +
-    `${usd(annualCost)} a year. Capturing ${CAPTURE_LOW * 100}–${CAPTURE_HIGH * 100}% of that = ` +
+    `${usd(annualCost)} a year. Capturing ${pct(captureLow)}–${pct(captureHigh)}% of that = ` +
     `${usd(low)}–${usd(high)} a year.`;
   return { hoursPerWeek, hourlyValue, annualCost, low, high, math };
 }
@@ -119,3 +150,41 @@ export function tonightPrompt(bottleneck: string, hoursPerWeek: number, industry
 
 export const claudeUrl = (prompt: string) => `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
 export const chatgptUrl = (prompt: string) => `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+
+// ── Report shape (shared by the page, the API, and the email) ───────────────
+// The AI supplies words and hours only. Dollars are always computed with
+// estimateValue() from the visitor's own rate.
+
+export type ReportOpportunity = { title: string; why: string; hours: number };
+
+export type Report = {
+  headline: string;
+  opportunities: ReportOpportunity[]; // #1 is always the visitor's own time drain
+  today: string[];
+  withAi: string[];
+  prompt: string;
+  assumptions: string[]; // extra assumptions only; see baseAssumptions()
+};
+
+export function baseAssumptions(hourlyValue: number, captureLow = CAPTURE_LOW, captureHigh = CAPTURE_HIGH): string[] {
+  return [
+    `Your time is worth ${usd(hourlyValue)}/hour.`,
+    `${WEEKS_PER_YEAR} working weeks a year.`,
+    `AI captures ${Math.round(captureLow * 100)}–${Math.round(captureHigh * 100)}% of the time spent today.`,
+  ];
+}
+
+export function totalValue(
+  opps: { hours: number }[],
+  hourlyValue: number,
+  captureLow = CAPTURE_LOW,
+  captureHigh = CAPTURE_HIGH
+): { low: number; high: number } {
+  return opps.reduce(
+    (t, o) => {
+      const v = estimateValue(o.hours, hourlyValue, captureLow, captureHigh);
+      return { low: t.low + v.low, high: t.high + v.high };
+    },
+    { low: 0, high: 0 }
+  );
+}

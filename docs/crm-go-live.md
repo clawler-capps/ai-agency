@@ -21,16 +21,19 @@ Every field is flat so it maps directly in the GHL workflow:
 |---|---|
 | `source` | `website-assessment` |
 | `submittedAt` | ISO timestamp |
-| `name`, `first_name`, `email`, `company` | |
+| `name`, `first_name`, `email`, `company` | `name` and `first_name` are both the first name from the gate |
 | `company_size` | `Solo`, `2–10`, `11–50`, `50+` |
 | `industry` | `Construction & Trades` |
 | `website` | optional, may be empty |
+| `revenue_band` | `Under $500K`, `$500K–$1M`, `$1–5M`, `$5–10M`, `$10–50M`, `$50M+` |
 | `role` | `Owner or founder`, `Executive or senior leader`, `Manager or team lead`, `Team member`, `Other` |
 | `bottleneck` | where they lose the most time, in their words |
+| `followup_choice` | the option they tapped for "Where does that work slow down?" (AI-suggested, or `Other`) |
+| `followup_text` | their own words when they picked `Other`, else empty |
 | `hours_per_week` | hours a week on it |
 | `hourly_value` | what an hour is worth ($, default 75) |
 | `est_value_low`, `est_value_high` | yearly value of fixing it: hours × rate × 50 weeks × 30% / 60% |
-| `top_opportunity` | e.g. `Faster lead follow-up and quotes` |
+| `top_opportunity` | the #1 opportunity title from their AI report |
 | `score` | 0–100 |
 | `tier` | `AI-Curious`, `AI-Ready`, `AI-Leading` |
 | `score_data`, `score_process`, `score_team`, `score_leadership`, `score_vertical` | 0–100 per pillar |

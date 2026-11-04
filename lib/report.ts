@@ -1,61 +1,62 @@
-// Server-side only. Builds and emails the AI Opportunity Snapshot report.
+// Server-side only. Writes and emails the AI Opportunity Snapshot report.
 //
-// One Claude call (structured JSON) writes the opportunities and the prompt.
-// Every dollar figure is computed here from the visitor's own numbers, never
-// by the model. If the call fails twice, a template report goes out instead
-// and Tyler gets an alert, so every visitor still receives their results.
+// generateReport() runs before the email gate: one Claude call (structured
+// JSON) writes the opportunities and the prompt, and the page shows it right
+// away. deliverReport() runs after the visitor unlocks it and emails that
+// same report. Every dollar figure is computed from the visitor's own numbers,
+// never by the model. If Claude fails twice, a template report is used and
+// Tyler gets an alert, so every visitor still gets their results.
 import Anthropic from "@anthropic-ai/sdk";
 import { BOOKING_URL } from "@/lib/booking";
 import { escapeHtml } from "@/lib/guard";
 import { postReportWebhook, sendEmail } from "@/lib/leads";
 import {
-  CAPTURE_HIGH,
-  CAPTURE_LOW,
-  WEEKS_PER_YEAR,
+  PRIVACY_LINE,
+  Report,
   ValueEstimate,
   backupOpportunities,
+  baseAssumptions,
   chatgptUrl,
   claudeUrl,
   estimateValue,
   matchOpportunity,
   tonightPrompt,
+  totalValue,
   usd,
 } from "@/lib/snapshot";
 
 const MODEL = "claude-sonnet-5-5";
-const ATTEMPT_TIMEOUT_MS = 24_000; // two attempts must fit inside the 60s function limit
+const ATTEMPT_TIMEOUT_MS = 20_000; // two attempts plus the website fetch fit in 60s
 const WEBSITE_TIMEOUT_MS = 4_000;
 const WEBSITE_MAX_WORDS = 3000;
 const SITE_URL = "https://www.sacramentoaiagency.com";
 
-export type ReportInput = {
-  firstName: string;
-  name: string;
-  email: string;
-  company: string;
+// Everything known before the email gate. No name or email in here.
+export type SnapshotInput = {
   industry: string;
   companySize: string;
   role: string;
+  revenueBand: string;
   website: string;
   tier: string;
   score: number;
   pillars: { pillar: string; pct: number }[];
   answersSummary: string;
   bottleneck: string;
+  followup: string;
   hoursPerWeek: number;
   hourlyValue: number;
-  isTest: boolean;
 };
 
-type Opportunity = { title: string; why: string; value: ValueEstimate };
+export type Contact = { firstName: string; email: string; company: string; isTest: boolean };
 
-type Report = {
-  headline: string;
-  opportunities: Opportunity[];
-  today: string[];
-  withAi: string[];
-  prompt: string;
-  assumptions: string[];
+export type Usage = { input: number; output: number };
+
+export type Generated = {
+  report: Report;
+  source: "claude" | "template";
+  usage: Usage | null;
+  errors: string[];
 };
 
 // ── Website text ─────────────────────────────────────────────────────────────
@@ -105,7 +106,7 @@ const SYSTEM = `You write the AI Opportunity Snapshot report for Sacramento AI A
 Write in plain, friendly language. No jargon, no hype, no emojis.
 
 Rules:
-- Opportunity 1 must be the time drain the visitor described, in their own terms.
+- Opportunity 1 must be the time drain the visitor described, in their own terms. Use where_it_slows_down to make it specific. Echo a few of their own words so they can tell it was written for them.
 - Opportunities 2 and 3 are the next-best AI wins, based on their answers, role, industry, and website. Keep hours_per_week for these conservative (usually 1-4).
 - Never state dollar amounts. The site calculates all money figures.
 - Never invent facts about their business. If you don't know, keep it general.
@@ -150,31 +151,23 @@ type ClaudeOutput = {
   assumptions: string[];
 };
 
-export type Usage = { input: number; output: number };
-
 const cut = (s: unknown, max: number) => (typeof s === "string" ? s.trim().slice(0, max) : "");
 const list = (a: unknown, n: number, max: number) =>
   Array.isArray(a) ? a.map((s) => cut(s, max)).filter(Boolean).slice(0, n) : [];
-
-function baseAssumptions(input: ReportInput): string[] {
-  return [
-    `Your time is worth ${usd(input.hourlyValue)}/hour.`,
-    `${WEEKS_PER_YEAR} working weeks a year.`,
-    `AI captures a conservative ${CAPTURE_LOW * 100}–${CAPTURE_HIGH * 100}% of the time spent today.`,
-  ];
-}
+const half = (n: number) => Math.round(n * 2) / 2;
 
 async function claudeReport(
   client: Anthropic,
-  input: ReportInput,
+  input: SnapshotInput,
   websiteText: string
 ): Promise<{ report: Report; usage: Usage }> {
   const visitor = {
-    company: input.company,
     industry: input.industry,
     company_size: input.companySize,
+    annual_revenue: input.revenueBand || "not given",
     role: input.role,
     biggest_time_drain: input.bottleneck,
+    where_it_slows_down: input.followup || "not given",
     hours_per_week_on_it: input.hoursPerWeek,
     readiness_tier: input.tier,
     readiness_score: input.score,
@@ -207,18 +200,15 @@ async function claudeReport(
   const top = matchOpportunity(input.bottleneck);
   const opps = (Array.isArray(out.opportunities) ? out.opportunities : []).slice(0, 3);
   if (opps.length === 0) throw new Error("no opportunities");
-  const opportunities: Opportunity[] = opps.map((o, i) => {
+  const opportunities = opps.map((o, i) => ({
+    title: cut(o.title, 90) || (i === 0 ? top.title : "Another AI win"),
+    why: cut(o.why, 400),
     // #1 always uses the visitor's own hours; others are capped estimates.
-    const hours = i === 0 ? input.hoursPerWeek : Math.min(Math.max(Number(o.hours_per_week) || 1, 0.5), 10);
-    return {
-      title: cut(o.title, 90) || (i === 0 ? top.title : "Another AI win"),
-      why: cut(o.why, 400),
-      value: estimateValue(Math.round(hours * 2) / 2, input.hourlyValue),
-    };
-  });
+    hours: i === 0 ? input.hoursPerWeek : half(Math.min(Math.max(Number(o.hours_per_week) || 1, 0.5), 10)),
+  }));
   for (const b of backupOpportunities(opportunities[0].title)) {
     if (opportunities.length >= 3) break;
-    opportunities.push({ title: b.title, why: b.how, value: estimateValue(b.hours, input.hourlyValue) });
+    opportunities.push({ title: b.title, why: b.how, hours: b.hours });
   }
 
   return {
@@ -228,29 +218,25 @@ async function claudeReport(
       today: list(out.today, 3, 200),
       withAi: list(out.with_ai, 3, 200),
       prompt: cut(out.tonight_prompt, 900) || tonightPrompt(input.bottleneck, input.hoursPerWeek, input.industry),
-      assumptions: [...baseAssumptions(input), ...list(out.assumptions, 3, 200)],
+      assumptions: list(out.assumptions, 3, 200),
     },
     usage: { input: res.usage.input_tokens, output: res.usage.output_tokens },
   };
 }
 
 // Deterministic report used when Claude is unavailable.
-export function templateReport(input: ReportInput): Report {
+export function templateReport(input: SnapshotInput): Report {
   const top = matchOpportunity(input.bottleneck);
   const h = input.hoursPerWeek;
   return {
     headline: `Your biggest AI opportunity: ${top.title}`,
     opportunities: [
-      { title: top.title, why: `${top.how} You told us: "${input.bottleneck}".`, value: estimateValue(h, input.hourlyValue) },
-      ...backupOpportunities(top.title).map((b) => ({
-        title: b.title,
-        why: b.how,
-        value: estimateValue(b.hours, input.hourlyValue),
-      })),
+      { title: top.title, why: `${top.how} You told us: "${input.bottleneck}".`, hours: h },
+      ...backupOpportunities(top.title).map((b) => ({ title: b.title, why: b.how, hours: b.hours })),
     ],
     today: [
       `About ${h} hours a week go to this.`,
-      "It's done by hand, one item at a time.",
+      input.followup ? `It slows down at: ${input.followup}.` : "It's done by hand, one item at a time.",
       "It competes with higher-value work for your attention.",
     ],
     withAi: [
@@ -259,19 +245,62 @@ export function templateReport(input: ReportInput): Report {
       `Target: cut those ${h} hours roughly in half.`,
     ],
     prompt: tonightPrompt(input.bottleneck, h, input.industry),
-    assumptions: [
-      ...baseAssumptions(input),
-      "Hours for opportunities 2 and 3 are typical estimates for a business your size.",
-    ],
+    assumptions: ["Hours for opportunities 2 and 3 are typical estimates for a business your size."],
   };
+}
+
+// Never throws. Falls back to the template report.
+export async function generateReport(input: SnapshotInput): Promise<Generated> {
+  const errors: string[] = [];
+  try {
+    const websiteText = await fetchHomepageText(input.website);
+    const client = new Anthropic({ maxRetries: 0 });
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const { report, usage } = await claudeReport(client, input, websiteText);
+        return { report, source: "claude", usage, errors };
+      } catch (err) {
+        errors.push(`attempt ${attempt}: ${err instanceof Error ? `${err.name}: ${err.message}`.slice(0, 200) : "error"}`);
+      }
+    }
+  } catch (err) {
+    errors.push(err instanceof Error ? err.name : "error");
+  }
+  return { report: templateReport(input), source: "template", usage: null, errors };
+}
+
+// Sonnet 5.5: $2 / $10 per million tokens.
+export const reportCost = (u: Usage | null) => (u ? (u.input * 2 + u.output * 10) / 1_000_000 : 0);
+
+// Tell Tyler when a visitor was shown the template report. No visitor details
+// are known yet at this point; the unlock notification follows if they unlock.
+export async function sendTemplateAlert(errors: string[]): Promise<void> {
+  await sendEmail("report-alert", {
+    to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
+    subject: "[ALERT] Snapshot used the template report (Claude failed)",
+    text: [
+      "A visitor finished the AI Opportunity Snapshot, but Claude failed twice, so the page showed the template report built from their own numbers.",
+      "If they unlock it, they get the same template report by email and you'll get the usual lead notification.",
+      "",
+      "Claude errors:",
+      ...(errors.length ? errors : ["none"]),
+      "",
+      "If this keeps happening, check the Anthropic key, the spend cap, and status.anthropic.com.",
+    ].join("\n"),
+  });
 }
 
 // ── Email ────────────────────────────────────────────────────────────────────
 
 const range = (v: ValueEstimate) => `${usd(v.low)}–${usd(v.high)} a year`;
 
-function renderEmail(input: ReportInput, r: Report): { subject: string; text: string; html: string } {
-  const top = r.opportunities[0];
+type Valued = { title: string; why: string; value: ValueEstimate };
+
+function renderEmail(contact: Contact, input: SnapshotInput, tierScore: string, r: Report): { subject: string; text: string; html: string } {
+  const opps: Valued[] = r.opportunities.map((o) => ({ ...o, value: estimateValue(o.hours, input.hourlyValue) }));
+  const top = opps[0];
+  const total = totalValue(r.opportunities, input.hourlyValue);
+  const assumptions = [...baseAssumptions(input.hourlyValue), ...r.assumptions];
   const footer = process.env.MAILING_ADDRESS?.trim() || "Sacramento AI Agency";
   const why = "You're receiving this because you requested an AI Opportunity Snapshot at sacramentoaiagency.com.";
   const optOut = 'Don\'t want more emails? Reply "unsubscribe" and we\'ll take you off the list.';
@@ -279,14 +308,15 @@ function renderEmail(input: ReportInput, r: Report): { subject: string; text: st
   const e = escapeHtml;
 
   const text = [
-    `Hi ${input.firstName},`,
+    `Hi ${contact.firstName},`,
     "",
     r.headline,
     "",
-    `AI readiness: ${input.tier} (${input.score}/100)`,
+    `AI readiness: ${tierScore}`,
+    `Your top 3 opportunities add up to ${usd(total.low)}–${usd(total.high)} a year.`,
     "",
     "YOUR TOP 3 AI OPPORTUNITIES",
-    ...r.opportunities.flatMap((o, i) => [
+    ...opps.flatMap((o, i) => [
       "",
       `${i + 1}. ${o.title}: ${range(o.value)}`,
       o.why,
@@ -306,7 +336,7 @@ function renderEmail(input: ReportInput, r: Report): { subject: string; text: st
     `Open in ChatGPT: ${chatgptUrl(r.prompt)}`,
     "",
     "ASSUMPTIONS",
-    ...r.assumptions.map((a) => `- ${a}`),
+    ...assumptions.map((a) => `- ${a}`),
     "",
     `Want to go deeper? Book a free 15-minute call: ${BOOKING_URL}`,
     `Or skip ahead to the $997 AI Leverage Assessment: ${assessmentUrl}`,
@@ -319,6 +349,7 @@ function renderEmail(input: ReportInput, r: Report): { subject: string; text: st
     "--",
     footer,
     why,
+    PRIVACY_LINE,
     optOut,
   ].join("\n");
 
@@ -329,11 +360,12 @@ function renderEmail(input: ReportInput, r: Report): { subject: string; text: st
     }">${e(label)}</a>`;
 
   const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0d0f12;max-width:600px;margin:0 auto;line-height:1.55;font-size:15px">
-<p>Hi ${e(input.firstName)},</p>
+<p>Hi ${e(contact.firstName)},</p>
 <h1 style="font-size:22px;line-height:1.3;margin:0 0 8px">${e(r.headline)}</h1>
-<p style="color:#555;margin:0 0 24px">AI readiness: <strong>${e(input.tier)}</strong> (${input.score}/100)</p>
+<p style="color:#555;margin:0 0 8px">AI readiness: <strong>${e(tierScore)}</strong></p>
+<p style="margin:0 0 24px">Your top 3 opportunities add up to <strong style="color:#e85d26">${e(`${usd(total.low)}–${usd(total.high)} a year`)}</strong>.</p>
 <h2 style="font-size:17px;margin:0 0 12px">Your top 3 AI opportunities</h2>
-${r.opportunities
+${opps
   .map(
     (o, i) => `<div style="border:1px solid #e5e2db;border-radius:12px;padding:14px 16px;margin:0 0 12px">
 <p style="margin:0 0 4px;font-weight:700">${i + 1}. ${e(o.title)}</p>
@@ -353,86 +385,54 @@ ${r.opportunities
 <div style="background:#f4f2ed;border-radius:10px;padding:12px 14px;margin:0 0 8px;white-space:pre-wrap">${e(r.prompt)}</div>
 <p style="margin:0 0 24px">${btn(claudeUrl(r.prompt), "Open in Claude", false)}${btn(chatgptUrl(r.prompt), "Open in ChatGPT", false)}</p>
 <h2 style="font-size:17px;margin:0 0 8px">Assumptions</h2>
-<ul style="margin:0 0 24px;padding-left:18px;color:#444">${li(r.assumptions)}</ul>
+<ul style="margin:0 0 24px;padding-left:18px;color:#444">${li(assumptions)}</ul>
 <p style="margin:0 0 6px">Want to go deeper? I'll walk through your numbers with you.</p>
 <p style="margin:0 0 4px">${btn(BOOKING_URL, "Book your free 15-minute call", true)}</p>
 <p style="margin:0 0 24px;font-size:13px"><a href="${e(assessmentUrl)}" style="color:#555">Or skip ahead to the $997 AI Leverage Assessment</a></p>
 <p>Questions? Just reply to this email. It comes straight to me.</p>
 <p>Tyler Capps<br>Sacramento AI Agency</p>
 <hr style="border:none;border-top:1px solid #e5e2db;margin:24px 0 12px">
-<p style="font-size:12px;color:#777">${e(footer)}<br>${e(why)}<br>${e(optOut)}</p>
+<p style="font-size:12px;color:#777">${e(footer)}<br>${e(why)}<br>${e(PRIVACY_LINE)}<br>${e(optOut)}</p>
 </div>`;
 
-  return { subject: `Your AI Opportunity Snapshot: ${range(top.value)} in ${top.title.toLowerCase()}`, text, html };
+  return { subject: `${contact.company ? `${contact.company}: ` : ""}Your AI Opportunity Snapshot (${range(top.value)} in ${top.title.toLowerCase()})`, text, html };
 }
 
-// ── Orchestration ────────────────────────────────────────────────────────────
+// ── Delivery (after unlock) ──────────────────────────────────────────────────
 
-// Runs after the response is sent. Never throws.
-export async function deliverReport(input: ReportInput, startedAt: number): Promise<void> {
-  let report: Report | null = null;
-  let usage: Usage | null = null;
-  const errors: string[] = [];
-
-  try {
-    const websiteText = await fetchHomepageText(input.website);
-    const client = new Anthropic({ maxRetries: 0 });
-    for (let attempt = 1; attempt <= 2 && !report; attempt++) {
-      try {
-        ({ report, usage } = await claudeReport(client, input, websiteText));
-      } catch (err) {
-        errors.push(`attempt ${attempt}: ${err instanceof Error ? `${err.name}: ${err.message}`.slice(0, 200) : "error"}`);
-      }
-    }
-  } catch (err) {
-    errors.push(err instanceof Error ? err.name : "error");
-  }
-
-  const source = report ? "claude" : "template";
-  const final = report ?? templateReport(input);
-  const email = renderEmail(input, final);
-  const sent = await sendEmail("snapshot-report", { to: input.email, ...email });
-  const ms = Date.now() - startedAt;
+// Runs after the unlock response is sent. Never throws.
+export async function deliverReport(
+  contact: Contact,
+  input: SnapshotInput,
+  report: Report,
+  source: Generated["source"],
+  startedAt: number
+): Promise<void> {
+  const email = renderEmail(contact, input, `${input.tier} (${input.score}/100)`, report);
+  const sent = await sendEmail("snapshot-report", { to: contact.email, ...email });
 
   // Status only. Never log names, emails, or answers.
-  const cost = usage ? (usage.input * 2 + usage.output * 10) / 1_000_000 : 0;
-  console.log(
-    `[report] source=${source} email=${sent.status} ms=${ms}` +
-      (usage ? ` tokens_in=${usage.input} tokens_out=${usage.output} cost_usd=${cost.toFixed(4)}` : "") +
-      ` test=${input.isTest}`
-  );
+  console.log(`[report] emailed source=${source} email=${sent.status} ms=${Date.now() - startedAt} test=${contact.isTest}`);
 
-  if (source === "template" || sent.status !== "sent") {
+  if (sent.status !== "sent") {
     await sendEmail("report-alert", {
       to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
-      replyTo: input.email,
-      subject: `${input.isTest ? "[TEST] " : ""}[ALERT] Snapshot report for ${input.name}, ${input.company}: ${
-        sent.status !== "sent" ? "email NOT sent" : "sent template fallback"
-      }`,
-      text: [
-        `Report source: ${source}`,
-        `Report email: ${sent.status}`,
-        `Visitor: ${input.name} <${input.email}>, ${input.company}`,
-        "",
-        "Claude errors:",
-        ...(errors.length ? errors : ["none"]),
-        "",
-        sent.status === "sent"
-          ? "They received the template report built from their own numbers. No action needed unless you want to follow up personally."
-          : "They did NOT receive a report. Please send one manually.",
-      ].join("\n"),
+      replyTo: contact.email,
+      subject: `${contact.isTest ? "[TEST] " : ""}[ALERT] Snapshot email NOT sent to ${contact.firstName}, ${contact.company}`,
+      text: `Report email status: ${sent.status}\nVisitor: ${contact.firstName} <${contact.email}>, ${contact.company}\n\nThey saw their report on the page but did NOT receive the email. Please send it manually.`,
     });
   }
 
-  const top = final.opportunities[0];
+  const top = report.opportunities[0];
+  const value = estimateValue(top.hours, input.hourlyValue);
   await postReportWebhook({
-    email: input.email,
+    email: contact.email,
     report_status: sent.status === "sent" ? "sent" : "failed",
     top_opportunity: top.title,
-    estimated_annual_value: range(top.value),
+    estimated_annual_value: range(value),
     // Plain numbers for GHL number fields (the text above is for display).
-    est_value_low: top.value.low,
-    est_value_high: top.value.high,
+    est_value_low: value.low,
+    est_value_high: value.high,
     hours_per_week: input.hoursPerWeek,
     bottleneck: input.bottleneck,
   });
