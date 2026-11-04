@@ -113,20 +113,15 @@ const notForYou = [
   "You're not willing to make small changes in how your team works to capture the wins.",
 ];
 
-// ── Testimonials — real quotes, anonymized under NDA ──────────────────────────
-const testimonials = [
-  {
-    quote: "It was worth the money. Return on investment.",
-    role: "Growth & Strategy executive",
-    company: "Publicly traded energy company",
-  },
-  {
-    quote:
-      "The board deck that would have taken me days took about three hours — and it looked better than what I'd have done by hand. Honestly, I would have stopped at 'good enough.' Now it's a reusable Skill: one prompt, every quarter.",
-    role: "Gas & utility markets lead",
-    company: "Publicly traded energy company",
-  },
-];
+// ── Testimonial: real quote, anonymized under NDA ─────────────────────────────
+const testimonial = {
+  quote:
+    "I couldn't have done this without these conversations. Never ever. I would still be banging around in the dark trying to find the lighter.",
+  role: "Gas and utility markets lead",
+  company: "25 years in the industry, North American energy company",
+  story:
+    "He started as the least AI-fluent person on a four-person team. Five sessions later he had built three reusable Skills and shipped his company's first AI-built work product, a board deck.",
+};
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
@@ -358,21 +353,20 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight">What clients say</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
-                <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="pt-4 border-t border-white/10">
-                  <div className="text-sm font-semibold text-white">{t.role}</div>
-                  <div className="text-xs text-white/50">{t.company}</div>
-                </div>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
+              <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
+                &ldquo;{testimonial.quote}&rdquo;
+              </p>
+              <div className="pt-4 border-t border-white/10">
+                <div className="text-sm font-semibold text-white">{testimonial.role}</div>
+                <div className="text-xs text-white/50">{testimonial.company}</div>
               </div>
-            ))}
+            </div>
+            <p className="mt-5 text-white/70 leading-relaxed">{testimonial.story}</p>
           </div>
-          <p className="mt-6 text-xs text-white/40 font-mono">
-            REAL QUOTES FROM CURRENT ENGAGEMENTS · ANONYMIZED UNDER NDA
+          <p className="mt-6 text-xs text-white/40 font-mono text-center">
+            REAL QUOTE FROM A CURRENT ENGAGEMENT · ANONYMIZED UNDER NDA
           </p>
         </div>
       </section>
