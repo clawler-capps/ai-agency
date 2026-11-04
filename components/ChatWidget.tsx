@@ -12,13 +12,17 @@ const getApi = () =>
 // after the footer and makes openWidget a no-op. Switch it to a floating bubble.
 // widgetPlacement is not part of GHL's documented API.
 const setFloatingPlacement = () => {
-  const el = document.querySelector<HTMLElement & { widgetPlacement?: string; active?: boolean }>(
-    "chat-widget"
-  );
+  const el = document.querySelector<
+    HTMLElement & { widgetPlacement?: string; active?: boolean; showPrompt?: boolean }
+  >("chat-widget");
   if (el?.widgetPlacement === "embedded") {
     el.widgetPlacement = "floating";
     el.active = false;
   }
+  // On phones the "Hi there! Have a question?" greeting covers the hero text.
+  // showPrompt is the widget's own property for that greeting (also not part of
+  // GHL's documented API); the bubble itself still shows.
+  if (el && window.matchMedia("(max-width: 639px)").matches) el.showPrompt = false;
 };
 
 // GoHighLevel (LeadConnector) chat widget, homepage only. The bubble stays in its
