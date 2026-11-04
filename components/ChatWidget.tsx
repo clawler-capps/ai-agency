@@ -52,7 +52,7 @@ export default function ChatWidget() {
       <button
         type="button"
         onClick={() => getApi()?.openWidget?.()}
-        className={`btn-primary text-base px-8 py-4 ${ready ? "" : "invisible"}`}
+        className={`btn-secondary text-base px-8 py-4 ${ready ? "" : "invisible"}`}
       >
         Need a quick answer?
       </button>
