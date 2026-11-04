@@ -78,7 +78,7 @@ const tiers = [
       "Strategic builds, governance, and executive briefings stack on top",
       "The scoreboard tracks it all — validated hours, not vibes",
     ],
-    cta: "Book a Call",
+    cta: "Book a free 15-min call",
     ctaHref: BOOKING_URL,
     external: true,
     color: "border-purple-border",

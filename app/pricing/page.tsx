@@ -485,10 +485,10 @@ export default function PricingPage() {
           <div className="mt-8">
             <BookingLink
               location="pricing-lead"
-              label="Book a Call"
+              label="Book a free 15-min call"
               className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors"
             >
-              Book a Call
+              Book a free 15-min call
             </BookingLink>
           </div>
         </div>
@@ -501,16 +501,16 @@ export default function PricingPage() {
             Not sure where you sit on the ladder?
           </h2>
           <p className="text-muted mb-8 leading-relaxed">
-            Book a free intro call. We&apos;ll listen to how your team works, ask a few
+            Book a free 15-min call. We&apos;ll listen to how your team works, ask a few
             questions, and tell you honestly whether the Assessment makes sense right now.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <BookingLink
               location="pricing-cta"
-              label="Book a Free Intro Call"
+              label="Book a free 15-min call →"
               className="btn-primary px-8 py-4 w-full sm:w-auto"
             >
-              Book a Free Intro Call
+              Book a free 15-min call →
             </BookingLink>
             <Link href="/#faq" className="btn-secondary px-8 py-4 w-full sm:w-auto">
               Read the FAQ

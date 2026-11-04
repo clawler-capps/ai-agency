@@ -49,10 +49,10 @@ export default function Footer() {
               <li>
                 <BookingLink
                   location="footer"
-                  label="Book a Free Intro Call"
+                  label="Book a free 15-min call"
                   className="text-sm text-white/60 hover:text-white transition-colors"
                 >
-                  Book a Free Intro Call
+                  Book a free 15-min call
                 </BookingLink>
               </li>
               <li>
