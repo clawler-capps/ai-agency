@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 const tiers = [
   {
@@ -132,14 +133,14 @@ export default function ServiceTiers() {
               </ul>
 
               {tier.external ? (
-                <a
+                <BookingLink
+                  location="tiers-lead"
+                  label={tier.cta}
                   href={tier.ctaHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className={`inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-colors ${tier.ctaColor}`}
                 >
                   {tier.cta}
-                </a>
+                </BookingLink>
               ) : (
                 <Link
                   href={tier.ctaHref}

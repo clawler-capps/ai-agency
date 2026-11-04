@@ -2,7 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { BOOKING_URL } from "@/lib/booking";
+import { track } from "@vercel/analytics";
+import BookingLink from "@/components/BookingLink";
+
+// Tracks clicks on the live "Free AI Snapshot" link (see components/BookingLink.tsx).
+const trackSnapshot = (href: string, location: string) => {
+  if (href === "/assessment") track("cta_click", { location, label: "Free AI Snapshot" });
+};
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,6 +50,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className="text-sm font-medium text-muted hover:text-ink transition-colors"
+                onClick={() => trackSnapshot(link.href, "nav")}
               >
                 {link.label}
               </Link>
@@ -51,14 +58,13 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="nav"
+              label="Book a Call"
               className="btn-primary text-sm py-2 px-4"
             >
               Book a Call
-            </a>
+            </BookingLink>
           </div>
 
           <button
@@ -92,15 +98,22 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className="text-sm font-medium text-muted hover:text-ink py-2 px-2 rounded-lg hover:bg-ink/5 transition-colors"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => {
+                    trackSnapshot(link.href, "nav-mobile");
+                    setMenuOpen(false);
+                  }}
                 >
                   {link.label}
                 </Link>
               ))}
               <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-border">
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-primary text-sm text-center">
+                <BookingLink
+                  location="nav-mobile"
+                  label="Book a Call"
+                  className="btn-primary text-sm text-center"
+                >
                   Book a Call
-                </a>
+                </BookingLink>
               </div>
             </nav>
           </div>

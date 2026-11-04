@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 interface PricingCardProps {
   showBookingButton?: boolean;
@@ -60,14 +60,13 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
 
       {showBookingButton ? (
         <>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <BookingLink
+            location="pricing-assess"
+            label="Start with a free 15-min call →"
             className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors"
           >
             Start with a free 15-min call →
-          </a>
+          </BookingLink>
           <p className="mt-3 text-xs text-muted text-center font-mono">
             15-MIN INTRO CALL FIRST · PLAN DELIVERED WITHIN DAYS OF YOUR INTERVIEWS
           </p>

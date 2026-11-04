@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
@@ -300,14 +300,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-enable"
+              label="Book a Call to Discuss Team Coaching"
               className="btn-primary px-8 py-3 inline-flex"
             >
               Book a Call to Discuss Team Coaching
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -385,14 +384,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-build-day"
+              label="Book a Call to Scope a Build Day"
               className="btn-primary px-8 py-3 inline-flex"
             >
               Book a Call to Scope a Build Day
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -485,14 +483,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-lead"
+              label="Book a Call"
               className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors"
             >
               Book a Call
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -508,14 +505,13 @@ export default function PricingPage() {
             questions, and tell you honestly whether the Assessment makes sense right now.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-cta"
+              label="Book a Free Intro Call"
               className="btn-primary px-8 py-4 w-full sm:w-auto"
             >
               Book a Free Intro Call
-            </a>
+            </BookingLink>
             <Link href="/#faq" className="btn-secondary px-8 py-4 w-full sm:w-auto">
               Read the FAQ
             </Link>

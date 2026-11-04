@@ -1,9 +1,8 @@
-import Link from "next/link";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 import { SNAPSHOT_LINKED } from "@/lib/flags";
 import { questions } from "@/components/assessment/questions";
 
@@ -191,12 +190,14 @@ export default function HomePage() {
               worth in dollars, and one thing to try tonight.
             </p>
           </div>
-          <Link
+          <BookingLink
+            location="home-snapshot-band"
+            label="Get My Free Snapshot"
             href="/assessment"
             className="inline-flex items-center justify-center rounded-xl bg-white text-ink font-bold px-8 py-4 text-base hover:bg-cream transition-colors shrink-0"
           >
             Get My Free Snapshot →
-          </Link>
+          </BookingLink>
         </div>
       </section>
       )}
@@ -291,9 +292,14 @@ export default function HomePage() {
                 </li>
               ))}
             </ul>
-            <Link href="/assessment" className="btn-primary text-base px-8 py-4">
+            <BookingLink
+              location="home-snapshot"
+              label="Start my free Snapshot"
+              href="/assessment"
+              className="btn-primary text-base px-8 py-4"
+            >
               Start my free Snapshot
-            </Link>
+            </BookingLink>
             <p className="mt-3 text-xs text-muted">
               No email until your report is ready. Unsubscribe any time.
             </p>
@@ -375,14 +381,13 @@ export default function HomePage() {
             Bill $200/hr? Eight hours back a week is ~$77,000 a year — against a $997
             assessment. That&apos;s the whole pitch.
           </p>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <BookingLink
+            location="ten-x"
+            label="Start with a free 15-min call →"
             className="btn-primary text-base px-10 py-4 inline-flex"
           >
             Start with a free 15-min call →
-          </a>
+          </BookingLink>
           <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · 10× IDENTIFIED OR YOUR MONEY BACK · MAP DELIVERED WITHIN DAYS</p>
         </div>
       </section>
@@ -467,14 +472,13 @@ export default function HomePage() {
             just a conversation about where AI can move the needle for your business.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="final-cta"
+              label="Book a 15-Min Call →"
               className="btn-primary text-base px-10 py-4 w-full sm:w-auto"
             >
               Book a 15-Min Call →
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>

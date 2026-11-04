@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 import ChatWidget from "@/components/ChatWidget";
 import { SNAPSHOT_LINKED } from "@/lib/flags";
 
@@ -8,6 +8,9 @@ const bullets = [
   "Walk away with a plan with real dollar figures on every line — ready to act on this week",
   "Built for businesses where the owner still answers the phone",
 ];
+
+const heroTextLink =
+  "self-start sm:self-center text-base font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors";
 
 export default function Hero() {
   return (
@@ -30,14 +33,13 @@ export default function Hero() {
           </h1>
 
           {/* Phones: booking button right under the headline, before the story */}
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <BookingLink
+            location="hero-mobile"
+            label="Book a free 15-min call →"
             className="btn-primary w-full text-base px-8 py-4 mb-6 sm:hidden"
           >
             Book a free 15-min call →
-          </a>
+          </BookingLink>
 
           {/* The story */}
           <div className="max-w-2xl border-l-4 border-accent/40 pl-5 py-1 mb-6">
@@ -75,22 +77,27 @@ export default function Hero() {
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="hero"
+              label="Book a free 15-min call →"
               className="btn-primary text-base px-8 py-4 hidden sm:inline-flex"
             >
               Book a free 15-min call →
-            </a>
-            <Link
-              href={SNAPSHOT_LINKED ? "/assessment" : "/pricing"}
-              className="self-start sm:self-center text-base font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors"
-            >
-              {SNAPSHOT_LINKED
-                ? "Not ready to talk? Get the free 5-minute AI Snapshot →"
-                : "See services and pricing →"}
-            </Link>
+            </BookingLink>
+            {SNAPSHOT_LINKED ? (
+              <BookingLink
+                location="hero-snapshot"
+                label="Not ready to talk? Get the free 5-minute AI Snapshot"
+                href="/assessment"
+                className={heroTextLink}
+              >
+                Not ready to talk? Get the free 5-minute AI Snapshot →
+              </BookingLink>
+            ) : (
+              <Link href="/pricing" className={heroTextLink}>
+                See services and pricing →
+              </Link>
+            )}
             <ChatWidget />
           </div>
           <p className="mt-3 text-xs text-muted font-mono">
