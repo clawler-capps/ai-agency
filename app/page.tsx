@@ -9,8 +9,8 @@ import { BOOKING_URL } from "@/lib/booking";
 const proofStats = [
   {
     stat: "$14,400/yr",
-    label: "median value per coached build",
-    detail: "in reclaimed time, priced at a conservative $100/hr",
+    label: "median target per build",
+    detail: "set in the Leverage Assessment, time valued at $100/hr",
   },
   {
     stat: "9–18 hrs/wk",
@@ -20,7 +20,7 @@ const proofStats = [
   {
     stat: "12 hrs → 3 hrs",
     label: "a real board deck, first build",
-    detail: "then ~1 hour every quarter, saved as a recipe Claude repeats on demand — forever",
+    detail: "manual time is the client's estimate; now a reusable Skill rerun each quarter",
   },
 ];
 
@@ -235,8 +235,12 @@ export default function HomePage() {
           <div className="mb-8 lg:mb-10">
             <p className="eyebrow mb-3">Real Numbers</p>
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight text-balance max-w-2xl">
-              From live engagements — measured, then validated with the client
+              From live engagements
             </h2>
+            <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
+              Targets are set in each Leverage Assessment. A build counts as realized only
+              after the client confirms the hours.
+            </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {proofStats.map((p, i) => (
