@@ -31,6 +31,32 @@ const steps = [
   },
 ];
 
+// Source → Skills → Systems, moved here from the old Framework section.
+const layers = [
+  {
+    number: "S1",
+    title: "Source",
+    description:
+      "Claude, the AI we build on, learns your business, so it stops giving generic answers and starts sounding like you.",
+    color: "border-green-border bg-green-light",
+    labelColor: "text-green-DEFAULT",
+  },
+  {
+    number: "S2",
+    title: "Skills",
+    description: "Your best work becomes reusable tools you call up in one click, any time.",
+    color: "border-blue-border bg-blue-light",
+    labelColor: "text-blue-DEFAULT",
+  },
+  {
+    number: "S3",
+    title: "Systems",
+    description: "The repetitive parts run on autopilot. The work happens without you.",
+    color: "border-accent/30 bg-accent/light",
+    labelColor: "text-accent",
+  },
+];
+
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="section-padding bg-cream section-divider">
@@ -65,13 +91,26 @@ export default function HowItWorks() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 p-5 rounded-xl bg-ink/5 border border-border">
-          <p className="font-mono text-xs tracking-widest uppercase text-muted shrink-0">
-            What you get back
+        {/* The framework (was its own section): what gets built along the way */}
+        <div id="framework" className="mt-10 scroll-mt-24">
+          <p className="font-mono text-xs tracking-widest uppercase text-muted mb-2">
+            Our framework · From Tool to System
           </p>
-          <p className="text-xl font-black text-accent tracking-tight">
-            Time · Money · Focus
+          <p className="text-lg text-muted max-w-2xl leading-relaxed mb-5">
+            Most people use AI like a vending machine: ask, get an answer, repeat. We help
+            you build{" "}
+            <strong className="text-ink">your own systems that handle the repetitive work for you</strong>.
           </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {layers.map((layer) => (
+              <div key={layer.number} className={`rounded-2xl border p-5 ${layer.color}`}>
+                <div className={`text-xs font-mono font-bold mb-2 ${layer.labelColor}`}>
+                  {layer.number} · {layer.title}
+                </div>
+                <p className="text-sm text-muted leading-relaxed">{layer.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
