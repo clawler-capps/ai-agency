@@ -30,10 +30,10 @@ export default function Navbar() {
     >
       <div className="max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl font-bold text-ink tracking-tight">Sacramento</span>
-            <span className="text-xl font-bold text-accent tracking-tight">AI</span>
-            <span className="text-xl font-bold text-ink tracking-tight">Agency</span>
+          <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <span className="text-base sm:text-xl font-bold text-ink tracking-tight">Sacramento</span>
+            <span className="text-base sm:text-xl font-bold text-accent tracking-tight">AI</span>
+            <span className="text-base sm:text-xl font-bold text-ink tracking-tight">Agency</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -57,18 +57,20 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          {/* The call lives here, visible at every width. Ink, not orange, so the
+              page's one orange button (the Snapshot) stays the primary. */}
+          <div className="flex items-center gap-1 md:gap-3 ml-auto md:ml-0">
             <BookingLink
               location="nav"
-              label="Book a Call"
-              className="btn-primary text-sm py-2 px-4"
+              label="Book a free 15-min call"
+              className="inline-flex items-center justify-center rounded-lg bg-ink text-white font-semibold hover:bg-ink/85 transition-colors text-[11px] leading-tight px-2.5 py-1.5 max-w-[6.5rem] text-center md:text-sm md:max-w-none md:px-4 md:py-2 md:rounded-xl"
             >
-              Book a Call
+              Book a free 15-min call
             </BookingLink>
           </div>
 
           <button
-            className="md:hidden p-2 -mr-2 text-muted hover:text-ink transition-colors"
+            className="md:hidden p-2 -mr-2 ml-1 text-muted hover:text-ink transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -89,8 +91,8 @@ export default function Navbar() {
                 { href: "/#how-it-works", label: "How It Works" },
                 { href: "/#framework", label: "Our Framework" },
                 { href: "/assessment", label: "Free AI Snapshot" },
-              { href: "/pricing", label: "Pricing" },
-              { href: "/#about", label: "About" },
+                { href: "/pricing", label: "Pricing" },
+                { href: "/#about", label: "About" },
                 { href: "/#faq", label: "FAQ" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (
@@ -106,15 +108,6 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-border">
-                <BookingLink
-                  location="nav-mobile"
-                  label="Book a Call"
-                  className="btn-primary text-sm text-center"
-                >
-                  Book a Call
-                </BookingLink>
-              </div>
             </nav>
           </div>
         )}
