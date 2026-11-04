@@ -233,11 +233,11 @@ export default function HomePage() {
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow mb-3">Who you&apos;re hiring</p>
           <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
-            One senior operator — not a bench of juniors billed at partner rates
+            One senior operator, not a bench of juniors billed at partner rates
           </h2>
           <p className="text-lg text-muted leading-relaxed">
             Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
-            own people become the delivery team — they get coached, tools ship as
+            own people become the delivery team. They get coached, tools ship as
             reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
             why the capability survives the engagement instead of walking out the door
             with the consultant.
