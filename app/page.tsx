@@ -3,6 +3,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
 import BookingLink from "@/components/BookingLink";
+import ChatWidget from "@/components/ChatWidget";
 import { SNAPSHOT_LINKED } from "@/lib/flags";
 import { questions } from "@/components/assessment/questions";
 
@@ -170,37 +171,8 @@ const faqs = [
 export default function HomePage() {
   return (
     <>
+      <ChatWidget />
       <Hero />
-
-      {/* Free AI Opportunity Snapshot CTA (live today). With
-          NEXT_PUBLIC_SNAPSHOT_LINKED=true it is replaced by the Snapshot block
-          after the numbers band. */}
-      {!SNAPSHOT_LINKED && (
-      <section className="bg-accent text-white">
-        <div className="max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-          <div className="max-w-2xl">
-            <p className="font-mono text-xs tracking-widest uppercase text-white/70 mb-2">
-              Free · 3 minutes · Built live for your business
-            </p>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-balance">
-              Get your free AI Opportunity Snapshot
-            </h2>
-            <p className="mt-2 text-white/85 leading-relaxed">
-              Tell us where your time goes. See your top AI opportunities, what they&apos;re
-              worth in dollars, and one thing to try tonight.
-            </p>
-          </div>
-          <BookingLink
-            location="home-snapshot-band"
-            label="Get My Free Snapshot"
-            href="/assessment"
-            className="inline-flex items-center justify-center rounded-xl bg-white text-ink font-bold px-8 py-4 text-base hover:bg-cream transition-colors shrink-0"
-          >
-            Get My Free Snapshot →
-          </BookingLink>
-        </div>
-      </section>
-      )}
 
       {/* Problem */}
       <section className="section-padding bg-ink text-white">

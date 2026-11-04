@@ -21,17 +21,13 @@ const setFloatingPlacement = () => {
   }
 };
 
-// GoHighLevel (LeadConnector) chat widget, homepage only. The bubble stays in its
-// default bottom corner; this adds a "Need a quick answer?" button that opens it via
-// the widget's public API (window.leadConnector.chatWidget.openWidget).
+// GoHighLevel (LeadConnector) chat widget, homepage only. Mount once per page.
+// The bubble stays in its default bottom corner; ChatLink below opens it from
+// anywhere on the page via the widget's public API
+// (window.leadConnector.chatWidget.openWidget).
 export default function ChatWidget() {
-  const [ready, setReady] = useState(false);
-
   useEffect(() => {
-    const onLoaded = () => {
-      setFloatingPlacement();
-      setReady(true);
-    };
+    const onLoaded = () => setFloatingPlacement();
     if (getApi()?.openWidget) onLoaded();
     window.addEventListener("LC_chatWidgetLoaded", onLoaded);
 
@@ -47,21 +43,34 @@ export default function ChatWidget() {
   }, []);
 
   return (
-    <>
-      {/* Hidden, not unmounted, until the widget loads so the layout doesn't jump */}
-      <button
-        type="button"
-        onClick={() => getApi()?.openWidget?.()}
-        className={`btn-secondary text-base px-8 py-4 ${ready ? "" : "invisible"}`}
-      >
-        Need a quick answer?
-      </button>
-      <Script
-        src="https://widgets.leadconnectorhq.com/loader.js"
-        data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
-        data-widget-id="6ae6c63d03d93fc52138845d"
-        strategy="afterInteractive"
-      />
-    </>
+    <Script
+      src="https://widgets.leadconnectorhq.com/loader.js"
+      data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+      data-widget-id="6ae6c63d03d93fc52138845d"
+      strategy="afterInteractive"
+    />
+  );
+}
+
+// A text link that opens the chat. Hidden (not unmounted) until the widget
+// loads, so it never shows as a dead link and the layout doesn't jump.
+export function ChatLink({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const onLoaded = () => setReady(true);
+    if (getApi()?.openWidget) setReady(true);
+    window.addEventListener("LC_chatWidgetLoaded", onLoaded);
+    return () => window.removeEventListener("LC_chatWidgetLoaded", onLoaded);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      onClick={() => getApi()?.openWidget?.()}
+      className={`font-semibold underline underline-offset-4 hover:text-accent transition-colors ${ready ? "" : "invisible"} ${className}`}
+    >
+      {children}
+    </button>
   );
 }

@@ -1,16 +1,12 @@
-import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
-import ChatWidget from "@/components/ChatWidget";
-import { SNAPSHOT_LINKED } from "@/lib/flags";
+import { ChatLink } from "@/components/ChatWidget";
 
+// What the free AI Snapshot gives, so the bullets match the button under them.
 const bullets = [
-  "A one-hour conversation about your week — no technical background needed",
-  "Walk away with a plan with real dollar figures on every line — ready to act on this week",
+  "Answer a few quick questions about your week. No tech background needed.",
+  "See your top 3 AI time savers, with dollars per year on each",
   "Built for businesses where the owner still answers the phone",
 ];
-
-const heroTextLink =
-  "self-start sm:self-center text-base font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors";
 
 export default function Hero() {
   return (
@@ -32,14 +28,31 @@ export default function Hero() {
             {" "}— without hiring anyone.
           </h1>
 
-          {/* Phones: booking button right under the headline, before the story */}
+          {/* What the Snapshot gives */}
+          <ul className="space-y-2 mb-6 max-w-xl">
+            {bullets.map((b, i) => (
+              <li key={i} className="flex items-start gap-3 text-ink/80">
+                <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
+                <span className="text-base sm:text-lg">{b}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* The one primary action, above the fold on phones and desktop */}
           <BookingLink
-            location="hero-mobile"
-            label="Book a free 15-min call →"
-            className="btn-primary w-full text-base px-8 py-4 mb-6 sm:!hidden"
+            location="hero"
+            label="Get my free AI Snapshot →"
+            href="/assessment"
+            className="btn-primary w-full sm:w-auto text-base px-8 py-4"
           >
-            Book a free 15-min call →
+            Get my free AI Snapshot →
           </BookingLink>
+          <p className="mt-3 text-xs text-muted font-mono">
+            FREE · 3 MINUTES · YOUR TOP 3 AI TIME SAVERS, IN DOLLARS
+          </p>
+          <p className="mt-4 mb-10 text-sm text-ink">
+            <ChatLink>Questions first? Ask our AI →</ChatLink>
+          </p>
 
           {/* The story */}
           <div className="max-w-2xl border-l-4 border-accent/40 pl-5 py-1 mb-6">
@@ -56,52 +69,13 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Bridge to the offer */}
-          <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl mb-8">
+          {/* Bridge to the paid offer */}
+          <p className="text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl">
             He didn&apos;t add headcount. He added one system, built once. That&apos;s
-            the whole model — and the{" "}
+            the whole model. Ready for the full hour? The{" "}
             <strong className="font-semibold text-ink">AI Leverage Assessment</strong>{" "}
-            is where we find your version of it: at least 10× the fee identified in
-            annual value, or your money back.
-          </p>
-
-          {/* Bullet proof points */}
-          <ul className="space-y-2.5 mb-8 max-w-xl">
-            {bullets.map((b, i) => (
-              <li key={i} className="flex items-start gap-3 text-ink/80">
-                <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
-                <span className="text-base sm:text-lg">{b}</span>
-              </li>
-            ))}
-          </ul>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
-            <BookingLink
-              location="hero"
-              label="Book a free 15-min call →"
-              className="btn-primary text-base px-8 py-4 max-sm:!hidden"
-            >
-              Book a free 15-min call →
-            </BookingLink>
-            {SNAPSHOT_LINKED ? (
-              <BookingLink
-                location="hero-snapshot"
-                label="Not ready to talk? Get the free 5-minute AI Snapshot"
-                href="/assessment"
-                className={heroTextLink}
-              >
-                Not ready to talk? Get the free 5-minute AI Snapshot →
-              </BookingLink>
-            ) : (
-              <Link href="/pricing" className={heroTextLink}>
-                See services and pricing →
-              </Link>
-            )}
-            <ChatWidget />
-          </div>
-          <p className="mt-3 text-xs text-muted font-mono">
-            15 MINUTES WITH TYLER · PICK A TIME ON THE NEXT SCREEN
+            is $997. If we can&apos;t find 10× that in annual value, you get your money
+            back.
           </p>
         </div>
       </div>
