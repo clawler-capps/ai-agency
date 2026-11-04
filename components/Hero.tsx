@@ -36,7 +36,7 @@ export default function Hero() {
           <BookingLink
             location="hero-mobile"
             label="Book a free 15-min call →"
-            className="btn-primary w-full text-base px-8 py-4 mb-6 sm:hidden"
+            className="btn-primary w-full text-base px-8 py-4 mb-6 sm:!hidden"
           >
             Book a free 15-min call →
           </BookingLink>
@@ -80,7 +80,7 @@ export default function Hero() {
             <BookingLink
               location="hero"
               label="Book a free 15-min call →"
-              className="btn-primary text-base px-8 py-4 hidden sm:inline-flex"
+              className="btn-primary text-base px-8 py-4 max-sm:!hidden"
             >
               Book a free 15-min call →
             </BookingLink>
