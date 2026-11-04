@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <p className="eyebrow mb-6">
-            Sacramento AI Agency — Tyler Capps
+            For Sacramento owners and team leads
           </p>
 
           {/* Headline (the hook) */}
@@ -27,6 +27,16 @@ export default function Hero() {
             <span className="text-accent">a whole new team</span>
             {" "}— without hiring anyone.
           </h1>
+
+          {/* Phones: booking button right under the headline, before the story */}
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary w-full text-base px-8 py-4 mb-6 sm:hidden"
+          >
+            Book a free 15-min call →
+          </a>
 
           {/* The story */}
           <div className="max-w-2xl border-l-4 border-accent/40 pl-5 py-1 mb-6">
@@ -68,17 +78,20 @@ export default function Hero() {
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary text-base px-8 py-4"
+              className="btn-primary text-base px-8 py-4 hidden sm:inline-flex"
             >
-              Book a Free 15-Min Intro →
+              Book a free 15-min call →
             </a>
-            <Link href="/pricing" className="btn-secondary text-base px-8 py-4">
-              See Services &amp; Pricing
+            <Link
+              href="/pricing"
+              className="self-start sm:self-center text-base font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors"
+            >
+              See services and pricing →
             </Link>
             <ChatWidget />
           </div>
           <p className="mt-3 text-xs text-muted font-mono">
-            BOOKING OPENS AN EMAIL — NO FORMS, NO SCHEDULER. TYLER REPLIES WITHIN ONE BUSINESS DAY.
+            15 MINUTES WITH TYLER · PICK A TIME ON THE NEXT SCREEN
           </p>
         </div>
       </div>
