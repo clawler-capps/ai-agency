@@ -49,7 +49,9 @@ Every field is flat so it maps directly in the GHL workflow:
 | `email` | matches the lead |
 | `report_status` | `sent` or `failed` |
 | `top_opportunity` | e.g. `Automated weekly reporting` |
-| `estimated_annual_value` | e.g. `$7,200–$14,400 a year` |
+| `estimated_annual_value` | e.g. `$7,200–$14,400 a year` (text, for display) |
+| `est_value_low` | e.g. `7200` (number, for GHL number fields) |
+| `est_value_high` | e.g. `14400` (number) |
 | `hours_per_week` | number |
 | `bottleneck` | text |
 

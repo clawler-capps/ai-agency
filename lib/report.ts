@@ -430,6 +430,9 @@ export async function deliverReport(input: ReportInput, startedAt: number): Prom
     report_status: sent.status === "sent" ? "sent" : "failed",
     top_opportunity: top.title,
     estimated_annual_value: range(top.value),
+    // Plain numbers for GHL number fields (the text above is for display).
+    est_value_low: top.value.low,
+    est_value_high: top.value.high,
     hours_per_week: input.hoursPerWeek,
     bottleneck: input.bottleneck,
   });
