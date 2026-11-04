@@ -177,7 +177,7 @@ export default function PricingPage() {
           </h1>
           <p className="text-lg text-muted max-w-xl leading-relaxed">
             Every engagement starts with the <strong className="text-ink">$997 AI Leverage
-            Assessment</strong> — the only thing here you can buy without a call. Each rung
+            Assessment</strong>. Each rung
             after that is only recommended once the scoreboard shows it will pay for itself.
           </p>
         </div>

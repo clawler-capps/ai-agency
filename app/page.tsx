@@ -338,7 +338,7 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="btn-primary text-base px-10 py-4 inline-flex"
           >
-            Book Your Assessment — $997 →
+            Start with a free 15-min call →
           </a>
           <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · 10× IDENTIFIED OR YOUR MONEY BACK · MAP DELIVERED WITHIN DAYS</p>
         </div>

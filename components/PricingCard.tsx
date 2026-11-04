@@ -66,7 +66,7 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
             rel="noopener noreferrer"
             className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors"
           >
-            Book Your Assessment
+            Start with a free 15-min call →
           </a>
           <p className="mt-3 text-xs text-muted text-center font-mono">
             15-MIN INTRO CALL FIRST · PLAN DELIVERED WITHIN DAYS OF YOUR INTERVIEWS
