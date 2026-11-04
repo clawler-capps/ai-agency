@@ -1,11 +1,12 @@
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
 import BookingLink from "@/components/BookingLink";
-import ChatWidget from "@/components/ChatWidget";
-import { SNAPSHOT_LINKED } from "@/lib/flags";
-import { questions } from "@/components/assessment/questions";
+import ChatWidget, { ChatLink } from "@/components/ChatWidget";
+
+// The page's one primary action, repeated: hero, end of The Problem, after the
+// proof, and the final section. The call lives in the nav and the 10x section.
+const SNAPSHOT_LABEL = "Get my free AI Snapshot →";
 
 // ── Proof numbers (anonymized, from live engagements) ─────────────────────────
 const proofStats = [
@@ -26,7 +27,7 @@ const proofStats = [
   },
 ];
 
-// ── Snapshot block bullets (shown when NEXT_PUBLIC_SNAPSHOT_LINKED=true) ───────
+// ── Snapshot block bullets (match what the live report shows) ─────────────────
 const snapshotBullets = [
   "Your readiness score across 5 areas",
   "Your top 3 opportunities, with the dollars per year for each",
@@ -122,15 +123,23 @@ const notForYou = [
   "You're not willing to make small changes in how your team works to capture the wins.",
 ];
 
-// ── Testimonial: real quote, anonymized under NDA ─────────────────────────────
-const testimonial = {
-  quote:
-    "I couldn't have done this without these conversations. Never ever. I would still be banging around in the dark trying to find the lighter.",
-  role: "Gas and utility markets lead",
-  company: "25 years in the industry, North American energy company",
-  story:
-    "He started as the least AI-fluent person on a four-person team. Five sessions later he had built three reusable Skills and shipped his company's first AI-built work product, a board deck.",
-};
+// ── Testimonials: real quotes, anonymized under NDA ───────────────────────────
+const testimonials = [
+  {
+    quote:
+      "I couldn't have done this without these conversations. Never ever. I would still be banging around in the dark trying to find the lighter.",
+    role: "Gas and utility markets lead",
+    company: "25 years in the industry, North American energy company",
+    story:
+      "He started as the least AI-fluent person on a four-person team. Five sessions later he had built three reusable Skills and shipped his company's first AI-built work product, a board deck.",
+  },
+  {
+    quote: "It was worth the money. Return on investment.",
+    role: "Growth & Strategy executive",
+    company: "Publicly traded energy company",
+    story: "",
+  },
+];
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
@@ -203,14 +212,43 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          {/* Snapshot CTA, first ask after the pain is named */}
+          <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <p className="text-xl font-bold">See where your hours go this week.</p>
+            <BookingLink
+              location="problem-snapshot"
+              label={SNAPSHOT_LABEL}
+              href="/assessment"
+              className="btn-primary w-full sm:w-auto text-base px-8 py-4"
+            >
+              {SNAPSHOT_LABEL}
+            </BookingLink>
+          </div>
         </div>
       </section>
 
+      {/* Who you're hiring (moved up: the guide shows up before any price) */}
+      <section id="about" className="section-padding bg-cream section-divider">
+        <div className="max-w-3xl mx-auto">
+          <p className="eyebrow mb-3">Who you&apos;re hiring</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
+            One senior operator — not a bench of juniors billed at partner rates
+          </h2>
+          <p className="text-lg text-muted leading-relaxed">
+            Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
+            own people become the delivery team — they get coached, tools ship as
+            reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
+            why the capability survives the engagement instead of walking out the door
+            with the consultant.
+          </p>
+        </div>
+      </section>
+
+      {/* How it works: the three-step plan, with the framework folded in */}
       <HowItWorks />
 
-      <Framework />
-
-      {/* Proof — anonymized numbers from live engagements */}
+      {/* Proof: anonymized numbers from live engagements */}
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 lg:mb-10">
@@ -243,41 +281,69 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Free AI Opportunity Snapshot block (switched off by default) */}
-      {SNAPSHOT_LINKED && (
-        <section className="section-padding bg-paper section-divider">
-          <div className="max-w-3xl mx-auto">
-            <p className="eyebrow mb-3">Free AI Opportunity Snapshot</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight text-balance mb-5">
-              How to find your top 3 AI time savers in 5 minutes, even if you&apos;ve never used AI
-            </h2>
-            <p className="text-lg text-muted leading-relaxed mb-6">
-              Answer {questions.length} quick questions about how your business runs. Your
-              report shows on screen as soon as you finish, with the hours and dollars worked
-              out for each one.
+      {/* Social proof: real quotes, anonymized under NDA (next to the numbers) */}
+      <section className="section-padding bg-ink text-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-8 lg:mb-10">
+            <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
+              Client Results
             </p>
-            <ul className="space-y-2.5 mb-8">
-              {snapshotBullets.map((b) => (
-                <li key={b} className="flex items-start gap-3 text-ink/80">
-                  <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
-                  <span className="text-base sm:text-lg">{b}</span>
-                </li>
-              ))}
-            </ul>
-            <BookingLink
-              location="home-snapshot"
-              label="Start my free Snapshot"
-              href="/assessment"
-              className="btn-primary text-base px-8 py-4"
-            >
-              Start my free Snapshot
-            </BookingLink>
-            <p className="mt-3 text-xs text-muted">
-              No email until your report is ready. Unsubscribe any time.
-            </p>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">What clients say</h2>
           </div>
-        </section>
-      )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
+                <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="pt-4 border-t border-white/10">
+                  <div className="text-sm font-semibold text-white">{t.role}</div>
+                  <div className="text-xs text-white/50">{t.company}</div>
+                </div>
+                {t.story && <p className="mt-4 text-sm text-white/70 leading-relaxed">{t.story}</p>}
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-xs text-white/40 font-mono">
+            REAL QUOTES FROM CURRENT ENGAGEMENTS · ANONYMIZED UNDER NDA
+          </p>
+        </div>
+      </section>
+
+      {/* Free AI Opportunity Snapshot block, right after the proof */}
+      <section className="section-padding bg-paper section-divider">
+        <div className="max-w-3xl mx-auto">
+          <p className="eyebrow mb-3">Free AI Opportunity Snapshot</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight text-balance mb-5">
+            How to find your top 3 AI time savers in 3 minutes, even if you&apos;ve never used AI
+          </h2>
+          <p className="text-lg text-muted leading-relaxed mb-6">
+            Answer a few quick questions about how your business runs. Your report builds
+            on screen as soon as you finish, with the hours and dollars worked out for
+            each one.
+          </p>
+          <ul className="space-y-2.5 mb-8">
+            {snapshotBullets.map((b) => (
+              <li key={b} className="flex items-start gap-3 text-ink/80">
+                <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
+                <span className="text-base sm:text-lg">{b}</span>
+              </li>
+            ))}
+          </ul>
+          <BookingLink
+            location="home-snapshot"
+            label={SNAPSHOT_LABEL}
+            href="/assessment"
+            className="btn-primary w-full sm:w-auto text-base px-8 py-4"
+          >
+            {SNAPSHOT_LABEL}
+          </BookingLink>
+          <p className="mt-3 text-xs text-muted">
+            No email until your report is ready. Unsubscribe any time.
+          </p>
+        </div>
+      </section>
 
       {/* Who this is built for */}
       <section className="section-padding bg-paper section-divider">
@@ -333,7 +399,7 @@ export default function HomePage() {
 
       <ServiceTiers />
 
-      {/* The 10× Rule — assessment CTA */}
+      {/* The 10× Rule: the high-intent zone keeps the call */}
       <section className="section-padding bg-paper section-divider">
         <div className="max-w-3xl mx-auto text-center">
           <p className="eyebrow mb-4">The 10× Rule</p>
@@ -355,56 +421,21 @@ export default function HomePage() {
           </p>
           <BookingLink
             location="ten-x"
-            label="Start with a free 15-min call →"
-            className="btn-primary text-base px-10 py-4 inline-flex"
+            label="Book a free 15-min call →"
+            className="btn-secondary text-base px-10 py-4 inline-flex"
           >
-            Start with a free 15-min call →
+            Book a free 15-min call →
           </BookingLink>
           <p className="mt-4 text-xs text-muted font-mono">ONE HOUR · 10× IDENTIFIED OR YOUR MONEY BACK · MAP DELIVERED WITHIN DAYS</p>
-        </div>
-      </section>
-
-      {/* Social proof — real quotes, anonymized under NDA */}
-      <section className="section-padding bg-ink text-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8 lg:mb-10">
-            <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-3">
-              Client Results
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight">What clients say</h2>
-          </div>
-
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
-              <p className="text-white/90 text-lg leading-relaxed mb-6 italic">
-                &ldquo;{testimonial.quote}&rdquo;
-              </p>
-              <div className="pt-4 border-t border-white/10">
-                <div className="text-sm font-semibold text-white">{testimonial.role}</div>
-                <div className="text-xs text-white/50">{testimonial.company}</div>
-              </div>
-            </div>
-            <p className="mt-5 text-white/70 leading-relaxed">{testimonial.story}</p>
-          </div>
-          <p className="mt-6 text-xs text-white/40 font-mono text-center">
-            REAL QUOTE FROM A CURRENT ENGAGEMENT · ANONYMIZED UNDER NDA
-          </p>
-        </div>
-      </section>
-
-      {/* Who you're hiring */}
-      <section id="about" className="section-padding bg-cream section-divider">
-        <div className="max-w-3xl mx-auto">
-          <p className="eyebrow mb-3">Who you&apos;re hiring</p>
-          <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
-            One senior operator — not a bench of juniors billed at partner rates
-          </h2>
-          <p className="text-lg text-muted leading-relaxed">
-            Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
-            own people become the delivery team — they get coached, tools ship as
-            reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
-            why the capability survives the engagement instead of walking out the door
-            with the consultant.
+          <p className="mt-5 text-sm">
+            <BookingLink
+              location="ten-x-snapshot"
+              label="Not ready? Get the free Snapshot first →"
+              href="/assessment"
+              className="font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors"
+            >
+              Not ready? Get the free Snapshot first →
+            </BookingLink>
           </p>
         </div>
       </section>
@@ -417,6 +448,9 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
               Questions you might be asking
             </h2>
+            <p className="mt-4 text-base text-ink">
+              <ChatLink>Don&apos;t see your question? Ask our AI →</ChatLink>
+            </p>
           </div>
           <div className="divide-y divide-border">
             {faqs.map((faq, i) => (
@@ -433,25 +467,33 @@ export default function HomePage() {
       <section className="section-padding bg-ink text-white">
         <div className="max-w-3xl mx-auto text-center">
           <p className="font-mono text-xs tracking-widest uppercase text-white/40 mb-6">
-            Your next 15 minutes could save you 8+ hours every week
+            Free · 3 minutes · Report on screen
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight tracking-tight mb-6 text-balance">
             Ready to find your first{" "}
             <span className="text-accent">AI quick win?</span>
           </h2>
           <p className="text-white/60 text-lg mb-8 leading-relaxed max-w-xl mx-auto">
-            Reach out and we&apos;ll set up a 15-minute intro call. No pitch, no pressure —
-            just a conversation about where AI can move the needle for your business.
+            Start with the free AI Snapshot. Answer a few questions about your week and
+            see your top 3 AI time savers, with dollars on each.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <BookingLink
+            location="final-cta"
+            label={SNAPSHOT_LABEL}
+            href="/assessment"
+            className="btn-primary text-base px-10 py-4 w-full sm:w-auto"
+          >
+            {SNAPSHOT_LABEL}
+          </BookingLink>
+          <p className="mt-5 text-sm">
             <BookingLink
-              location="final-cta"
-              label="Book a 15-Min Call →"
-              className="btn-primary text-base px-10 py-4 w-full sm:w-auto"
+              location="final-call"
+              label="Or book a free 15-min call →"
+              className="font-semibold text-white underline underline-offset-4 hover:text-accent transition-colors"
             >
-              Book a 15-Min Call →
+              Or book a free 15-min call →
             </BookingLink>
-          </div>
+          </p>
         </div>
       </section>
     </>
