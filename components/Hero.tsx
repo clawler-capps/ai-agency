@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BOOKING_URL } from "@/lib/booking";
 import ChatWidget from "@/components/ChatWidget";
+import { SNAPSHOT_LINKED } from "@/lib/flags";
 
 const bullets = [
   "A one-hour conversation about your week — no technical background needed",
@@ -83,10 +84,12 @@ export default function Hero() {
               Book a free 15-min call →
             </a>
             <Link
-              href="/pricing"
+              href={SNAPSHOT_LINKED ? "/assessment" : "/pricing"}
               className="self-start sm:self-center text-base font-semibold text-ink underline underline-offset-4 hover:text-accent transition-colors"
             >
-              See services and pricing →
+              {SNAPSHOT_LINKED
+                ? "Not ready to talk? Get the free 5-minute AI Snapshot →"
+                : "See services and pricing →"}
             </Link>
             <ChatWidget />
           </div>

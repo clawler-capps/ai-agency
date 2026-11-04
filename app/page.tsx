@@ -4,6 +4,8 @@ import HowItWorks from "@/components/HowItWorks";
 import Framework from "@/components/Framework";
 import ServiceTiers from "@/components/ServiceTiers";
 import { BOOKING_URL } from "@/lib/booking";
+import { SNAPSHOT_LINKED } from "@/lib/flags";
+import { questions } from "@/components/assessment/questions";
 
 // ── Proof numbers (anonymized, from live engagements) ─────────────────────────
 const proofStats = [
@@ -22,6 +24,13 @@ const proofStats = [
     label: "a real board deck, first build",
     detail: "manual time is the client's estimate; now a reusable Skill rerun each quarter",
   },
+];
+
+// ── Snapshot block bullets (shown when NEXT_PUBLIC_SNAPSHOT_LINKED=true) ───────
+const snapshotBullets = [
+  "Your readiness score across 5 areas",
+  "Your top 3 opportunities, with the dollars per year for each",
+  "One prompt to try tonight",
 ];
 
 // ── Problem data ──────────────────────────────────────────────────────────────
@@ -164,7 +173,10 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Free AI Opportunity Snapshot CTA */}
+      {/* Free AI Opportunity Snapshot CTA (live today). With
+          NEXT_PUBLIC_SNAPSHOT_LINKED=true it is replaced by the Snapshot block
+          after the numbers band. */}
+      {!SNAPSHOT_LINKED && (
       <section className="bg-accent text-white">
         <div className="max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
           <div className="max-w-2xl">
@@ -187,6 +199,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+      )}
 
       {/* Problem */}
       <section className="section-padding bg-ink text-white">
@@ -256,6 +269,37 @@ export default function HomePage() {
           </p>
         </div>
       </section>
+
+      {/* Free AI Opportunity Snapshot block (switched off by default) */}
+      {SNAPSHOT_LINKED && (
+        <section className="section-padding bg-paper section-divider">
+          <div className="max-w-3xl mx-auto">
+            <p className="eyebrow mb-3">Free AI Opportunity Snapshot</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight text-balance mb-5">
+              How to find your top 3 AI time savers in 5 minutes, even if you&apos;ve never used AI
+            </h2>
+            <p className="text-lg text-muted leading-relaxed mb-6">
+              Answer {questions.length} quick questions about how your business runs. Your
+              report shows on screen as soon as you finish, with the hours and dollars worked
+              out for each one.
+            </p>
+            <ul className="space-y-2.5 mb-8">
+              {snapshotBullets.map((b) => (
+                <li key={b} className="flex items-start gap-3 text-ink/80">
+                  <span className="text-accent font-bold mt-0.5 shrink-0">✓</span>
+                  <span className="text-base sm:text-lg">{b}</span>
+                </li>
+              ))}
+            </ul>
+            <Link href="/assessment" className="btn-primary text-base px-8 py-4">
+              Start my free Snapshot
+            </Link>
+            <p className="mt-3 text-xs text-muted">
+              No email until your report is ready. Unsubscribe any time.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Who this is built for */}
       <section className="section-padding bg-paper section-divider">
