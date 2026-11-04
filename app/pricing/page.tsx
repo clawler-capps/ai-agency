@@ -427,7 +427,7 @@ export default function PricingPage() {
               through the program. At the typical{" "}
               <strong className="text-white">$10K–$15K/yr reclaimed per person</strong>,
               that&apos;s <strong className="text-white">$360K–$540K/yr from coaching
-              alone</strong> — before strategic builds (median target $14K/yr each), the adoption
+              alone</strong>, before strategic builds (median target $14K/yr each), the adoption
               ripple, and the enterprise upside of faster decisions. The target we hold
               ourselves to: <strong className="text-accent">5–10× your investment in
               annual value</strong>, tracked on your scoreboard and validated with
