@@ -63,9 +63,10 @@ export default function Navbar() {
             <BookingLink
               location="nav"
               label="Book a free 15-min call"
-              className="inline-flex items-center justify-center rounded-lg bg-ink text-white font-semibold hover:bg-ink/85 transition-colors text-[11px] leading-tight px-2.5 py-1.5 max-w-[6.5rem] text-center md:text-sm md:max-w-none md:px-4 md:py-2 md:rounded-xl"
+              className="inline-flex items-center justify-center rounded-lg bg-ink text-white font-semibold hover:bg-ink/85 transition-colors text-[11px] leading-tight px-2.5 py-1.5 max-w-[7rem] text-center md:text-sm md:max-w-none md:px-4 md:py-2 md:rounded-xl"
             >
-              Book a free 15-min call
+              {/* Non-breaking hyphen so phones wrap as "Book a free / 15-min call" */}
+              Book a free 15‑min call
             </BookingLink>
           </div>
 

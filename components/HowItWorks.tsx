@@ -1,3 +1,5 @@
+import BookingLink from "@/components/BookingLink";
+
 const steps = [
   {
     step: "1",
@@ -111,6 +113,19 @@ export default function HowItWorks() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Snapshot CTA after the plan */}
+        <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+          <p className="text-xl font-bold text-ink">Not sure where to start?</p>
+          <BookingLink
+            location="plan-snapshot"
+            label="Get my free AI Snapshot →"
+            href="/assessment"
+            className="btn-primary w-full sm:w-auto text-base px-8 py-4"
+          >
+            Get my free AI Snapshot →
+          </BookingLink>
         </div>
       </div>
     </section>
