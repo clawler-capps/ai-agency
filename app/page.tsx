@@ -372,7 +372,7 @@ export default function HomePage() {
       </section>
 
       {/* Who you're hiring */}
-      <section className="section-padding bg-cream section-divider">
+      <section id="about" className="section-padding bg-cream section-divider">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow mb-3">Who you&apos;re hiring</p>
           <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
