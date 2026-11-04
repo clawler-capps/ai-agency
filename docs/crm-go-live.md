@@ -4,7 +4,9 @@ How the site sends leads to GoHighLevel (GHL). No n8n and no GHL API token: the 
 
 ## What the code does now
 
-- `/assessment` (AI Opportunity Snapshot): `/api/capture-email` re-scores the answers on the server, posts the lead to `LEAD_WEBHOOK_URL`, emails the visitor an instant confirmation, and notifies `TYLER_NOTIFICATION_EMAIL`. If the webhook post fails, the visitor sees an error and can retry.
+- `/assessment` (AI Opportunity Snapshot): `/api/capture-email` re-scores the answers on the server and posts the lead to `LEAD_WEBHOOK_URL` first. If that post fails, the visitor sees an error and can retry. The results page then shows the dollar estimate, the top opportunity, and a try-it-tonight prompt straight away.
+- After responding, the route makes one Claude call (`claude-sonnet-5-5`, `ANTHROPIC_API_KEY`) and emails the visitor one results email (usually about 10 seconds). It retries once; if Claude still fails, a template report built from the same math goes out and Tyler gets an alert. Tyler's notification email is sent too.
+- Report results post to `REPORT_WEBHOOK_URL` (a second GHL Inbound Webhook) when it is set.
 - `/questionnaire` and `/contact` also post to `LEAD_WEBHOOK_URL`, best effort.
 - Webhook posts only happen when `FUNNEL_ENABLED=true`. Set it on Vercel Production only, so Preview deploys never create contacts.
 - Logs hold status only (`[leads]`, `[capture-email]`), never names, emails, or answers. Tyler's notification email has the details.
@@ -19,10 +21,19 @@ Every field is flat so it maps directly in the GHL workflow:
 |---|---|
 | `source` | `website-assessment` |
 | `submittedAt` | ISO timestamp |
-| `name`, `first_name`, `email`, `company` | |
+| `name`, `first_name`, `email`, `company` | `name` and `first_name` are both the first name from the gate |
 | `company_size` | `Solo`, `2–10`, `11–50`, `50+` |
 | `industry` | `Construction & Trades` |
 | `website` | optional, may be empty |
+| `revenue_band` | `Under $500K`, `$500K–$1M`, `$1–5M`, `$5–10M`, `$10–50M`, `$50M+` |
+| `role` | `Owner or founder`, `Executive or senior leader`, `Manager or team lead`, `Team member`, `Other` |
+| `bottleneck` | where they lose the most time, in their words |
+| `followup_choice` | the option they tapped for "Where does that work slow down?" (AI-suggested, or `Other`) |
+| `followup_text` | their own words when they picked `Other`, else empty |
+| `hours_per_week` | hours a week on it |
+| `hourly_value` | what an hour is worth ($, default 75) |
+| `est_value_low`, `est_value_high` | yearly value of fixing it: hours × rate × 50 weeks × 30% / 60% |
+| `top_opportunity` | the #1 opportunity title from their AI report |
 | `score` | 0–100 |
 | `tier` | `AI-Curious`, `AI-Ready`, `AI-Leading` |
 | `score_data`, `score_process`, `score_team`, `score_leadership`, `score_vertical` | 0–100 per pillar |
@@ -31,6 +42,21 @@ Every field is flat so it maps directly in the GHL workflow:
 | `consent` | `true` only if the visitor ticked the tips checkbox |
 | `test` | `true` for test addresses |
 | `tags` | comma-separated, e.g. `assessment-submitted,assessment-ai-ready,marketing-consent,test-lead` |
+
+## Report webhook payload (`REPORT_WEBHOOK_URL`)
+
+| Field | Example |
+|---|---|
+| `source` | `website-assessment-report` |
+| `submittedAt` | ISO timestamp |
+| `email` | matches the lead |
+| `report_status` | `sent` or `failed` |
+| `top_opportunity` | e.g. `Automated weekly reporting` |
+| `estimated_annual_value` | e.g. `$7,200–$14,400 a year` (text, for display) |
+| `est_value_low` | e.g. `7200` (number, for GHL number fields) |
+| `est_value_high` | e.g. `14400` (number) |
+| `hours_per_week` | number |
+| `bottleneck` | text |
 
 ## GoHighLevel hookup
 

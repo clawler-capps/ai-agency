@@ -34,6 +34,7 @@ export default function Navbar() {
             {[
               { href: "/#how-it-works", label: "How It Works" },
               { href: "/#framework", label: "Our Framework" },
+              { href: "/assessment", label: "Free AI Snapshot" },
               { href: "/pricing", label: "Pricing" },
               { href: "/#faq", label: "FAQ" },
               { href: "/contact", label: "Contact" },
@@ -80,7 +81,8 @@ export default function Navbar() {
               {[
                 { href: "/#how-it-works", label: "How It Works" },
                 { href: "/#framework", label: "Our Framework" },
-                { href: "/pricing", label: "Pricing" },
+                { href: "/assessment", label: "Free AI Snapshot" },
+              { href: "/pricing", label: "Pricing" },
                 { href: "/#faq", label: "FAQ" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (

@@ -17,7 +17,7 @@ export const REPLY_TO = process.env.RESEND_REPLY_TO ?? "tyler@sacramentoaiagency
 // so test submissions never create GoHighLevel contacts.
 export const funnelEnabled = () => process.env.FUNNEL_ENABLED === "true";
 
-async function postJson(source: LeadSource, url: string, body: unknown): Promise<boolean> {
+async function postJson(source: string, url: string, body: unknown): Promise<boolean> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), WEBHOOK_TIMEOUT_MS);
   try {
@@ -54,6 +54,22 @@ export async function postLeadWebhook(
   }
   const body = { source, submittedAt: new Date().toISOString(), ...payload };
   return (await postJson(source, url, body)) ? "sent" : "failed";
+}
+
+// Posts report results to REPORT_WEBHOOK_URL, a second GHL Inbound Webhook,
+// so the lead workflow on LEAD_WEBHOOK_URL doesn't run twice. Never throws.
+export async function postReportWebhook(payload: Record<string, unknown>): Promise<Status> {
+  if (!funnelEnabled()) {
+    console.log("[leads] Webhook (report) skipped: FUNNEL_ENABLED is not true");
+    return "skipped";
+  }
+  const url = process.env.REPORT_WEBHOOK_URL;
+  if (!url) {
+    console.log("[leads] Webhook (report) skipped: REPORT_WEBHOOK_URL not set");
+    return "skipped";
+  }
+  const body = { source: "website-assessment-report", submittedAt: new Date().toISOString(), ...payload };
+  return (await postJson("report", url, body)) ? "sent" : "failed";
 }
 
 // Sends one email through Resend. Never throws. Returns the Resend id on success.
