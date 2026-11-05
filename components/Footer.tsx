@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 export default function Footer() {
   return (
@@ -47,14 +47,13 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <BookingLink
+                  location="footer"
+                  label="Book a free 15-min call"
                   className="text-sm text-white/60 hover:text-white transition-colors"
                 >
-                  Book a Free Intro Call
-                </a>
+                  Book a free 15-min call
+                </BookingLink>
               </li>
               <li>
                 <Link href="/pricing" className="text-sm text-white/60 hover:text-white transition-colors">

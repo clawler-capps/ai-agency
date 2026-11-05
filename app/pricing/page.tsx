@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
@@ -177,7 +177,7 @@ export default function PricingPage() {
           </h1>
           <p className="text-lg text-muted max-w-xl leading-relaxed">
             Every engagement starts with the <strong className="text-ink">$997 AI Leverage
-            Assessment</strong> — the only thing here you can buy without a call. Each rung
+            Assessment</strong>. Each rung
             after that is only recommended once the scoreboard shows it will pay for itself.
           </p>
         </div>
@@ -300,14 +300,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-enable"
+              label="Book a Call to Discuss Team Coaching"
               className="btn-primary px-8 py-3 inline-flex"
             >
               Book a Call to Discuss Team Coaching
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -385,14 +384,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-build-day"
+              label="Book a Call to Scope a Build Day"
               className="btn-primary px-8 py-3 inline-flex"
             >
               Book a Call to Scope a Build Day
-            </a>
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -429,7 +427,7 @@ export default function PricingPage() {
               through the program. At the typical{" "}
               <strong className="text-white">$10K–$15K/yr reclaimed per person</strong>,
               that&apos;s <strong className="text-white">$360K–$540K/yr from coaching
-              alone</strong> — before strategic builds (median $14K/yr each), the adoption
+              alone</strong>, before strategic builds (median target $14K/yr each), the adoption
               ripple, and the enterprise upside of faster decisions. The target we hold
               ourselves to: <strong className="text-accent">5–10× your investment in
               annual value</strong>, tracked on your scoreboard and validated with
@@ -485,14 +483,13 @@ export default function PricingPage() {
           </div>
 
           <div className="mt-8">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-lead"
+              label="Book a free 15-min call"
               className="inline-flex items-center justify-center px-8 py-3 rounded-xl font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/5 transition-colors"
             >
-              Book a Call
-            </a>
+              Book a free 15-min call
+            </BookingLink>
           </div>
         </div>
       </section>
@@ -504,18 +501,17 @@ export default function PricingPage() {
             Not sure where you sit on the ladder?
           </h2>
           <p className="text-muted mb-8 leading-relaxed">
-            Book a free intro call. We&apos;ll listen to how your team works, ask a few
+            Book a free 15-min call. We&apos;ll listen to how your team works, ask a few
             questions, and tell you honestly whether the Assessment makes sense right now.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="pricing-cta"
+              label="Book a free 15-min call →"
               className="btn-primary px-8 py-4 w-full sm:w-auto"
             >
-              Book a Free Intro Call
-            </a>
+              Book a free 15-min call →
+            </BookingLink>
             <Link href="/#faq" className="btn-secondary px-8 py-4 w-full sm:w-auto">
               Read the FAQ
             </Link>
