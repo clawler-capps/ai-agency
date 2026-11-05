@@ -1,6 +1,6 @@
-import { Pillar, Question, SCORING_QUESTIONS, INDUSTRY_LABELS } from "./questions";
+import { Pillar, SCORING_QUESTIONS, INDUSTRY_LABELS, OptionLabel } from "./questions";
 
-export type Answer = { questionId: number; label: "A" | "B" | "C" | "D" };
+export type Answer = { questionId: number; label: OptionLabel };
 
 export type Tier = "AI-Curious" | "AI-Ready" | "AI-Leading";
 
@@ -17,8 +17,8 @@ export type AssessmentResult = {
   pillars: PillarScore[];
   // Industry/size pulled from identity questions (Q1/Q2)
   industry: string;           // e.g., "Construction & Trades"
-  industryLabel: "A" | "B" | "C" | "D";
-  sizeLabel: "A" | "B" | "C" | "D";
+  industryLabel: OptionLabel;
+  sizeLabel: OptionLabel;
   // Per-pillar narrative
   pillarSummaries: { pillar: Pillar; title: string; summary: string }[];
 };
@@ -103,11 +103,9 @@ export function scoreAssessment(answers: Answer[]): AssessmentResult {
     totalPct >= 70 ? "AI-Leading" : totalPct >= 40 ? "AI-Ready" : "AI-Curious";
 
   // Identity answers (Q1 = industry, Q2 = size)
-  const industryAnswer = (answers.find((a) => a.questionId === 1)?.label ?? "D") as
-    | "A" | "B" | "C" | "D";
-  const sizeAnswer = (answers.find((a) => a.questionId === 2)?.label ?? "B") as
-    | "A" | "B" | "C" | "D";
-  const industry = INDUSTRY_LABELS[industryAnswer] ?? "Sacramento Businesses";
+  const industryAnswer: OptionLabel = answers.find((a) => a.questionId === 1)?.label ?? "K";
+  const sizeAnswer: OptionLabel = answers.find((a) => a.questionId === 2)?.label ?? "B";
+  const industry = INDUSTRY_LABELS[industryAnswer] ?? "Other";
 
   // Build per-pillar narrative summaries.
   const pillarSummaries = pillars.map((p) => {
