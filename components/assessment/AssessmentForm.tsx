@@ -148,6 +148,14 @@ export default function AssessmentForm() {
     setSelected(prior?.label ?? null);
   }, [step, phase, answers, currentQuestion]);
 
+  // Phones: hide the chat widget while the unlock card is up (see globals.css),
+  // and bring it back once unlocked or when leaving the page.
+  const gateOpen = phase === "report" && !unlocked;
+  useEffect(() => {
+    document.body.classList.toggle("snapshot-gate-open", gateOpen);
+    return () => document.body.classList.remove("snapshot-gate-open");
+  }, [gateOpen]);
+
   // Cycle the "building" messages while the report is written.
   useEffect(() => {
     if (phase !== "building" || buildError) return;

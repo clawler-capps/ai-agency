@@ -1,8 +1,7 @@
 import BookingLink from "@/components/BookingLink";
 import { ChatLink } from "@/components/ChatWidget";
 import Headshot from "@/components/Headshot";
-import Todo from "@/components/Todo";
-import { FOUNDER } from "@/lib/site";
+import { FOUNDER, PROOF } from "@/lib/site";
 
 // What the free AI Snapshot gives, so the bullets match the button under them.
 const bullets = [
@@ -61,13 +60,14 @@ export default function Hero() {
 
           {/* The founder, in the hero's right half */}
           <aside className="card p-5 sm:p-6 flex lg:flex-col items-center lg:items-start gap-5 bg-cream/90">
-            <Headshot size={136} />
+            {/* Square on phones and tablets, 4:5 portrait in the wide hero column */}
+            <Headshot size={112} priority className="lg:hidden" />
+            <Headshot size={270} portrait priority className="hidden lg:block w-full h-auto" />
             <div>
               <p className="eyebrow mb-1">Who you&apos;ll work with</p>
               <p className="text-lg font-black text-ink">{FOUNDER.name}</p>
               <p className="text-sm text-muted leading-relaxed">
-                {FOUNDER.credentials} · {FOUNDER.energyYears} years in energy
-                {!FOUNDER.energyYearsConfirmed && <> <Todo>confirm years</Todo></>} · based in Sacramento
+                {FOUNDER.credentials} · {FOUNDER.energyYears} years of energy modeling · based in Sacramento
               </p>
               <a href="#about" className="mt-2 inline-block text-sm font-semibold text-ink underline underline-offset-4 hover:text-accent">
                 More about Tyler →
@@ -76,7 +76,7 @@ export default function Hero() {
           </aside>
         </div>
 
-        {/* Two before-and-afters: an energy executive and a Sacramento small business */}
+        {/* Two before-and-afters, both from the current energy-company engagement */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="border-l-4 border-accent/40 pl-5 py-1">
             <p className="text-base sm:text-lg text-ink/80 italic leading-relaxed">
@@ -87,35 +87,35 @@ export default function Hero() {
               themselves, mid-call, to sell to their own side. His team didn&apos;t
               grow the output — the system did.
             </p>
-            {/* TODO(tyler): confirm title + NDA-safe */}
+            {/* TODO(tyler): confirm title + NDA-safe (role from the client files, not an official title) */}
             <p className="mt-3 text-xs text-muted font-mono uppercase tracking-wide">
               VP, Growth &amp; Strategy · North American energy company · anonymized under NDA
             </p>
           </div>
 
-          {/* TODO(tyler): a real Sacramento client or pilot, with hours saved per week */}
-          <div className="card p-5 sm:p-6 border-dashed border-amber-500">
-            <p className="eyebrow mb-3">Sacramento small business · before and after</p>
-            <div className="grid grid-cols-2 gap-4 mb-3">
+          {/* Proven, client-confirmed figures only (lib/site.ts PROOF). Not a Sacramento
+              small business. TODO(tyler): swap in a Sacramento small-business story when one exists. */}
+          <div className="card p-5 sm:p-6">
+            <p className="eyebrow mb-3">Real results from a current engagement</p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <p className="text-xs font-mono text-muted uppercase mb-1">Before</p>
                 <p className="text-sm text-ink/80 leading-relaxed">
-                  <Todo>the weekly chore, e.g. &ldquo;owner writes every estimate by hand at night&rdquo;</Todo>
+                  A quarterly board deck took about 12 hours by hand. Every update and email was typed out.
                 </p>
               </div>
               <div>
                 <p className="text-xs font-mono text-muted uppercase mb-1">After</p>
                 <p className="text-sm text-ink/80 leading-relaxed">
-                  <Todo>what we built and how it runs now</Todo>
+                  A reusable Skill builds the deck in about 3 hours. Updates are dictated instead of typed.
                 </p>
               </div>
             </div>
             <p className="text-2xl font-black text-accent">
-              <Todo>X hrs/week saved</Todo>
+              {PROOF.hoursPerWeek} hrs/week back · {PROOF.dollarsPerYear}/yr
             </p>
-            <p className="mt-2 text-xs text-muted font-mono uppercase tracking-wide">
-              <Todo>type of business, e.g. ADU builder, 6 people · real client or pilot</Todo>
-            </p>
+            <p className="mt-1 text-xs text-muted">Confirmed by the client, valued at $100/hr.</p>
+            <p className="mt-3 text-xs text-muted font-mono uppercase tracking-wide">{PROOF.label}</p>
           </div>
         </div>
 

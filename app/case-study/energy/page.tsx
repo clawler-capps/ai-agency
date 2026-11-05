@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import BookingLink from "@/components/BookingLink";
-import Todo from "@/components/Todo";
+import { PROOF } from "@/lib/site";
 import PrintButton from "./PrintButton";
 
 export const metadata: Metadata = {
@@ -9,15 +9,13 @@ export const metadata: Metadata = {
     "Two-page case summary of an embedded AI engagement with a North American energy company: the approach, the scoreboard, and the hours realized.",
 };
 
-// Every figure below comes from the client's leverage scoreboard as of the
-// date shown. TODO(tyler): confirm figures + NDA-safe wording before sharing;
-// update the "as of" date and realized numbers to the latest scoreboard.
-const AS_OF = "August 20, 2026";
-
+// Proven figures only, from the client's leverage scoreboard (see lib/site.ts PROOF
+// for the source file and which rows count). TODO(tyler): confirm NDA-safe wording,
+// and update PROOF when more builds are validated.
 const headline = [
-  { stat: "4", label: "leaders assessed, each with a personal Leverage Map" },
-  { stat: "55 hrs/wk", label: "targeted across the team ($265,200/yr at $100/hr)" },
-  { stat: "4.75 hrs/wk", label: "realized and confirmed by the client ($22,800/yr)" },
+  { stat: `${PROOF.hoursPerWeek} hrs/wk`, label: "back each week, confirmed by the client" },
+  { stat: PROOF.dollarsPerYear, label: "a year in reclaimed time, at $100/hr" },
+  { stat: "2", label: "people coached to a confirmed win so far" },
   { stat: "12 → 3 hrs", label: "a board deck, the company's first AI-built work product" },
 ];
 
@@ -25,17 +23,17 @@ const people = [
   {
     role: "VP, Growth & Strategy",
     before: "Writing every update and email by hand between back-to-back calls.",
-    after: "Dictating daily with a voice tool, the first confirmed win on the scoreboard; then sponsoring the rollout.",
+    after: "Dictating daily with a voice tool: 2 hrs/week back, confirmed. Then sponsoring the rollout to the team.",
   },
   {
     role: "Utility & Gas Markets lead, 25 years in the industry",
     before: "Assessed as the least AI-fluent person on the team.",
-    after: "Built three reusable Skills and shipped the company's first AI-built board deck, plus a live dashboard that flagged expired contracts on its first load.",
+    after: "Built three reusable Skills and shipped the company's first AI-built board deck (about 12 hours down to 3), plus a live dashboard that flagged expired contracts on its first load.",
   },
   {
     role: "Strategic Development & Financial Modeling lead",
     before: "The only person who could run the company's data-center financial model.",
-    after: "Rebuilding it with Claude into a documented model with a change log others can read and check.",
+    after: "Built a self-serve quick-quote pricing engine with Claude, now being rebuilt in Excel so every equation can be traced. Hours not confirmed yet.",
   },
 ];
 
@@ -56,11 +54,11 @@ export default function EnergyCaseSummary() {
           Embedded AI coaching for a North American energy company
         </h1>
         <p className="text-muted mb-1">
-          A division of a publicly traded energy company. Four leaders in Growth &amp;
-          Strategy, coached one-on-one, with every win checked on a shared scoreboard.
+          A division of a publicly traded energy company. Leaders in Growth &amp; Strategy,
+          coached one-on-one, with every win checked on a shared scoreboard.
         </p>
         <p className="text-xs font-mono text-muted mb-6">
-          FIGURES AS OF {AS_OF.toUpperCase()} · <Todo>confirm figures + NDA-safe wording</Todo>
+          {PROOF.label.toUpperCase()} · FIGURES AS OF {PROOF.asOf.toUpperCase()}
         </p>
 
         <div className="grid grid-cols-2 gap-4 mb-8">
@@ -87,11 +85,11 @@ export default function EnergyCaseSummary() {
           <li><strong>A shared scoreboard.</strong> Targets from the Assessments sit next to realized hours. A build only counts once the person confirms the hours it saves in practice.</li>
         </ol>
 
-        <h2 className="text-lg font-bold mb-2">Why the realized number is small on purpose</h2>
+        <h2 className="text-lg font-bold mb-2">How the hours are counted</h2>
         <p className="text-sm text-ink/80 leading-relaxed">
-          Realized hours only move when a person confirms them against real use, so the
-          scoreboard runs well behind the target while builds are still being proven.
-          That gap is the point: you see what is proven, not what is promised.
+          Hours only count once the person confirms them against real use. Builds that are
+          finished but not yet confirmed, and builds still in progress, are left out of the
+          figures above.
         </p>
       </article>
 
@@ -109,9 +107,8 @@ export default function EnergyCaseSummary() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-muted mb-6">
-          Roles shown instead of names. <Todo>confirm each title + NDA-safe</Todo>
-        </p>
+        {/* TODO(tyler): confirm each title + NDA-safe (roles from the client files). */}
+        <p className="text-xs text-muted mb-6">Roles shown instead of names.</p>
 
         <blockquote className="border-l-4 border-accent/40 pl-4 mb-8">
           <p className="italic text-ink/80 leading-relaxed">

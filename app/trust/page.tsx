@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
-import Todo from "@/components/Todo";
 import { FOUNDER } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Trust, Privacy & Terms — Sacramento AI Agency",
   description:
-    "How Sacramento AI Agency handles your data and your clients' data: privacy policy, terms, HIPAA stance, insurance, and which AI vendors see what.",
+    "How Sacramento AI Agency handles your data and your clients' data: privacy policy, terms, HIPAA, and which AI vendors see what.",
 };
 
-// TODO(tyler): have a lawyer review the privacy policy and terms before launch.
+// TODO(tyler): the privacy policy and terms have not had a legal review yet.
 const LAST_UPDATED = "November 5, 2026";
 
 // Which outside services see data, and what they see.
@@ -35,20 +34,16 @@ const vendors = [
     sees: "Standard web traffic data (pages viewed, rough location, device). No cookies for analytics.",
     why: "Hosts this website and counts visits.",
   },
-  {
-    name: "Stripe",
-    sees: "Payment details when you buy the Assessment. We never see your full card number.",
-    why: "Takes payments.",
-  },
+  // TODO(tyler): add Stripe ("payment details when you buy the Assessment") once the Payment Link is live.
 ];
 
+// TODO(tyler): add back only once confirmed: "business AI plans only (no training on
+// your data)" and "we delete any copies at the end of an engagement".
 const dataRules = [
   "Your data stays in your accounts. We build inside the tools and logins you already control, and you can remove our access at any time.",
   "Start with no sensitive data. Most first builds (scheduling, intake, follow-ups, reports) work without patient or client records at all.",
-  "Business AI plans only. Anything touching your business runs on paid plans whose terms say your data isn't used to train models.",
   "A human checks before anything goes out. AI drafts; a person approves anything a client, patient, or regulator will see.",
-  "NDAs are standard. We sign yours, or use ours.",
-  "When we're done, we're out. At the end of an engagement we hand back or delete any copies we hold and confirm it in writing.",
+  "NDAs are standard.",
 ];
 
 export default function TrustPage() {
@@ -71,7 +66,6 @@ export default function TrustPage() {
               ["#data", "Client data"],
               ["#hipaa", "HIPAA"],
               ["#vendors", "AI vendors"],
-              ["#insurance", "Insurance"],
               ["#privacy", "Privacy policy"],
               ["#terms", "Terms"],
             ].map(([href, label]) => (
@@ -86,7 +80,7 @@ export default function TrustPage() {
       <section id="data" className="section-padding bg-cream section-divider scroll-mt-20">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow mb-3">How client data is handled</p>
-          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-6">Six rules we work by</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-6">Four rules we work by</h2>
           <ul className="space-y-3">
             {dataRules.map((r) => (
               <li key={r} className="flex items-start gap-3 text-ink/80">
@@ -101,18 +95,19 @@ export default function TrustPage() {
       <section id="hipaa" className="section-padding bg-paper section-divider scroll-mt-20">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow mb-3">Healthcare practices</p>
-          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-4">Our HIPAA stance</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-4">HIPAA</h2>
           <div className="space-y-4 text-muted leading-relaxed">
             <p>
               We don&apos;t need patient records to find your best AI wins. The Assessment is
               a conversation about how your practice runs, and we ask you not to share
               protected health information (PHI) during it.
             </p>
+            {/* TODO(tyler): confirm a BAA commitment and which AI tools are covered before
+                promising more than this. */}
             <p>
-              If a build has to touch PHI, we sign a Business Associate Agreement (BAA)
-              with you before we see any of it, and the build only uses tools covered by
-              a BAA of their own. If a tool can&apos;t be covered, we design around it so PHI
-              never reaches it. <Todo>confirm the BAA commitment and which AI tools you&apos;ll use under a BAA</Todo>
+              If your practice needs a Business Associate Agreement (BAA), ask us before we
+              start. We&apos;ll talk through what the work involves and which tools would touch
+              patient data, before anyone shares it.
             </p>
             <p>
               The free Snapshot on this site is not built for PHI. Please describe your work
@@ -146,29 +141,21 @@ export default function TrustPage() {
               </tbody>
             </table>
           </div>
+          {/* TODO(tyler): confirm the full vendor list, e.g. any meeting-notes tool used on calls. */}
           <p className="mt-4 text-sm text-muted">
             In client engagements we use the AI tools you approve, in your accounts.
-            <Todo>confirm the full vendor list, e.g. any meeting-notes tool used on calls</Todo>
           </p>
         </div>
       </section>
 
-      <section id="insurance" className="section-padding bg-paper section-divider scroll-mt-20">
-        <div className="max-w-3xl mx-auto">
-          <p className="eyebrow mb-3">Insurance</p>
-          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-4">Coverage</h2>
-          <p className="text-muted leading-relaxed">
-            <Todo>insurance details, e.g. professional liability (E&amp;O) and cyber liability, carrier and limits; certificate available on request</Todo>
-          </p>
-        </div>
-      </section>
+      {/* Insurance section omitted until coverage is confirmed. TODO(tyler): carrier, E&O / cyber, limits. */}
 
       <section id="privacy" className="section-padding bg-cream section-divider scroll-mt-20">
         <div className="max-w-3xl mx-auto">
           <p className="eyebrow mb-3">Privacy policy</p>
           <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-2">Privacy policy</h2>
           <p className="text-xs font-mono text-muted mb-6">
-            LAST UPDATED {LAST_UPDATED.toUpperCase()} · <Todo>legal review</Todo>
+            LAST UPDATED {LAST_UPDATED.toUpperCase()}
           </p>
           <div className="space-y-5 text-sm text-ink/80 leading-relaxed">
             <div>
@@ -198,8 +185,7 @@ export default function TrustPage() {
               <h3 className="font-bold text-ink mb-1">Your choices</h3>
               <p>
                 Email {FOUNDER.email} to see, correct, or delete what we hold about you,
-                including requests under the California Consumer Privacy Act. We reply
-                within 30 days.
+                including requests under the California Consumer Privacy Act.
               </p>
             </div>
             <div>
@@ -218,7 +204,7 @@ export default function TrustPage() {
           <p className="eyebrow mb-3">Terms</p>
           <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-2">Terms of use</h2>
           <p className="text-xs font-mono text-muted mb-6">
-            LAST UPDATED {LAST_UPDATED.toUpperCase()} · <Todo>legal review</Todo>
+            LAST UPDATED {LAST_UPDATED.toUpperCase()}
           </p>
           <div className="space-y-5 text-sm text-ink/80 leading-relaxed">
             <div>
@@ -232,8 +218,9 @@ export default function TrustPage() {
               <h3 className="font-bold text-ink mb-1">The AI Leverage Assessment</h3>
               <p>
                 $997 for the owner. If your Leverage Map doesn&apos;t identify at least 10× the
-                fee in annual value, tell us within 30 days of delivery and we refund the
-                fee in full. <Todo>confirm the refund window</Todo>
+                fee in annual value, you get your money back, as described on our{" "}
+                <Link href="/pricing#assess" className="underline underline-offset-2 hover:text-accent">pricing page</Link>.
+                Full refund terms are in your engagement agreement.
               </p>
             </div>
             <div>

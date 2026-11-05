@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Headshot from "@/components/Headshot";
-import Todo from "@/components/Todo";
 import { BOOKING_EMBED_URL, BOOKING_URL } from "@/lib/booking";
 import { ASSESSMENT_CHECKOUT_LIVE, FOUNDER } from "@/lib/site";
 
@@ -28,13 +27,13 @@ export default function BookPage({ searchParams }: { searchParams: { for?: strin
             </h1>
             {forAssessment && !ASSESSMENT_CHECKOUT_LIVE && (
               <p className="mb-5 text-sm text-ink/80 leading-relaxed">
-                Pick a time below for your first call. We&apos;ll confirm the Assessment on
-                the call and send the $997 invoice after.{" "}
-                <Todo>Stripe Payment Link (NEXT_PUBLIC_ASSESSMENT_CHECKOUT_URL)</Todo>
+                Pick a time below for your first call. We&apos;ll confirm the Assessment and
+                how to pay on the call.
+                {/* TODO(tyler): Stripe Payment Link (NEXT_PUBLIC_ASSESSMENT_CHECKOUT_URL) */}
               </p>
             )}
             <div className="flex items-center gap-4 mb-6">
-              <Headshot size={88} />
+              <Headshot size={88} priority />
               <div>
                 <p className="font-bold text-ink">{FOUNDER.name}</p>
                 <p className="text-sm text-muted">{FOUNDER.credentials} · {FOUNDER.city}</p>

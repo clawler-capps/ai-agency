@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
-import Todo from "@/components/Todo";
+import { PROOF } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Industries — Sacramento AI Agency",
@@ -16,9 +16,8 @@ type Industry = {
   who: string;
   problem: string;
   build: string[];
-  // TODO(tyler): a real example (client or pilot) for each industry. `null`
-  // shows a marked placeholder.
-  example: string | null;
+  // TODO(tyler): a real example (client or pilot) per industry. Left out of the
+  // page until one exists; the role-based examples below stand in.
 };
 
 const industries: Industry[] = [
@@ -34,7 +33,6 @@ const industries: Industry[] = [
       "A weekly job-status summary pulled from your schedule, texts, and invoices",
       "Same-day follow-up on every new lead and every unanswered bid",
     ],
-    example: null,
   },
   {
     id: "professional-services",
@@ -48,7 +46,6 @@ const industries: Industry[] = [
       "First drafts of routine letters, engagement emails, and renewal notices in your voice",
       "Meeting notes that turn into a task list and a client recap before you leave the room",
     ],
-    example: null,
   },
   {
     id: "healthcare",
@@ -62,7 +59,6 @@ const industries: Industry[] = [
       "Answers to common front-desk questions (hours, prep, insurance accepted) by chat and text",
       "Monthly practice reports from your scheduling numbers, without names",
     ],
-    example: null,
   },
   {
     id: "multi-site",
@@ -76,7 +72,24 @@ const industries: Industry[] = [
       "A shared playbook assistant so every manager gets the same answer to the same question",
       "Alerts when one location's numbers drift from the rest",
     ],
-    example: null,
+  },
+];
+
+const roleExamples = [
+  {
+    role: "Business development lead (utility & gas markets)",
+    built: "A reusable Skill that turns his notes into the quarterly board deck, plus a live contract dashboard and a weekly-update Skill.",
+    result: "Board deck: about 12 hours down to 3. 0.75 hrs/week confirmed ($3,600/yr).",
+  },
+  {
+    role: "Strategy lead",
+    built: "Daily dictation in place of typing for updates, emails, and notes.",
+    result: "2 hrs/week confirmed ($9,600/yr).",
+  },
+  {
+    role: "Finance / financial-modeling lead",
+    built: "A self-serve quick-quote pricing engine for new projects, being rebuilt in Excel so every equation can be traced.",
+    result: "In progress. Hours not confirmed yet.",
   },
 ];
 
@@ -90,8 +103,9 @@ export default function IndustriesPage() {
             What we&apos;d build for a business like yours
           </h1>
           <p className="text-lg text-muted max-w-2xl leading-relaxed">
-            The problem, what we&apos;d build first, and an example. Every build starts with
-            the work you already do by hand.
+            The problem and what we&apos;d build first, then{" "}
+            <a href="#examples" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">real examples by role</a>.
+            Every build starts with the work you already do by hand.
           </p>
           <nav className="mt-6 flex flex-wrap gap-2">
             {industries.map((ind) => (
@@ -110,7 +124,7 @@ export default function IndustriesPage() {
             <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-6">
               <span className="mr-2">{ind.icon}</span>{ind.name}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="card p-5">
                 <p className="text-xs font-mono font-bold text-accent mb-2">THE PROBLEM</p>
                 <p className="text-sm text-ink/80 leading-relaxed">{ind.problem}</p>
@@ -125,12 +139,6 @@ export default function IndustriesPage() {
                   ))}
                 </ul>
               </div>
-              <div className="card p-5">
-                <p className="text-xs font-mono font-bold text-accent mb-2">ONE EXAMPLE</p>
-                <p className="text-sm text-ink/80 leading-relaxed">
-                  {ind.example ?? <Todo>a real {ind.name.toLowerCase()} example: before, after, hours saved per week</Todo>}
-                </p>
-              </div>
             </div>
             {ind.id === "healthcare" || ind.id === "professional-services" ? (
               <p className="mt-4 text-sm text-muted">
@@ -143,6 +151,34 @@ export default function IndustriesPage() {
           </div>
         </section>
       ))}
+
+      {/* Role-based examples from the current engagement. Figures: lib/site.ts PROOF
+          source (client scoreboard, Aug 21, 2026); only client-confirmed hours shown.
+          TODO(tyler): confirm titles + NDA-safe. */}
+      <section id="examples" className="section-padding bg-paper section-divider scroll-mt-20">
+        <div className="max-w-4xl mx-auto">
+          <p className="eyebrow mb-3">North American energy company</p>
+          <h2 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-3">
+            Examples by role, from a current engagement
+          </h2>
+          <p className="text-muted mb-6">
+            We don&apos;t have a finished example for every industry yet. These come from three
+            seats at one company, and the same work shows up in most businesses.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {roleExamples.map((r) => (
+              <div key={r.role} className="card p-5">
+                <p className="font-bold text-ink mb-2">{r.role}</p>
+                <p className="text-sm text-ink/80 leading-relaxed mb-3">{r.built}</p>
+                <p className="text-sm font-semibold text-accent">{r.result}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-muted">
+            Hours count only after the client confirms them, valued at $100/hr. As of {PROOF.asOf}.
+          </p>
+        </div>
+      </section>
 
       <section className="section-padding bg-ink text-white">
         <div className="max-w-3xl mx-auto text-center">

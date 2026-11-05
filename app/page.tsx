@@ -5,7 +5,6 @@ import BookingLink from "@/components/BookingLink";
 import ChatWidget, { ChatLink } from "@/components/ChatWidget";
 import Link from "next/link";
 import Headshot from "@/components/Headshot";
-import Todo from "@/components/Todo";
 import { BUILD_DAY_FORMAT, FOUNDER } from "@/lib/site";
 
 // The page's one primary action, repeated: hero, end of The Problem, after the
@@ -148,12 +147,13 @@ const testimonials = [
 ];
 
 // A third role, as a before-and-after rather than a quote (no cleared quote yet).
-// TODO(tyler): confirm title + NDA-safe, and the "after" outcome.
+// Facts from the client scoreboard (Aug 21, 2026); hours not yet validated, so none shown.
+// TODO(tyler): confirm title + NDA-safe.
 const beforeAfter = {
   role: "Strategic Development & Financial Modeling lead",
   company: "Same energy company, a different seat",
-  before: "The only person who could run the company's data-center financial model, so every pricing question waited on him.",
-  after: "The model rebuilt with Claude into a structured, documented version with a change log the rest of the team can read and check.",
+  before: "The only person who could run the company's data-center financial model, so pricing questions waited on him.",
+  after: "Built a self-serve quick-quote pricing engine with Claude, now being rebuilt in Excel so every equation can be traced. Hours saved not confirmed yet.",
 };
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
@@ -184,7 +184,7 @@ const faqs = [
   },
   {
     q: "What about patient or client data?",
-    a: "For clinics, law firms, CPAs, and insurance offices: we start with work that needs no sensitive data at all, like scheduling, intake forms, follow-ups, and reports from numbers you already strip of names. When a build does touch patient or client records, it runs inside your own accounts on business plans that don't train on your data, and where HIPAA applies we sign a Business Associate Agreement before we see anything. Full details are on our Trust page.",
+    a: "For clinics, law firms, CPAs, and insurance offices: we start with work that needs no sensitive data at all, like scheduling, intake forms, follow-ups, and reports from numbers you already strip of names. When a build does touch patient or client records, it runs inside your own accounts, and a person checks anything before it goes out. If your practice needs a Business Associate Agreement, ask us before we start. Full details are on our Trust page.",
     link: { href: "/trust", label: "Read how we handle data →" },
   },
   {
@@ -257,30 +257,29 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
               One senior operator, not a bench of juniors billed at partner rates
             </h2>
-            <div className="space-y-2 text-lg text-muted leading-relaxed">
+            {/* Facts from Tyler's resume and his own spoken bio (Aug 2026 client pitch). */}
+            <div className="space-y-3 text-lg text-muted leading-relaxed">
               <p>
-                I&apos;m <strong className="text-ink">{FOUNDER.name}</strong>. I hold an MBA and
-                an MS in mechanical engineering from MIT.
+                I&apos;m <strong className="text-ink">{FOUNDER.name}</strong>, and I&apos;m based in
+                Sacramento. I hold an MBA from MIT Sloan and an MS in mechanical engineering
+                from MIT, where I was a Leaders for Global Operations fellow.
               </p>
               <p>
-                I spent {FOUNDER.energyYears} years in the energy industry
-                {!FOUNDER.energyYearsConfirmed && <> <Todo>confirm years</Todo></>}, building the
-                models utilities use to decide where hundreds of millions of dollars go.
+                I started as a mechanical engineer. I designed wireless torque sensors for
+                Formula One race cars and built parts used on Patriot missiles.
               </p>
               <p>
-                I&apos;m based in Sacramento, and I coach your own people to run the tools, so
-                the capability stays with you after I leave.
+                For the last {FOUNDER.energyYears} years I&apos;ve built economic models for the energy
+                industry: forecasts and cost-benefit studies for utilities and regulators
+                across North America, plus expert testimony. I also co-founded a coaching
+                startup, where I built a personality model in Python and R.
+              </p>
+              <p>
+                I look at problems through a technical lens, and I like giving people their
+                time back. Now I coach your own people to run AI tools, so the capability
+                stays with you after I leave.
               </p>
             </div>
-            <p className="mt-5 text-sm">
-              {FOUNDER.linkedinUrl ? (
-                <a href={FOUNDER.linkedinUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
-                  Tyler on LinkedIn →
-                </a>
-              ) : (
-                <Todo>LinkedIn URL</Todo>
-              )}
-            </p>
           </div>
         </div>
       </section>

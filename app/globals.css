@@ -147,3 +147,11 @@ body {
   outline-offset: 4px;
   border-radius: 9999px;
 }
+
+/* Snapshot unlock step on phones: hide the GHL chat widget so its greeting
+   bubble doesn't cover the Unlock button. AssessmentForm toggles the class. */
+@media (max-width: 767px) {
+  body.snapshot-gate-open chat-widget {
+    display: none !important;
+  }
+}
