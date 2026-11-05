@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
-import { BOOKING_URL } from "@/lib/booking";
+import BookingLink from "@/components/BookingLink";
 
 export const metadata: Metadata = {
   title: "Contact — Sacramento AI Agency",
@@ -20,14 +20,13 @@ export default function ContactPage() {
           </h1>
           <p className="text-lg text-muted leading-relaxed">
             Ready to book? The{" "}
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BookingLink
+              location="contact"
+              label="intro call"
               className="text-accent font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity"
             >
               intro call
-            </a>{" "}
+            </BookingLink>{" "}
             is the fastest way in. But if you&apos;ve got a question, an idea, or
             anything else on your mind, this is your spot — drop us a note below and a
             real person will read it.
@@ -39,8 +38,8 @@ export default function ContactPage() {
       <section className="section-padding bg-cream section-divider">
         <ContactForm />
         <p className="mt-8 text-center text-sm text-muted max-w-xl mx-auto">
-          We&apos;re a small team based in Sacramento, so replies come from us
-          directly — not a ticket queue. Thanks for your patience, and talk soon.
+          I&apos;m based in Sacramento, so replies come from me directly. Thanks for
+          your patience, and talk soon.
         </p>
       </section>
     </div>
