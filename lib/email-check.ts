@@ -1,6 +1,6 @@
-// Server-side only. Pre-checks an email address before we send a code to it.
-// The 6-digit code is what proves the address is real; these checks just
-// catch typos and throwaway addresses early, with a helpful message.
+// Server-side only. Instant checks on the unlock email: syntax, common typos,
+// throwaway domains, and a mail server for the domain. They catch mistakes
+// and junk early, with a helpful message. They can't prove the inbox exists.
 import { promises as dns } from "dns";
 
 const MX_TIMEOUT_MS = 3000;
@@ -55,7 +55,7 @@ const KNOWN_TYPOS: Record<string, string> = {
   "icloud.con": "icloud.com",
 };
 
-// Throwaway inbox providers. Not exhaustive; the code step is the real check.
+// Throwaway inbox providers. Not exhaustive.
 const DISPOSABLE = new Set([
   "10minutemail.com", "10minutemail.net", "20minutemail.com", "33mail.com", "anonbox.net",
   "burnermail.io", "byom.de", "dispostable.com", "discard.email", "dropmail.me", "emailfake.com",
@@ -116,7 +116,7 @@ async function hasMx(domain: string): Promise<boolean> {
     const timeout = new Promise<boolean>((resolve) => {
       timer = setTimeout(() => resolve(true), MX_TIMEOUT_MS);
     });
-    // A slow DNS answer counts as a pass; the code email is the real test.
+    // A slow DNS answer counts as a pass, so a slow resolver never blocks anyone.
     return await Promise.race([lookup, timeout]);
   } catch (err) {
     const code = (err as NodeJS.ErrnoException)?.code;

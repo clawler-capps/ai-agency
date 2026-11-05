@@ -30,7 +30,6 @@ import {
 } from "@/lib/snapshot";
 
 type Phase = "intro" | "questions" | "bottleneck" | "followup" | "numbers" | "building" | "report";
-type GateStep = "details" | "code";
 
 // How soon the report email arrives. Keep in line with measured send times.
 const REPORT_ETA = "usually within 2 minutes";
@@ -93,19 +92,14 @@ export default function AssessmentForm() {
   const [buildError, setBuildError] = useState<string | null>(null);
   const [buildStep, setBuildStep] = useState(0);
 
-  // Gate: details, then the 6-digit code
+  // Gate
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [companySize, setCompanySize] = useState("");
   const [consent, setConsent] = useState(false);
-  const [gateStep, setGateStep] = useState<GateStep>("details");
   const [suggestion, setSuggestion] = useState<string | null>(null);
-  const [codeToken, setCodeToken] = useState("");
   const [sentTo, setSentTo] = useState("");
-  const [resendsLeft, setResendsLeft] = useState(0);
-  const [code, setCode] = useState("");
-  const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [unlocked, setUnlocked] = useState(false);
@@ -236,11 +230,10 @@ export default function AssessmentForm() {
     }
   }
 
-  // Gate step 1: check the address and email a code. Nothing is saved yet.
-  async function sendCode(opts: { keepTypo?: boolean; resend?: boolean; address?: string } = {}) {
+  // Instant email checks on the server, then the report unlocks right away.
+  async function handleUnlock(opts: { keepTypo?: boolean; address?: string } = {}) {
     const address = (opts.address ?? email).trim();
     setSubmitError(null);
-    setNotice(null);
     setSuggestion(null);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
       setSubmitError("Please enter a valid email.");
@@ -249,56 +242,16 @@ export default function AssessmentForm() {
     setSubmitting(true);
     try {
       const { ok, data } = await postJson(
-        "/api/capture-email/send-code",
-        {
-          token,
-          firstName,
-          email: address,
-          company,
-          companySize,
-          consent,
-          fax,
-          keepTypo: opts.keepTypo === true,
-          resendToken: opts.resend ? codeToken : undefined,
-        },
+        "/api/capture-email",
+        { token, firstName, email: address, company, companySize, consent, fax, keepTypo: opts.keepTypo === true },
         20_000
       );
       if (!ok || !data?.success) {
         if (data?.reason === "typo" && data.suggestion) setSuggestion(data.suggestion);
-        setSubmitError(data?.error ?? "We couldn't send a code just now. Please try again in a minute.");
+        setSubmitError(data?.error ?? "We couldn't save your details just now. Please try again in a moment.");
         return;
       }
-      setCodeToken(data.codeToken ?? "");
       setSentTo(data.email ?? address);
-      setResendsLeft(typeof data.resendsLeft === "number" ? data.resendsLeft : 0);
-      setCode("");
-      setGateStep("code");
-      if (opts.resend) setNotice("We sent a new code. Use the newest one.");
-    } catch {
-      setSubmitError("We couldn't reach the server. Check your connection and try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  // Gate step 2: the code. Only a verified code unlocks the report.
-  async function verifyCode(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitError(null);
-    setNotice(null);
-    const digits = code.replace(/\D/g, "");
-    if (digits.length !== 6) {
-      setSubmitError("Please enter the 6-digit code from the email.");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      const { ok, data } = await postJson("/api/capture-email", { token, codeToken, code: digits, fax }, 20_000);
-      if (!ok || !data?.success) {
-        if (typeof data?.codeToken === "string" && data.codeToken) setCodeToken(data.codeToken);
-        setSubmitError(data?.error ?? "We couldn't check that code just now. Please try again.");
-        return;
-      }
       setUnlocked(true);
       reportTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
@@ -306,14 +259,6 @@ export default function AssessmentForm() {
     } finally {
       setSubmitting(false);
     }
-  }
-
-  function changeEmail() {
-    setGateStep("details");
-    setCodeToken("");
-    setCode("");
-    setSubmitError(null);
-    setNotice(null);
   }
 
   const honeypot = (
@@ -715,7 +660,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // REPORT — headline and #1 visible, the rest blurred until the code is verified
+  // REPORT — headline and #1 visible, the rest blurred until they unlock
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "report" && report && result) {
     const tierMeta = TIER_META[result.tier];
@@ -927,15 +872,13 @@ export default function AssessmentForm() {
             {/* Gate card over the blurred report */}
             <div className="absolute inset-x-0 top-0 sm:top-6 flex justify-center">
               <div className="card p-6 sm:p-8 w-full max-w-md shadow-2xl bg-cream">
-                {gateStep === "details" ? (
-                  <>
                     <p className="eyebrow mb-2">Your snapshot is ready</p>
                     <h2 className="text-2xl font-black text-ink mb-2">Unlock your full snapshot</h2>
                     <p className="text-sm text-ink/80 leading-relaxed mb-5">
                       This came from about 3 minutes of answers. Imagine what a one-on-one
                       conversation and a few days of analysis would uncover.
                     </p>
-                    <form onSubmit={(e) => { e.preventDefault(); sendCode(); }} className="space-y-3">
+                    <form onSubmit={(e) => { e.preventDefault(); handleUnlock(); }} className="space-y-3">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <label htmlFor="g-first" className={labelCls}>First name</label>
@@ -975,7 +918,7 @@ export default function AssessmentForm() {
                         <span>Send me occasional tips from Sacramento AI Agency. Optional.</span>
                       </label>
                       <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
-                        {submitting ? "Checking…" : "Unlock my full snapshot"}
+                        {submitting ? "Unlocking…" : "Unlock my full snapshot"}
                       </button>
                       {submitError && (
                         <div role="alert" className="text-sm text-accent text-center space-y-2">
@@ -985,14 +928,14 @@ export default function AssessmentForm() {
                               <button
                                 type="button"
                                 className="btn-secondary text-xs px-3 py-1.5"
-                                onClick={() => { setEmail(suggestion); sendCode({ address: suggestion }); }}
+                                onClick={() => { setEmail(suggestion); handleUnlock({ address: suggestion }); }}
                               >
                                 Use {suggestion}
                               </button>
                               <button
                                 type="button"
                                 className="btn-ghost text-xs px-3 py-1.5 underline"
-                                onClick={() => sendCode({ keepTypo: true })}
+                                onClick={() => handleUnlock({ keepTypo: true })}
                               >
                                 No, mine is right
                               </button>
@@ -1001,55 +944,9 @@ export default function AssessmentForm() {
                         </div>
                       )}
                       <p className="text-xs text-muted leading-relaxed">
-                        We&apos;ll email you a 6-digit code to unlock it, then a copy of your snapshot. {PRIVACY_LINE}
+                        We&apos;ll also email you a copy. {PRIVACY_LINE}
                       </p>
                     </form>
-                  </>
-                ) : (
-                  <>
-                    <p className="eyebrow mb-2">Check your email</p>
-                    <h2 className="text-2xl font-black text-ink mb-2">Enter your 6-digit code</h2>
-                    <p className="text-sm text-ink/80 leading-relaxed mb-5">
-                      We sent it to <span className="font-semibold text-ink break-all">{sentTo}</span>. It expires in 15 minutes.
-                      Not there? Check spam or promotions.
-                    </p>
-                    <form onSubmit={verifyCode} className="space-y-3">
-                      <label htmlFor="g-code" className="sr-only">6-digit code</label>
-                      <input
-                        id="g-code"
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        pattern="[0-9 ]*"
-                        maxLength={7}
-                        value={code}
-                        onChange={(e) => setCode(e.target.value.replace(/[^\d ]/g, ""))}
-                        autoFocus
-                        placeholder="123456"
-                        className={`${input} text-center text-2xl font-mono tracking-[0.4em]`}
-                      />
-                      {honeypot}
-                      <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
-                        {submitting ? "Checking…" : "Unlock my snapshot"}
-                      </button>
-                      {submitError && <p role="alert" className="text-sm text-accent text-center">{submitError}</p>}
-                      {notice && <p role="status" className="text-sm text-ink/80 text-center">{notice}</p>}
-                    </form>
-                    <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
-                      <button
-                        type="button"
-                        onClick={() => sendCode({ resend: true, address: sentTo })}
-                        disabled={submitting || resendsLeft <= 0}
-                        className="text-accent font-semibold underline disabled:text-muted disabled:no-underline disabled:cursor-not-allowed"
-                      >
-                        {resendsLeft > 0 ? "Resend code" : "No resends left"}
-                      </button>
-                      <button type="button" onClick={changeEmail} disabled={submitting} className="text-muted underline hover:text-ink">
-                        Change email
-                      </button>
-                    </div>
-                  </>
-                )}
                 <div className="mt-5 pt-4 border-t border-border text-center">
                   <p className="text-sm text-ink/80 mb-1">Want the full picture?</p>
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent underline">
