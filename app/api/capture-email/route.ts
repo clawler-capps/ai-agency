@@ -1,27 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
+import { SIZE_LABELS } from "@/components/assessment/questions";
+import { checkEmail } from "@/lib/email-check";
 import { clamp, clientIp, createRateLimiter } from "@/lib/guard";
 import { leadPayload, readSnapshotToken, snapshotInput, withCostDefaults } from "@/lib/intake";
 import { formatLead, funnelEnabled, postLeadWebhook, sendEmail } from "@/lib/leads";
 import { deliverReport } from "@/lib/report";
 import { totalValue, usd } from "@/lib/snapshot";
-import { checkCode, releaseCode } from "@/lib/verify";
 
-// AI Opportunity Snapshot, step 2b: the visitor enters the 6-digit code from
-// /api/capture-email/send-code. Only a correct code unlocks the report.
-// 1. Check the code against its signed token (no database).
+// AI Opportunity Snapshot, step 2: "Unlock my full snapshot".
+// 1. Instant email checks: syntax, typo, throwaway domain, mail server (MX
+//    lookup with a short timeout; a slow lookup lets the address through).
 // 2. Post the lead to GoHighLevel (Inbound Webhook). If that fails, return an
 //    error so the visitor can retry and the lead isn't lost.
-// 3. After responding, email the same report, notify Tyler, and post the
-//    report webhook (lib/report.ts).
+// 3. After responding, email the report, notify Tyler, and post the report
+//    webhook (lib/report.ts).
+// The report itself comes from the signed snapshot token, so it can't be edited.
 
 export const maxDuration = 60;
 
 const TEST_EMAILS = ["zephyrways@gmail.com"];
+const SIZES = Object.values(SIZE_LABELS);
 
-// Code tries per IP, and unlocks per IP (the original limit). See lib/guard.ts.
-const triesLimited = createRateLimiter(25, 60 * 60 * 1000);
-const unlocksLimited = createRateLimiter(5, 60 * 60 * 1000);
+// See lib/guard.ts for the caveats on in-memory limits.
+const ipLimited = createRateLimiter(5, 60 * 60 * 1000);
+const emailLimited = createRateLimiter(3, 60 * 60 * 1000);
 
 const fail = (error: string, status: number, extra: Record<string, unknown> = {}) =>
   NextResponse.json({ success: false, error, ...extra }, { status });
@@ -35,48 +38,44 @@ export async function POST(request: NextRequest) {
     return fail("Invalid request.", 400);
   }
 
-  // Honeypot: post nothing, and answer like a wrong code so nothing unlocks.
-  if (clamp(body.fax, 200)) return fail("That code isn't right. Please check it and try again.", 400);
+  // Honeypot: silently accept and drop so bots don't learn they were caught.
+  if (clamp(body.fax, 200)) return NextResponse.json({ success: true });
 
-  const ip = clientIp(request);
-  if (triesLimited(ip)) return fail("Too many tries. Please wait a few minutes and try again.", 429);
+  const firstName = clamp(body.firstName, 80).split(/\s+/)[0] ?? "";
+  const company = clamp(body.company, 200);
+  if (!firstName) return fail("Please enter your first name.", 400);
+  if (!company) return fail("Please enter your company name.", 400);
 
-  const snapshotToken = typeof body.token === "string" ? body.token : "";
-  const snap = readSnapshotToken(snapshotToken);
-  if (!snap) {
-    return fail("This snapshot has expired. Please retake it (it only takes 3 minutes).", 400);
+  const snap = readSnapshotToken(body.token);
+  if (!snap) return fail("This snapshot has expired. Please retake it (it only takes 3 minutes).", 400);
+
+  const check = await checkEmail(clamp(body.email, 200), body.keepTypo === true);
+  if (!check.ok) {
+    console.log(`[capture-email] email rejected reason=${check.reason}`);
+    return fail(check.error, 400, { reason: check.reason, suggestion: check.suggestion });
   }
+  const email = check.email;
 
-  const result = checkCode(body.codeToken, body.code, snapshotToken);
-  if (!result.ok) {
-    console.log(`[capture-email] code rejected status=${result.status}`);
-    return fail(result.error, result.status, {
-      codeToken: result.codeToken,
-      attemptsLeft: result.attemptsLeft,
-      expired: result.expired ?? false,
-    });
-  }
-  if (unlocksLimited(ip)) {
-    releaseCode(result.nonce);
+  if (ipLimited(clientIp(request)) || emailLimited(email)) {
     return fail("You've submitted a few times already. We'll be in touch soon.", 429);
   }
 
-  const { firstName, email, company, companySize, consent } = result.contact;
+  const consent = body.consent === true;
+  const companySize = SIZES.find((s) => s === body.companySize) ?? "";
   const details = withCostDefaults(snap.details);
   const { report, source } = snap;
   const input = snapshotInput(snap.answers, details);
-  const isTest = TEST_EMAILS.includes(email.toLowerCase());
+  const isTest = TEST_EMAILS.includes(email);
   const payload = leadPayload({ firstName, email, company, companySize, consent, isTest }, snap.answers, details, report);
   const total = totalValue(report.opportunities, details.hourlyValue);
 
   // Save the lead first, so it's never lost even if the email fails later.
   const webhook = await postLeadWebhook("website-assessment", payload);
   if (funnelEnabled() && webhook !== "sent") {
-    releaseCode(result.nonce);
     console.error(`[capture-email] Lead not saved: webhook=${webhook} test=${isTest}`);
     return fail("We couldn't save your details just now. Please try again in a moment.", 502);
   }
-  console.log(`[capture-email] verified webhook=${webhook} source=${source} test=${isTest}`);
+  console.log(`[capture-email] webhook=${webhook} source=${source} test=${isTest} ms=${Date.now() - startedAt}`);
 
   // Report email, Tyler's notification, and the report webhook run after the response.
   waitUntil(
@@ -94,7 +93,7 @@ export async function POST(request: NextRequest) {
         subject:
           `${isTest ? "[TEST] " : ""}[snapshot] ${firstName}, ${company} (${payload.industry}, ${payload.tier}, ` +
           `${usd(total.low)}–${usd(total.high)}/yr)${source === "template" ? " [template report]" : ""}`,
-        text: `Industry: ${payload.industry}\nWebhook: ${webhook}\nReport: ${source}\nEmail verified: yes\n\n${formatLead("website-assessment", payload)}`,
+        text: `Industry: ${payload.industry}\nWebhook: ${webhook}\nReport: ${source}\nEmail checks: passed (not code-verified)\n\n${formatLead("website-assessment", payload)}`,
       }),
     ]).catch((err) => console.error("[capture-email] Background work failed:", err?.name ?? "error"))
   );

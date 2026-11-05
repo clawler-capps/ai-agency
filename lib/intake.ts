@@ -189,7 +189,8 @@ export function leadPayload(c: LeadContact, answers: Answer[], d: Details, repor
     name: c.firstName,
     first_name: c.firstName,
     email: c.email,
-    email_verified: true,
+    // No code step any more: the address passed the instant checks only.
+    email_verified: false,
     company: c.company,
     company_size: c.companySize || quiz.companySize,
     industry: quiz.result.industry,
