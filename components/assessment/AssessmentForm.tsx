@@ -1,31 +1,36 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { questions, SIZE_LABELS } from "./questions";
+import { OptionLabel, questions, SIZE_LABELS } from "./questions";
 import { Answer, AssessmentResult, scoreAssessment, TIER_META, PILLAR_LABELS } from "./scoring";
-import ShareBadge from "./ShareBadge";
 
 import { BOOKING_URL, BOOKING_EMBED_URL } from "@/lib/booking";
 import {
-  CAPTURE_HIGH,
-  CAPTURE_LOW,
+  CostBasis,
   DEFAULT_HOURLY_VALUE,
   FOLLOWUP_FALLBACK,
   FOLLOWUP_QUESTION,
+  HOURS_PER_YEAR,
+  MAX_SALARY,
+  MIN_SALARY,
   PRIVACY_LINE,
   REVENUE_BANDS,
   ROLES,
   Report,
-  WEEKS_PER_YEAR,
-  baseAssumptions,
   chatgptUrl,
   claudeUrl,
+  clampRate,
   estimateValue,
+  salaryMath,
+  salaryToHourly,
+  shortHeadline,
   totalValue,
+  truncate,
   usd,
 } from "@/lib/snapshot";
 
 type Phase = "intro" | "questions" | "bottleneck" | "followup" | "numbers" | "building" | "report";
+type GateStep = "details" | "code";
 
 // How soon the report email arrives. Keep in line with measured send times.
 const REPORT_ETA = "usually within 2 minutes";
@@ -53,17 +58,19 @@ async function postJson(url: string, body: unknown, timeoutMs: number) {
       body: JSON.stringify(body),
       signal: controller.signal,
     });
-    return { ok: res.ok, data: await res.json().catch(() => null) };
+    return { ok: res.ok, status: res.status, data: await res.json().catch(() => null) };
   } finally {
     clearTimeout(timer);
   }
 }
 
+const parseMoney = (s: string) => parseFloat(s.replace(/[$,\s]/g, ""));
+
 export default function AssessmentForm() {
   const [phase, setPhase] = useState<Phase>("intro");
   const [step, setStep] = useState(0); // 0-indexed into questions[]
   const [answers, setAnswers] = useState<Answer[]>([]);
-  const [selected, setSelected] = useState<"A" | "B" | "C" | "D" | null>(null);
+  const [selected, setSelected] = useState<OptionLabel | null>(null);
 
   // Snapshot details (before the gate)
   const [bottleneck, setBottleneck] = useState("");
@@ -72,7 +79,9 @@ export default function AssessmentForm() {
   const [followupChoice, setFollowupChoice] = useState("");
   const [followupText, setFollowupText] = useState("");
   const [hoursPerWeek, setHoursPerWeek] = useState("");
+  const [costBasis, setCostBasis] = useState<CostBasis>("hourly");
   const [hourlyValue, setHourlyValue] = useState("");
+  const [annualSalary, setAnnualSalary] = useState("");
   const [role, setRole] = useState("");
   const [revenueBand, setRevenueBand] = useState("");
   const [website, setWebsite] = useState("");
@@ -84,21 +93,27 @@ export default function AssessmentForm() {
   const [buildError, setBuildError] = useState<string | null>(null);
   const [buildStep, setBuildStep] = useState(0);
 
-  // Gate
+  // Gate: details, then the 6-digit code
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [companySize, setCompanySize] = useState("");
   const [consent, setConsent] = useState(false);
+  const [gateStep, setGateStep] = useState<GateStep>("details");
+  const [suggestion, setSuggestion] = useState<string | null>(null);
+  const [codeToken, setCodeToken] = useState("");
+  const [sentTo, setSentTo] = useState("");
+  const [resendsLeft, setResendsLeft] = useState(0);
+  const [code, setCode] = useState("");
+  const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [unlocked, setUnlocked] = useState(false);
 
-  // Interactive numbers (after unlock)
+  // Interactive numbers (after unlock): hours per opportunity and the cost.
   const [oppHours, setOppHours] = useState<number[]>([]);
   const [rate, setRate] = useState(DEFAULT_HOURLY_VALUE);
-  const [capLow, setCapLow] = useState(CAPTURE_LOW * 100);
-  const [capHigh, setCapHigh] = useState(CAPTURE_HIGH * 100);
+  const [salary, setSalary] = useState(0);
   const [copied, setCopied] = useState(false);
   const reportTop = useRef<HTMLDivElement>(null);
 
@@ -112,8 +127,15 @@ export default function AssessmentForm() {
   const progress = Math.round(((step + 1) / totalSteps) * 100);
 
   // The visitor's own numbers, cleaned the same way the server cleans them.
+  const salaryNum = parseMoney(annualSalary);
+  const usingSalary = costBasis === "salary" && Number.isFinite(salaryNum) && salaryNum > 0;
+  const mySalary = usingSalary ? Math.round(Math.min(Math.max(salaryNum, MIN_SALARY), MAX_SALARY)) : 0;
+  const myRate = usingSalary
+    ? salaryToHourly(mySalary)
+    : Number.isFinite(parseMoney(hourlyValue))
+      ? clampRate(parseMoney(hourlyValue))
+      : DEFAULT_HOURLY_VALUE;
   const myHours = Math.round(Math.min(Math.max(parseFloat(hoursPerWeek) || 0.5, 0.5), 80) * 2) / 2;
-  const myRate = Math.round(Math.min(Math.max(parseFloat(hourlyValue) || DEFAULT_HOURLY_VALUE, 10), 1000));
 
   // Pre-select the user's previous choice if they navigate back.
   useEffect(() => {
@@ -180,7 +202,20 @@ export default function AssessmentForm() {
     try {
       const { ok, data } = await postJson(
         "/api/snapshot",
-        { answers, bottleneck, followupChoice, followupText, hoursPerWeek, hourlyValue, role, revenueBand, website, fax },
+        {
+          answers,
+          bottleneck,
+          followupChoice,
+          followupText,
+          hoursPerWeek,
+          costBasis: usingSalary ? "salary" : "hourly",
+          hourlyValue: usingSalary ? myRate : hourlyValue,
+          annualSalary: usingSalary ? mySalary : "",
+          role,
+          revenueBand,
+          website,
+          fax,
+        },
         58_000
       );
       if (!ok || !data?.success || !data.report) {
@@ -192,8 +227,7 @@ export default function AssessmentForm() {
       setToken(data.token ?? "");
       setOppHours(r.opportunities.map((o) => o.hours));
       setRate(myRate);
-      setCapLow(CAPTURE_LOW * 100);
-      setCapHigh(CAPTURE_HIGH * 100);
+      setSalary(mySalary);
       if (result && !companySize) setCompanySize(SIZE_LABELS[result.sizeLabel] ?? "");
       setPhase("report");
       window.scrollTo({ top: 0 });
@@ -202,22 +236,67 @@ export default function AssessmentForm() {
     }
   }
 
-  async function handleUnlock(e: React.FormEvent) {
-    e.preventDefault();
+  // Gate step 1: check the address and email a code. Nothing is saved yet.
+  async function sendCode(opts: { keepTypo?: boolean; resend?: boolean; address?: string } = {}) {
+    const address = (opts.address ?? email).trim();
     setSubmitError(null);
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setNotice(null);
+    setSuggestion(null);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
       setSubmitError("Please enter a valid email.");
       return;
     }
     setSubmitting(true);
     try {
       const { ok, data } = await postJson(
-        "/api/capture-email",
-        { token, firstName, email, company, companySize, consent, fax },
+        "/api/capture-email/send-code",
+        {
+          token,
+          firstName,
+          email: address,
+          company,
+          companySize,
+          consent,
+          fax,
+          keepTypo: opts.keepTypo === true,
+          resendToken: opts.resend ? codeToken : undefined,
+        },
         20_000
       );
       if (!ok || !data?.success) {
-        setSubmitError(data?.error ?? "We couldn't save your details just now. Please try again in a moment.");
+        if (data?.reason === "typo" && data.suggestion) setSuggestion(data.suggestion);
+        setSubmitError(data?.error ?? "We couldn't send a code just now. Please try again in a minute.");
+        return;
+      }
+      setCodeToken(data.codeToken ?? "");
+      setSentTo(data.email ?? address);
+      setResendsLeft(typeof data.resendsLeft === "number" ? data.resendsLeft : 0);
+      setCode("");
+      setGateStep("code");
+      if (opts.resend) setNotice("We sent a new code. Use the newest one.");
+    } catch {
+      setSubmitError("We couldn't reach the server. Check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  // Gate step 2: the code. Only a verified code unlocks the report.
+  async function verifyCode(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitError(null);
+    setNotice(null);
+    const digits = code.replace(/\D/g, "");
+    if (digits.length !== 6) {
+      setSubmitError("Please enter the 6-digit code from the email.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { ok, data } = await postJson("/api/capture-email", { token, codeToken, code: digits, fax }, 20_000);
+      if (!ok || !data?.success) {
+        if (typeof data?.codeToken === "string" && data.codeToken) setCodeToken(data.codeToken);
+        setSubmitError(data?.error ?? "We couldn't check that code just now. Please try again.");
         return;
       }
       setUnlocked(true);
@@ -227,6 +306,14 @@ export default function AssessmentForm() {
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function changeEmail() {
+    setGateStep("details");
+    setCodeToken("");
+    setCode("");
+    setSubmitError(null);
+    setNotice(null);
   }
 
   const honeypot = (
@@ -446,9 +533,10 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // NUMBERS — hours, value, role, revenue, website
+  // NUMBERS — hours, cost (hourly or salary), role, revenue, website
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "numbers") {
+    const salaryReady = costBasis === "salary" && usingSalary;
     return (
       <div className="max-w-2xl mx-auto">
         <StepLabel n={3} />
@@ -457,63 +545,119 @@ export default function AssessmentForm() {
           <p className="text-sm text-muted mb-6">Rough guesses are fine. You can adjust them on your snapshot.</p>
           <form
             onSubmit={(e) => { e.preventDefault(); buildSnapshot(); }}
-            className="space-y-4"
+            className="space-y-5"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className={labelCls}>Hours a week it takes</label>
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  min={0.5}
-                  max={80}
-                  step={0.5}
-                  value={hoursPerWeek}
-                  onChange={(e) => setHoursPerWeek(e.target.value)}
-                  required
-                  placeholder="e.g. 6"
-                  className={input}
-                />
-              </div>
-              <div>
-                <label className={labelCls}>What an hour of it is worth ($)</label>
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  min={10}
-                  max={1000}
-                  step={5}
-                  value={hourlyValue}
-                  onChange={(e) => setHourlyValue(e.target.value)}
-                  placeholder={String(DEFAULT_HOURLY_VALUE)}
-                  className={input}
-                />
-                <p className="mt-1 text-xs text-muted">
-                  Not sure? Leave it blank and we&apos;ll use ${DEFAULT_HOURLY_VALUE}/hr.
-                </p>
-              </div>
+            <div>
+              <label htmlFor="hours" className={labelCls}>
+                How many hours a week does &ldquo;{truncate(bottleneck, 70)}&rdquo; take?
+              </label>
+              <p className="text-xs text-muted mb-2">Across everyone who does it, roughly.</p>
+              <input
+                id="hours"
+                type="number"
+                inputMode="decimal"
+                min={0.5}
+                max={80}
+                step={0.5}
+                value={hoursPerWeek}
+                onChange={(e) => setHoursPerWeek(e.target.value)}
+                required
+                placeholder="e.g. 6"
+                className={`${input} sm:max-w-[200px]`}
+              />
             </div>
+
+            <fieldset>
+              <legend className={labelCls}>What does that time cost you?</legend>
+              <div role="radiogroup" className="grid grid-cols-2 gap-2 mb-3">
+                {([
+                  ["hourly", "Cost per hour"],
+                  ["salary", "Annual salary"],
+                ] as const).map(([value, label]) => (
+                  <button
+                    key={value}
+                    type="button"
+                    role="radio"
+                    aria-checked={costBasis === value}
+                    onClick={() => setCostBasis(value)}
+                    className={`px-4 py-3 rounded-xl border text-sm font-semibold transition-colors ${
+                      costBasis === value
+                        ? "border-accent bg-accent/light text-ink"
+                        : "border-border bg-cream text-ink/70 hover:border-ink/20"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {costBasis === "hourly" ? (
+                <div>
+                  <label htmlFor="rate" className="sr-only">Cost per hour in dollars</label>
+                  <div className="relative sm:max-w-[240px]">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">$</span>
+                    <input
+                      id="rate"
+                      type="text"
+                      inputMode="decimal"
+                      value={hourlyValue}
+                      onChange={(e) => setHourlyValue(e.target.value)}
+                      placeholder={String(DEFAULT_HOURLY_VALUE)}
+                      className={`${input} pl-8 pr-14`}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted text-sm">/hr</span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted">
+                    What an hour of this work costs you. Not sure? Leave it blank and we&apos;ll use ${DEFAULT_HOURLY_VALUE}/hr.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <label htmlFor="salary" className="sr-only">Annual salary in dollars</label>
+                  <div className="relative sm:max-w-[240px]">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">$</span>
+                    <input
+                      id="salary"
+                      type="text"
+                      inputMode="numeric"
+                      value={annualSalary}
+                      onChange={(e) => setAnnualSalary(e.target.value)}
+                      placeholder="65,000"
+                      required
+                      className={`${input} pl-8 pr-14`}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted text-sm">/yr</span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted" aria-live="polite">
+                    {salaryReady
+                      ? <>Salary of the person who does it: <span className="font-mono text-ink">{salaryMath(mySalary)}</span></>
+                      : `Salary of the person who does it. We divide it by ${HOURS_PER_YEAR.toLocaleString("en-US")} work hours a year.`}
+                  </p>
+                </div>
+              )}
+            </fieldset>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={labelCls}>Your role</label>
-                <select value={role} onChange={(e) => setRole(e.target.value)} required className={input}>
+                <label htmlFor="role" className={labelCls}>Your role</label>
+                <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required className={input}>
                   <option value="" disabled>Choose one</option>
                   {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div>
-                <label className={labelCls}>Annual revenue</label>
-                <select value={revenueBand} onChange={(e) => setRevenueBand(e.target.value)} required className={input}>
+                <label htmlFor="revenue" className={labelCls}>Annual revenue</label>
+                <select id="revenue" value={revenueBand} onChange={(e) => setRevenueBand(e.target.value)} required className={input}>
                   <option value="" disabled>Choose one</option>
                   {REVENUE_BANDS.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
             </div>
             <div>
-              <label className={labelCls}>
+              <label htmlFor="website" className={labelCls}>
                 Website <span className="font-normal text-muted">(optional)</span>
               </label>
               <input
+                id="website"
                 type="text"
                 inputMode="url"
                 value={website}
@@ -571,39 +715,24 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // REPORT — headline and top line visible, the rest blurred until unlocked
+  // REPORT — headline and #1 visible, the rest blurred until the code is verified
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "report" && report && result) {
     const tierMeta = TIER_META[result.tier];
     const isQualified = tierMeta.cta === "schedule";
-    const low = capLow / 100;
-    const high = capHigh / 100;
-    // Before unlock, show the visitor's original numbers; after, the sliders.
-    const r = unlocked ? rate : myRate;
-    const hoursFor = (i: number) => (unlocked ? oppHours[i] : report.opportunities[i].hours);
-    const opps = report.opportunities.map((o, i) => ({
-      ...o,
-      value: estimateValue(hoursFor(i), r, unlocked ? low : CAPTURE_LOW, unlocked ? high : CAPTURE_HIGH),
-    }));
-    const total = totalValue(
-      opps.map((o, i) => ({ hours: hoursFor(i) })),
-      r,
-      unlocked ? low : CAPTURE_LOW,
-      unlocked ? high : CAPTURE_HIGH
-    );
+    const bySalary = salary > 0;
+    // Effective hourly cost. With a salary it is always salary ÷ 2,080.
+    const r = bySalary ? salaryToHourly(salary) : rate;
+    const opps = report.opportunities.map((o, i) => ({ ...o, value: estimateValue(oppHours[i] ?? o.hours, r) }));
+    const total = totalValue(opps.map((o, i) => ({ hours: oppHours[i] ?? o.hours })), r);
     const top = opps[0];
     const owner = unlocked && company.trim() ? `${company.trim()}'s` : "Your";
-    const assumptions = [...baseAssumptions(r, unlocked ? low : CAPTURE_LOW, unlocked ? high : CAPTURE_HIGH), ...report.assumptions];
     const changed =
-      rate !== myRate ||
-      capLow !== CAPTURE_LOW * 100 ||
-      capHigh !== CAPTURE_HIGH * 100 ||
-      oppHours.some((h, i) => h !== report.opportunities[i].hours);
+      rate !== myRate || salary !== mySalary || oppHours.some((h, i) => h !== report.opportunities[i].hours);
     const resetNumbers = () => {
       setOppHours(report.opportunities.map((o) => o.hours));
       setRate(myRate);
-      setCapLow(CAPTURE_LOW * 100);
-      setCapHigh(CAPTURE_HIGH * 100);
+      setSalary(mySalary);
     };
     const copyPrompt = () =>
       navigator.clipboard
@@ -615,103 +744,88 @@ export default function AssessmentForm() {
         // Clipboard blocked; the prompt is still visible to select by hand.
         .catch(() => {});
 
+    // Sections 2–5. Blurred and inert behind the gate, live once unlocked.
     const details = (
       <div className="space-y-6">
-        {/* Interactive numbers */}
-        {unlocked && (
-          <div className="card p-6 sm:p-8 border-accent/30">
-            <div className="flex items-start justify-between gap-4 mb-1">
-              <p className="eyebrow">Play with your numbers</p>
-              {changed && (
-                <button type="button" onClick={resetNumbers} className="text-xs text-muted underline hover:text-ink">
-                  Reset to my answers
-                </button>
-              )}
-            </div>
-            <p className="text-sm text-muted mb-6">
-              Every figure on this page updates as you move these. Our math, your numbers.
-            </p>
-            <div className="space-y-5">
-              <Slider
-                label="What an hour of your time is worth"
-                value={rate}
-                display={`${usd(rate)}/hr`}
-                min={10}
-                max={Math.max(500, myRate)}
-                step={5}
-                onChange={setRate}
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <Slider
-                  label="AI captures, low end"
-                  value={capLow}
-                  display={`${capLow}%`}
-                  min={5}
-                  max={90}
-                  step={5}
-                  onChange={(v) => { setCapLow(v); if (v > capHigh) setCapHigh(v); }}
-                />
-                <Slider
-                  label="AI captures, high end"
-                  value={capHigh}
-                  display={`${capHigh}%`}
-                  min={5}
-                  max={95}
-                  step={5}
-                  onChange={(v) => { setCapHigh(v); if (v < capLow) setCapLow(v); }}
-                />
-              </div>
-              {opps.map((o, i) => (
-                <Slider
-                  key={i}
-                  label={`Hours a week: ${o.title}`}
-                  value={oppHours[i]}
-                  display={`${oppHours[i]} hrs`}
-                  min={0.5}
-                  max={i === 0 ? Math.max(40, myHours) : 10}
-                  step={0.5}
-                  onChange={(v) => setOppHours(oppHours.map((h, j) => (j === i ? v : h)))}
-                />
-              ))}
-            </div>
-            <div className="mt-6 rounded-xl bg-accent/light border border-accent/30 p-5">
-              <p className="font-mono text-xs uppercase tracking-widest text-muted mb-1">Your top 3, added up</p>
-              <p className="text-3xl font-black text-accent">
-                {usd(total.low)}–{usd(total.high)}
-                <span className="text-lg font-bold text-ink/70"> a year</span>
-              </p>
-            </div>
+        {/* 2. Top 3 with ranges, plus the number controls */}
+        <section className="card p-6 sm:p-8" aria-labelledby="top3">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <h2 id="top3" className="eyebrow">Your top 3 AI opportunities</h2>
+            {unlocked && changed && (
+              <button type="button" onClick={resetNumbers} className="text-xs text-muted underline hover:text-ink">
+                Reset to my answers
+              </button>
+            )}
           </div>
-        )}
-
-        {/* Opportunities */}
-        <div className="card p-6 sm:p-8">
-          <p className="eyebrow mb-4">Your top 3 AI opportunities</p>
           <div className="space-y-5">
             {opps.map((o, i) => (
               <div key={i} className={i > 0 ? "pt-5 border-t border-border" : ""}>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-1">
                   <h3 className="font-bold text-ink">{i + 1}. {o.title}</h3>
-                  <span className="font-bold text-accent whitespace-nowrap">
+                  <span className="font-bold text-accent whitespace-nowrap tabular-nums" aria-live="polite">
                     {usd(o.value.low)}–{usd(o.value.high)}/yr
                   </span>
                 </div>
                 <p className="text-sm text-ink/80 leading-relaxed mb-2">{o.why}</p>
-                <p className="text-xs text-muted font-mono leading-relaxed">{o.value.math}</p>
+                {unlocked && (
+                  <Slider
+                    id={`hours-${i}`}
+                    label="Hours a week"
+                    value={oppHours[i]}
+                    display={`${oppHours[i]} hrs`}
+                    min={0.5}
+                    max={i === 0 ? Math.max(40, myHours) : 10}
+                    step={0.5}
+                    onChange={(v) => setOppHours((hs) => hs.map((h, j) => (j === i ? v : h)))}
+                  />
+                )}
+                <p className="mt-1 text-xs text-muted font-mono leading-relaxed">{o.value.math}</p>
               </div>
             ))}
           </div>
-          {!unlocked && (
-            <p className="mt-6 text-sm font-semibold text-ink">
-              Your top 3 add up to {usd(total.low)}–{usd(total.high)} a year.
-            </p>
-          )}
-        </div>
 
-        {/* Today vs with AI */}
+          {unlocked && (
+            <div className="mt-6 pt-5 border-t border-border">
+              {bySalary ? (
+                <Slider
+                  id="salary-slider"
+                  label="Annual salary of the person who does it"
+                  value={salary}
+                  display={`${usd(salary)}/yr`}
+                  min={20_000}
+                  max={Math.max(300_000, mySalary)}
+                  step={1_000}
+                  onChange={setSalary}
+                  hint={salaryMath(salary)}
+                />
+              ) : (
+                <Slider
+                  id="rate-slider"
+                  label="Cost per hour"
+                  value={rate}
+                  display={`${usd(rate)}/hr`}
+                  min={10}
+                  max={Math.max(500, myRate)}
+                  step={5}
+                  onChange={setRate}
+                />
+              )}
+            </div>
+          )}
+
+          <div className="mt-6 rounded-xl bg-accent/light border border-accent/30 p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted mb-1">Your top 3, added up</p>
+            <p className="text-3xl font-black text-accent tabular-nums" aria-live="polite">
+              {usd(total.low)}–{usd(total.high)}
+              <span className="text-lg font-bold text-ink/70"> a year</span>
+            </p>
+          </div>
+        </section>
+
+        {/* 3. Today vs. with AI */}
         {(report.today.length > 0 || report.withAi.length > 0) && (
-          <div className="card p-6 sm:p-8">
-            <p className="eyebrow mb-4">Today vs. with AI: {top.title}</p>
+          <section className="card p-6 sm:p-8">
+            <h2 className="eyebrow mb-4">Today vs. with AI: {top.title}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <p className="font-bold text-ink mb-2">Today</p>
@@ -726,13 +840,15 @@ export default function AssessmentForm() {
                 </ul>
               </div>
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Try it tonight */}
-        <div className="card p-6 sm:p-8">
-          <p className="eyebrow mb-3">Try it tonight</p>
-          <h3 className="text-xl font-bold text-ink mb-3">Paste this into Claude or ChatGPT and get a head start</h3>
+        {/* 4. Try it tonight */}
+        <section className="card p-6 sm:p-8 border-2 border-accent/40">
+          <p className="eyebrow mb-3 text-accent">Try it tonight</p>
+          <h2 className="text-xl sm:text-2xl font-black text-ink mb-3">
+            Paste this into Claude or ChatGPT and get a head start
+          </h2>
           <p className="rounded-xl bg-paper border border-border p-4 text-sm text-ink/90 leading-relaxed mb-4 whitespace-pre-wrap">
             {report.prompt}
           </p>
@@ -747,25 +863,35 @@ export default function AssessmentForm() {
               {copied ? "Copied ✓" : "Copy prompt"}
             </button>
           </div>
-        </div>
+        </section>
 
-        {/* Assumptions */}
-        <div className="card p-6 sm:p-8">
-          <p className="eyebrow mb-3">Assumptions</p>
-          <ul className="space-y-1.5 text-sm text-ink/80 list-disc pl-5">
-            {assumptions.map((a, i) => <li key={i}>{a}</li>)}
-          </ul>
-        </div>
+        {/* 5. Compact readiness bars, details in a popover */}
+        <section className="card p-6 sm:p-8">
+          <div className="flex items-baseline justify-between flex-wrap gap-2 mb-4">
+            <h2 className="eyebrow">AI readiness: {result.tier}</h2>
+            <span className="font-mono text-sm font-bold text-accent">{result.totalPct}/100</span>
+          </div>
+          <div className="space-y-3">
+            {result.pillars.map((p) => (
+              <PillarBar
+                key={p.pillar}
+                label={PILLAR_LABELS[p.pillar]}
+                pct={p.pct}
+                info={result.pillarSummaries.find((s) => s.pillar === p.pillar)?.summary ?? ""}
+              />
+            ))}
+          </div>
+        </section>
       </div>
     );
 
     return (
       <div className="max-w-3xl mx-auto space-y-6" ref={reportTop}>
-        {/* Always visible: headline and the #1 top line */}
+        {/* 1. Always visible: headline and the #1 opportunity */}
         <div className="card p-6 sm:p-8">
           <p className="eyebrow mb-3">{owner} AI Opportunity Snapshot</p>
           <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight mb-3 text-balance">
-            {report.headline}
+            {shortHeadline(report.headline)}
           </h1>
           <p className="text-sm text-muted mb-6">
             Built live from your answers, including:{" "}
@@ -774,76 +900,156 @@ export default function AssessmentForm() {
           <div className="rounded-xl bg-accent/light border border-accent/30 p-5 sm:p-6">
             <p className="font-mono text-xs uppercase tracking-widest text-muted mb-1">#1 opportunity</p>
             <p className="text-lg sm:text-xl font-bold text-ink mb-1">{top.title}</p>
-            <p className="text-3xl sm:text-4xl font-black text-accent">
+            <p className="text-3xl sm:text-4xl font-black text-accent tabular-nums">
               {usd(top.value.low)}–{usd(top.value.high)}
               <span className="text-lg font-bold text-ink/70"> a year</span>
             </p>
-            {unlocked && (
-              <p className="mt-2 text-xs text-ink/70 font-mono">
-                {hoursFor(0)} hrs/week × {usd(r)}/hr × {WEEKS_PER_YEAR} weeks × {capLow}–{capHigh}%
-              </p>
-            )}
           </div>
           {unlocked && (
             <p className="mt-4 text-sm text-ink font-semibold">
-              A copy is on its way to {email} ({REPORT_ETA}).
+              A copy is on its way to {sentTo || email} ({REPORT_ETA}).
             </p>
           )}
         </div>
 
+        {/* Keys force fresh DOM on unlock, so nothing inert or blurred carries over. */}
         {unlocked ? (
-          details
+          <div key="unlocked">{details}</div>
         ) : (
-          <div className="relative">
-            <div aria-hidden="true" ref={(el) => el?.setAttribute("inert", "")} className="blur-[6px] select-none pointer-events-none min-h-[760px]">
+          <div key="locked" className="relative">
+            <div
+              aria-hidden="true"
+              ref={(el) => el?.setAttribute("inert", "")}
+              className="blur-[6px] select-none pointer-events-none min-h-[760px]"
+            >
               {details}
             </div>
             {/* Gate card over the blurred report */}
             <div className="absolute inset-x-0 top-0 sm:top-6 flex justify-center">
               <div className="card p-6 sm:p-8 w-full max-w-md shadow-2xl bg-cream">
-                <p className="eyebrow mb-2">Your snapshot is ready</p>
-                <h2 className="text-2xl font-black text-ink mb-2">Unlock your full snapshot</h2>
-                <p className="text-sm text-ink/80 leading-relaxed mb-5">
-                  This came from about 3 minutes of answers. Imagine what a one-on-one
-                  conversation and a few days of analysis would uncover.
-                </p>
-                <form onSubmit={handleUnlock} className="space-y-3">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className={labelCls}>First name</label>
-                      <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required maxLength={80} autoComplete="given-name" className={input} />
+                {gateStep === "details" ? (
+                  <>
+                    <p className="eyebrow mb-2">Your snapshot is ready</p>
+                    <h2 className="text-2xl font-black text-ink mb-2">Unlock your full snapshot</h2>
+                    <p className="text-sm text-ink/80 leading-relaxed mb-5">
+                      This came from about 3 minutes of answers. Imagine what a one-on-one
+                      conversation and a few days of analysis would uncover.
+                    </p>
+                    <form onSubmit={(e) => { e.preventDefault(); sendCode(); }} className="space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label htmlFor="g-first" className={labelCls}>First name</label>
+                          <input id="g-first" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required maxLength={80} autoComplete="given-name" className={input} />
+                        </div>
+                        <div>
+                          <label htmlFor="g-company" className={labelCls}>Company</label>
+                          <input id="g-company" type="text" value={company} onChange={(e) => setCompany(e.target.value)} required maxLength={200} autoComplete="organization" className={input} />
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="g-email" className={labelCls}>Email</label>
+                        <input
+                          id="g-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => { setEmail(e.target.value); setSuggestion(null); }}
+                          required
+                          maxLength={200}
+                          autoComplete="email"
+                          placeholder="you@yourbusiness.com"
+                          className={input}
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="g-size" className={labelCls}>Company size</label>
+                        <select id="g-size" value={companySize} onChange={(e) => setCompanySize(e.target.value)} required className={input}>
+                          <option value="" disabled>Choose one</option>
+                          {Object.values(SIZE_LABELS).map((s) => (
+                            <option key={s} value={s}>{s === "Solo" ? "Just me" : `${s} people`}</option>
+                          ))}
+                        </select>
+                      </div>
+                      {honeypot}
+                      <label className="flex items-start gap-3 text-sm text-ink/80 cursor-pointer">
+                        <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 accent-accent" />
+                        <span>Send me occasional tips from Sacramento AI Agency. Optional.</span>
+                      </label>
+                      <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
+                        {submitting ? "Checking…" : "Unlock my full snapshot"}
+                      </button>
+                      {submitError && (
+                        <div role="alert" className="text-sm text-accent text-center space-y-2">
+                          <p>{submitError}</p>
+                          {suggestion && (
+                            <div className="flex flex-wrap justify-center gap-2">
+                              <button
+                                type="button"
+                                className="btn-secondary text-xs px-3 py-1.5"
+                                onClick={() => { setEmail(suggestion); sendCode({ address: suggestion }); }}
+                              >
+                                Use {suggestion}
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-ghost text-xs px-3 py-1.5 underline"
+                                onClick={() => sendCode({ keepTypo: true })}
+                              >
+                                No, mine is right
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      <p className="text-xs text-muted leading-relaxed">
+                        We&apos;ll email you a 6-digit code to unlock it, then a copy of your snapshot. {PRIVACY_LINE}
+                      </p>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <p className="eyebrow mb-2">Check your email</p>
+                    <h2 className="text-2xl font-black text-ink mb-2">Enter your 6-digit code</h2>
+                    <p className="text-sm text-ink/80 leading-relaxed mb-5">
+                      We sent it to <span className="font-semibold text-ink break-all">{sentTo}</span>. It expires in 15 minutes.
+                      Not there? Check spam or promotions.
+                    </p>
+                    <form onSubmit={verifyCode} className="space-y-3">
+                      <label htmlFor="g-code" className="sr-only">6-digit code</label>
+                      <input
+                        id="g-code"
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        pattern="[0-9 ]*"
+                        maxLength={7}
+                        value={code}
+                        onChange={(e) => setCode(e.target.value.replace(/[^\d ]/g, ""))}
+                        autoFocus
+                        placeholder="123456"
+                        className={`${input} text-center text-2xl font-mono tracking-[0.4em]`}
+                      />
+                      {honeypot}
+                      <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
+                        {submitting ? "Checking…" : "Unlock my snapshot"}
+                      </button>
+                      {submitError && <p role="alert" className="text-sm text-accent text-center">{submitError}</p>}
+                      {notice && <p role="status" className="text-sm text-ink/80 text-center">{notice}</p>}
+                    </form>
+                    <div className="mt-4 flex flex-wrap justify-between gap-2 text-sm">
+                      <button
+                        type="button"
+                        onClick={() => sendCode({ resend: true, address: sentTo })}
+                        disabled={submitting || resendsLeft <= 0}
+                        className="text-accent font-semibold underline disabled:text-muted disabled:no-underline disabled:cursor-not-allowed"
+                      >
+                        {resendsLeft > 0 ? "Resend code" : "No resends left"}
+                      </button>
+                      <button type="button" onClick={changeEmail} disabled={submitting} className="text-muted underline hover:text-ink">
+                        Change email
+                      </button>
                     </div>
-                    <div>
-                      <label className={labelCls}>Company</label>
-                      <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} required maxLength={200} autoComplete="organization" className={input} />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelCls}>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required maxLength={200} autoComplete="email" placeholder="you@yourbusiness.com" className={input} />
-                  </div>
-                  <div>
-                    <label className={labelCls}>Company size</label>
-                    <select value={companySize} onChange={(e) => setCompanySize(e.target.value)} required className={input}>
-                      <option value="" disabled>Choose one</option>
-                      {Object.values(SIZE_LABELS).map((s) => (
-                        <option key={s} value={s}>{s === "Solo" ? "Just me" : `${s} people`}</option>
-                      ))}
-                    </select>
-                  </div>
-                  {honeypot}
-                  <label className="flex items-start gap-3 text-sm text-ink/80 cursor-pointer">
-                    <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 accent-accent" />
-                    <span>Send me occasional tips from Sacramento AI Agency. Optional.</span>
-                  </label>
-                  <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
-                    {submitting ? "Unlocking…" : "Unlock my full snapshot"}
-                  </button>
-                  {submitError && <p role="alert" className="text-sm text-accent text-center">{submitError}</p>}
-                  <p className="text-xs text-muted leading-relaxed">
-                    We&apos;ll also email you a copy. {PRIVACY_LINE}
-                  </p>
-                </form>
+                  </>
+                )}
                 <div className="mt-5 pt-4 border-t border-border text-center">
                   <p className="text-sm text-ink/80 mb-1">Want the full picture?</p>
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent underline">
@@ -857,7 +1063,7 @@ export default function AssessmentForm() {
 
         {unlocked && (
           <>
-            {/* Booking CTA */}
+            {/* 6. Next step */}
             <div className="card p-6 sm:p-8 bg-accent/light border-accent/30">
               <p className="eyebrow mb-3 text-accent">Next step</p>
               <h3 className="text-2xl font-black text-ink mb-2">
@@ -868,11 +1074,6 @@ export default function AssessmentForm() {
                 analysis would uncover far more. Book a free 15-minute call and we&apos;ll walk
                 through your numbers and the fastest first step.
               </p>
-              {isQualified && BOOKING_EMBED_URL && (
-                <div className="rounded-xl overflow-hidden border border-border bg-paper mb-4" style={{ minHeight: 540 }}>
-                  <iframe src={BOOKING_EMBED_URL} width="100%" height="540" frameBorder="0" title="Schedule a call with Tyler Capps" loading="lazy" />
-                </div>
-              )}
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-base py-4">
                 Book My Free 15-Minute Call →
               </a>
@@ -884,53 +1085,12 @@ export default function AssessmentForm() {
               </p>
             </div>
 
-            {/* Readiness profile */}
-            <div className="card p-6 sm:p-8">
-              <p className="eyebrow mb-3">AI readiness profile</p>
-              <div className="flex items-start justify-between flex-wrap gap-4 mb-5">
-                <div>
-                  <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-1">{result.tier}</h2>
-                  <p className="text-muted">{tierMeta.tagline}</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-xs font-mono uppercase tracking-widest text-muted mb-1">Readiness score</div>
-                  <div className="text-2xl font-black text-accent">{result.totalPct}/100</div>
-                </div>
+            {/* 7. Booking calendar, last */}
+            {BOOKING_EMBED_URL && (
+              <div className="card overflow-hidden bg-paper" style={{ minHeight: 540 }}>
+                <iframe src={BOOKING_EMBED_URL} width="100%" height="640" frameBorder="0" title="Schedule a call with Tyler Capps" loading="lazy" />
               </div>
-              <p className="text-ink/80 leading-relaxed mb-6">{tierMeta.blurb}</p>
-              <div className="space-y-3">
-                <p className="font-mono text-xs uppercase tracking-widest text-muted">5 pillars · your scores</p>
-                {result.pillars.map((p) => (
-                  <div key={p.pillar}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="font-semibold text-ink">{PILLAR_LABELS[p.pillar]}</span>
-                      <span className="font-mono text-muted">{p.pct}%</span>
-                    </div>
-                    <div className="h-1.5 bg-border rounded-full overflow-hidden">
-                      <div className="h-full bg-accent rounded-full transition-all duration-700" style={{ width: `${p.pct}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Pillar narratives */}
-            <div className="card p-6 sm:p-8">
-              <p className="eyebrow mb-4">What this means, pillar by pillar</p>
-              <div className="space-y-5">
-                {result.pillarSummaries.map((p) => (
-                  <div key={p.pillar} className="flex gap-4">
-                    <div className="flex-shrink-0 w-1 rounded-full bg-accent" />
-                    <div>
-                      <h3 className="font-bold text-ink mb-1">{p.title}</h3>
-                      <p className="text-sm text-ink/75 leading-relaxed">{p.summary}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <ShareBadge name={firstName} result={result} />
+            )}
 
             <p className="text-center text-xs text-muted pb-6">
               Not seeing the email? Check spam, or reply to tyler@sacramentoaiagency.com and we&apos;ll resend.
@@ -953,7 +1113,9 @@ function StepLabel({ n }: { n: number }) {
   );
 }
 
+// Native range input: mouse, touch, and keyboard (arrows, Page Up/Down, Home/End).
 function Slider(props: {
+  id: string;
   label: string;
   value: number;
   display: string;
@@ -961,22 +1123,78 @@ function Slider(props: {
   max: number;
   step: number;
   onChange: (v: number) => void;
+  hint?: string;
 }) {
   return (
-    <label className="block">
-      <span className="flex justify-between gap-4 text-sm mb-1.5">
-        <span className="font-semibold text-ink">{props.label}</span>
-        <span className="font-mono text-accent font-bold whitespace-nowrap">{props.display}</span>
-      </span>
+    <div className="mt-2">
+      <div className="flex justify-between gap-4 text-sm mb-1">
+        <label htmlFor={props.id} className="font-semibold text-ink">{props.label}</label>
+        <span className="font-mono text-accent font-bold whitespace-nowrap tabular-nums">{props.display}</span>
+      </div>
       <input
+        id={props.id}
         type="range"
         min={props.min}
         max={props.max}
         step={props.step}
         value={props.value}
+        aria-valuetext={props.display}
         onChange={(e) => props.onChange(parseFloat(e.target.value))}
-        className="w-full accent-accent"
+        className="snapshot-range w-full"
       />
-    </label>
+      {props.hint && <p className="text-xs text-muted font-mono">{props.hint}</p>}
+    </div>
+  );
+}
+
+// Compact bar with an (i) button. Click or tap opens the explanation; Escape
+// or a tap elsewhere closes it.
+function PillarBar({ label, pct, info }: { label: string; pct: number; info: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: Event) => {
+      if (e instanceof KeyboardEvent ? e.key === "Escape" : !ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    document.addEventListener("keydown", close);
+    return () => {
+      document.removeEventListener("pointerdown", close);
+      document.removeEventListener("keydown", close);
+    };
+  }, [open]);
+  const id = `pillar-${label.replace(/\W+/g, "-").toLowerCase()}`;
+  return (
+    <div ref={ref} className="relative">
+      <div className="flex items-center justify-between text-sm mb-1">
+        <span className="flex items-center gap-1.5 font-semibold text-ink">
+          {label}
+          <button
+            type="button"
+            aria-label={`What ${label} means`}
+            aria-expanded={open}
+            aria-controls={id}
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex items-center justify-center w-6 h-6 -my-1 rounded-full border border-ink/25 text-[11px] font-bold text-muted hover:text-ink hover:border-ink/50"
+          >
+            i
+          </button>
+        </span>
+        <span className="font-mono text-muted">{pct}%</span>
+      </div>
+      <div className="h-1.5 bg-border rounded-full overflow-hidden">
+        <div className="h-full bg-accent rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
+      </div>
+      {open && (
+        <div
+          id={id}
+          role="note"
+          className="absolute z-20 left-0 right-0 sm:right-auto sm:max-w-sm mt-2 rounded-xl border border-border bg-cream shadow-xl p-3 text-sm text-ink/80 leading-relaxed"
+        >
+          {info}
+        </div>
+      )}
+    </div>
   );
 }

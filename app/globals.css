@@ -102,3 +102,48 @@ body {
     @apply border-purple/border bg-purple/light text-purple;
   }
 }
+
+/* Snapshot sliders: big enough to grab on a phone, and horizontal drags go to
+   the slider while vertical swipes still scroll the page. */
+.snapshot-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+  accent-color: #e85d26;
+}
+.snapshot-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: #e5e2db;
+}
+.snapshot-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: #e5e2db;
+}
+.snapshot-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -9px;
+  border-radius: 9999px;
+  background: #e85d26;
+  border: 3px solid #faf8f3;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
+}
+.snapshot-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #e85d26;
+  border: 3px solid #faf8f3;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
+}
+.snapshot-range:focus-visible {
+  outline: 2px solid #e85d26;
+  outline-offset: 4px;
+  border-radius: 9999px;
+}

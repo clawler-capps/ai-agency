@@ -5,6 +5,20 @@ export const WEEKS_PER_YEAR = 50;
 export const CAPTURE_LOW = 0.3;
 export const CAPTURE_HIGH = 0.6;
 export const DEFAULT_HOURLY_VALUE = 75;
+// Full-time hours in a year, for turning an annual salary into an hourly cost.
+export const HOURS_PER_YEAR = 2080;
+export const MIN_SALARY = 10_000;
+export const MAX_SALARY = 2_000_000;
+
+export type CostBasis = "hourly" | "salary";
+
+// Whole dollars per hour, clamped to the same range as a typed-in hourly cost.
+export const clampRate = (n: number) => Math.round(Math.min(Math.max(n, 10), 1000));
+export const salaryToHourly = (salary: number) => clampRate(salary / HOURS_PER_YEAR);
+
+// "$85,000 ÷ 2,080 hrs = $41/hr"
+export const salaryMath = (salary: number) =>
+  `${usd(salary)} ÷ ${HOURS_PER_YEAR.toLocaleString("en-US")} hrs = ${usd(salaryToHourly(salary))}/hr`;
 
 export const ROLES = [
   "Owner or founder",
@@ -51,14 +65,11 @@ export const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 // Round to the nearest $100 so estimates don't look falsely precise.
 const round100 = (n: number) => Math.round(n / 100) * 100;
 
-// captureLow/captureHigh are fractions (0.3 = 30%). The results page lets
-// visitors change them; the email always uses the defaults.
-export function estimateValue(
-  hoursPerWeek: number,
-  hourlyValue: number,
-  captureLow = CAPTURE_LOW,
-  captureHigh = CAPTURE_HIGH
-): ValueEstimate {
+// AI is assumed to capture 30–60% of the time spent today. That band is fixed
+// and only shown as part of the low–high math.
+export function estimateValue(hoursPerWeek: number, hourlyValue: number): ValueEstimate {
+  const captureLow = CAPTURE_LOW;
+  const captureHigh = CAPTURE_HIGH;
   const annualCost = hoursPerWeek * hourlyValue * WEEKS_PER_YEAR;
   const low = round100(annualCost * captureLow);
   const high = round100(annualCost * captureHigh);
@@ -163,26 +174,25 @@ export type Report = {
   today: string[];
   withAi: string[];
   prompt: string;
-  assumptions: string[]; // extra assumptions only; see baseAssumptions()
 };
 
-export function baseAssumptions(hourlyValue: number, captureLow = CAPTURE_LOW, captureHigh = CAPTURE_HIGH): string[] {
-  return [
-    `Your time is worth ${usd(hourlyValue)}/hour.`,
-    `${WEEKS_PER_YEAR} working weeks a year.`,
-    `AI captures ${Math.round(captureLow * 100)}–${Math.round(captureHigh * 100)}% of the time spent today.`,
-  ];
+// "Your biggest AI opportunity: updating the numbers…" → "Your biggest AI
+// opportunity". The #1 card right below already names the opportunity.
+export function shortHeadline(h: string): string {
+  const m = /^(your\b[^:]*\bai opportunit[^:]*?):\s*\S/i.exec(h.trim());
+  return m ? m[1].trim() : h.trim();
 }
 
-export function totalValue(
-  opps: { hours: number }[],
-  hourlyValue: number,
-  captureLow = CAPTURE_LOW,
-  captureHigh = CAPTURE_HIGH
-): { low: number; high: number } {
+// For quoting the visitor's own words in a label.
+export const truncate = (s: string, max: number) => {
+  const t = s.trim().replace(/\s+/g, " ");
+  return t.length <= max ? t : `${t.slice(0, max - 1).replace(/[\s,.;:]+\S*$/, "")}…`;
+};
+
+export function totalValue(opps: { hours: number }[], hourlyValue: number): { low: number; high: number } {
   return opps.reduce(
     (t, o) => {
-      const v = estimateValue(o.hours, hourlyValue, captureLow, captureHigh);
+      const v = estimateValue(o.hours, hourlyValue);
       return { low: t.low + v.low, high: t.high + v.high };
     },
     { low: 0, high: 0 }

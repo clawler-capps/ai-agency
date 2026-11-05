@@ -9,8 +9,12 @@ export type Pillar =
   | "leadership"
   | "vertical";
 
+// Q1 has more choices than the scored questions, so labels run past D.
+export const OPTION_LABELS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"] as const;
+export type OptionLabel = (typeof OPTION_LABELS)[number];
+
 export type QuestionOption = {
-  label: "A" | "B" | "C" | "D";
+  label: OptionLabel;
   text: string;
   // Maturity weight, 1 (least mature) → 4 (most mature).
   // Omitted for non-scoring identity questions.
@@ -30,13 +34,20 @@ export const questions: Question[] = [
   {
     id: 1,
     pillar: "identity",
-    question: "First — which best describes your business?",
+    question: "First, which best describes your business?",
     helper: "No wrong answers. This just tailors your results.",
     options: [
-      { label: "A", text: "Construction, trades, ADU, or real estate" },
-      { label: "B", text: "Professional services (law, CPA, insurance)" },
-      { label: "C", text: "Healthcare practice or multi-location clinic" },
-      { label: "D", text: "Other (franchise, manufacturing, ag, e-commerce)" },
+      { label: "A", text: "Professional services (consulting, legal, accounting)" },
+      { label: "B", text: "Healthcare" },
+      { label: "C", text: "Construction and trades" },
+      { label: "D", text: "ADU and home building" },
+      { label: "E", text: "Real estate" },
+      { label: "F", text: "Engineering" },
+      { label: "G", text: "Technology and software" },
+      { label: "H", text: "Insurance and financial services" },
+      { label: "I", text: "Manufacturing, logistics, or agriculture" },
+      { label: "J", text: "Retail, e-commerce, or franchise" },
+      { label: "K", text: "Other" },
     ],
   },
   {
@@ -141,11 +152,19 @@ export const questions: Question[] = [
 
 export const SCORING_QUESTIONS = questions.filter((q) => q.pillar !== "identity");
 
+// Q1 answer → the `industry` value sent to GoHighLevel and used in the report.
 export const INDUSTRY_LABELS: Record<string, string> = {
-  A: "Construction & Trades",
-  B: "Professional Services",
-  C: "Healthcare",
-  D: "Operations & Other",
+  A: "Professional Services",
+  B: "Healthcare",
+  C: "Construction & Trades",
+  D: "ADU & Home Building",
+  E: "Real Estate",
+  F: "Engineering",
+  G: "Technology & Software",
+  H: "Insurance & Financial Services",
+  I: "Manufacturing, Logistics & Agriculture",
+  J: "Retail, E-commerce & Franchise",
+  K: "Other",
 };
 
 export const SIZE_LABELS: Record<string, string> = {

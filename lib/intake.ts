@@ -1,12 +1,24 @@
 // Server-side only. Validates the quiz answers and the snapshot details, and
 // turns them into the input the report and the CRM payload use.
-import { questions, SIZE_LABELS } from "@/components/assessment/questions";
+import { OPTION_LABELS, questions, SIZE_LABELS } from "@/components/assessment/questions";
 import { Answer, AssessmentResult, scoreAssessment } from "@/components/assessment/scoring";
 import { clamp } from "@/lib/guard";
+import { verifyToken } from "@/lib/token";
 import type { SnapshotInput } from "@/lib/report";
-import { DEFAULT_HOURLY_VALUE, REVENUE_BANDS, ROLES, Report } from "@/lib/snapshot";
+import {
+  CostBasis,
+  DEFAULT_HOURLY_VALUE,
+  MAX_SALARY,
+  MIN_SALARY,
+  REVENUE_BANDS,
+  ROLES,
+  Report,
+  clampRate,
+  estimateValue,
+  salaryToHourly,
+} from "@/lib/snapshot";
 
-const LABELS = ["A", "B", "C", "D"] as const;
+const LABELS = OPTION_LABELS;
 
 // Only keep answers that match a real question and option, one per question.
 export function cleanAnswers(raw: unknown): Answer[] {
@@ -32,7 +44,11 @@ export type Details = {
   followupChoice: string;
   followupText: string;
   hoursPerWeek: number;
+  // Always the effective hourly cost. With costBasis "salary" it is
+  // annualSalary / 2,080, rounded.
   hourlyValue: number;
+  costBasis: CostBasis;
+  annualSalary: number | null;
   role: string;
   revenueBand: string;
   website: string;
@@ -42,15 +58,32 @@ export function parseDetails(body: Record<string, unknown>): { details: Details 
   const bottleneck = clamp(body.bottleneck, 1000);
   const hoursRaw = num(body.hoursPerWeek);
   const rateRaw = num(body.hourlyValue);
+  const salaryRaw = num(body.annualSalary);
   if (!bottleneck) return { error: "Please tell us where you lose the most time." };
   if (Number.isNaN(hoursRaw)) return { error: "Please enter roughly how many hours a week it takes." };
+
+  // Salary basis only counts when a usable salary was given; otherwise fall
+  // back to the hourly figure (or the default).
+  const salary =
+    body.costBasis === "salary" && !Number.isNaN(salaryRaw)
+      ? Math.round(Math.min(Math.max(salaryRaw, MIN_SALARY), MAX_SALARY))
+      : null;
+  const costBasis: CostBasis = salary ? "salary" : "hourly";
+  const hourlyValue = salary
+    ? salaryToHourly(salary)
+    : Number.isNaN(rateRaw)
+      ? DEFAULT_HOURLY_VALUE
+      : clampRate(rateRaw);
+
   return {
     details: {
       bottleneck,
       followupChoice: clamp(body.followupChoice, 120),
       followupText: clamp(body.followupText, 300),
       hoursPerWeek: Math.round(Math.min(Math.max(hoursRaw, 0.5), 80) * 2) / 2,
-      hourlyValue: Number.isNaN(rateRaw) ? DEFAULT_HOURLY_VALUE : Math.round(Math.min(Math.max(rateRaw, 10), 1000)),
+      hourlyValue,
+      costBasis,
+      annualSalary: salary,
       role: ROLES.find((r) => r === body.role) ?? "Other",
       revenueBand: REVENUE_BANDS.find((r) => r === body.revenueBand) ?? "",
       website: clamp(body.website, 300),
@@ -98,6 +131,15 @@ export type SnapshotToken = {
   source: "claude" | "template";
 };
 
+// Verifies a snapshot token and checks its shape, so a code token (signed with
+// the same key) can't be passed off as a snapshot.
+export function readSnapshotToken(raw: unknown): SnapshotToken | null {
+  const t = verifyToken<SnapshotToken & { kind?: string }>(raw);
+  if (!t || t.v !== 1 || t.kind !== undefined) return null;
+  if (!Array.isArray(t.answers) || !t.details || !t.report || !Array.isArray(t.report.opportunities)) return null;
+  return t;
+}
+
 export function snapshotInput(answers: Answer[], d: Details): SnapshotInput {
   const quiz = summarizeQuiz(answers);
   return {
@@ -114,5 +156,63 @@ export function snapshotInput(answers: Answer[], d: Details): SnapshotInput {
     followup: followupSummary(d),
     hoursPerWeek: d.hoursPerWeek,
     hourlyValue: d.hourlyValue,
+    annualSalary: d.annualSalary ?? null,
+  };
+}
+
+// Tokens signed before cost basis existed.
+export function withCostDefaults(d: Details): Details {
+  return { ...d, costBasis: d.costBasis ?? "hourly", annualSalary: d.annualSalary ?? null };
+}
+
+export type LeadContact = {
+  firstName: string;
+  email: string;
+  company: string;
+  companySize: string;
+  consent: boolean;
+  isTest: boolean;
+};
+
+// The flat payload posted to the GoHighLevel lead webhook (and dumped into
+// Tyler's notification email). Keep existing names stable; GHL maps them.
+export function leadPayload(c: LeadContact, answers: Answer[], d: Details, report: Report) {
+  const quiz = summarizeQuiz(answers);
+  const value = estimateValue(d.hoursPerWeek, d.hourlyValue);
+  const tags = [
+    "assessment-submitted",
+    `assessment-${quiz.result.tier.toLowerCase()}`,
+    ...(c.consent ? ["marketing-consent"] : []),
+    ...(c.isTest ? ["test-lead"] : []),
+  ];
+  return {
+    name: c.firstName,
+    first_name: c.firstName,
+    email: c.email,
+    email_verified: true,
+    company: c.company,
+    company_size: c.companySize || quiz.companySize,
+    industry: quiz.result.industry,
+    role: d.role,
+    website: d.website,
+    revenue_band: d.revenueBand,
+    bottleneck: d.bottleneck,
+    followup_choice: d.followupChoice,
+    followup_text: d.followupText,
+    hours_per_week: d.hoursPerWeek,
+    hourly_value: d.hourlyValue,
+    cost_basis: d.costBasis,
+    annual_salary: d.annualSalary ?? "",
+    est_value_low: value.low,
+    est_value_high: value.high,
+    top_opportunity: report.opportunities[0]?.title ?? "",
+    score: quiz.result.totalPct,
+    tier: quiz.result.tier,
+    ...Object.fromEntries(quiz.result.pillars.map((p) => [`score_${p.pillar}`, p.pct])),
+    ...quiz.answerFields,
+    answers_summary: quiz.answersSummary,
+    consent: c.consent,
+    test: c.isTest,
+    tags: tags.join(","),
   };
 }
