@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import BookingLink from "@/components/BookingLink";
+import Todo from "@/components/Todo";
+import { FOUNDER } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contact — Sacramento AI Agency",
@@ -32,6 +34,32 @@ export default function ContactPage() {
             real person will read it.
           </p>
         </div>
+      </section>
+
+      {/* Direct details */}
+      <section className="px-4 sm:px-6 lg:px-8 py-8 bg-paper">
+        <dl className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+          <div className="card p-4">
+            <dt className="eyebrow mb-1">Phone</dt>
+            <dd className="text-ink font-semibold">
+              {FOUNDER.phone ? (
+                <a href={`tel:${FOUNDER.phone.replace(/[^\d+]/g, "")}`} className="hover:text-accent">{FOUNDER.phone}</a>
+              ) : (
+                <Todo>business phone</Todo>
+              )}
+            </dd>
+          </div>
+          <div className="card p-4">
+            <dt className="eyebrow mb-1">Email</dt>
+            <dd className="text-ink font-semibold text-sm break-all">
+              <a href={`mailto:${FOUNDER.email}`} className="hover:text-accent">{FOUNDER.email}</a>
+            </dd>
+          </div>
+          <div className="card p-4">
+            <dt className="eyebrow mb-1">Based in</dt>
+            <dd className="text-ink font-semibold">{FOUNDER.city}</dd>
+          </div>
+        </dl>
       </section>
 
       {/* Form */}

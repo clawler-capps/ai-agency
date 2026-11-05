@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
   const firstName = clamp(body.firstName, 80).split(/\s+/)[0] ?? "";
   const company = clamp(body.company, 200);
   if (!firstName) return fail("Please enter your first name.", 400);
-  if (!company) return fail("Please enter your company name.", 400);
+  // Company and size are optional on the unlock form.
 
   const snap = readSnapshotToken(body.token);
   if (!snap) return fail("This snapshot has expired. Please retake it (it only takes 3 minutes).", 400);
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
         to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
         replyTo: email,
         subject:
-          `${isTest ? "[TEST] " : ""}[snapshot] ${firstName}, ${company} (${payload.industry}, ${payload.tier}, ` +
+          `${isTest ? "[TEST] " : ""}[snapshot] ${firstName}, ${company || "no company given"} (${payload.industry}, ${payload.tier}, ` +
           `${usd(total.low)}–${usd(total.high)}/yr)${source === "template" ? " [template report]" : ""}`,
         text: `Industry: ${payload.industry}\nWebhook: ${webhook}\nReport: ${source}\nEmail checks: passed (not code-verified)\n\n${formatLead("website-assessment", payload)}`,
       }),

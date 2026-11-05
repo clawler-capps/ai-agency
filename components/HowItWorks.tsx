@@ -8,8 +8,8 @@ const steps = [
     description:
       "You walk us through your week — a conversation, not a technical audit. We find where AI saves you the most time.",
     outcome: "Your Leverage Map: a one-page ranked plan of what to automate first — and what each play is worth per year.",
-    color: "text-green-DEFAULT border-green-border bg-green-light",
-    labelColor: "text-green-DEFAULT",
+    color: "text-green border-green-border bg-green-light",
+    labelColor: "text-green",
   },
   {
     step: "2",
@@ -18,8 +18,8 @@ const steps = [
     description:
       "In your own accounts — your data stays in your systems — you build tools you actually run, not demos you forget.",
     outcome: "You leave every session with something working.",
-    color: "text-blue-DEFAULT border-blue-border bg-blue-light",
-    labelColor: "text-blue-DEFAULT",
+    color: "text-blue border-blue-border bg-blue-light",
+    labelColor: "text-blue",
   },
   {
     step: "3",
@@ -41,14 +41,14 @@ const layers = [
     description:
       "Claude, the AI we build on, learns your business, so it stops giving generic answers and starts sounding like you.",
     color: "border-green-border bg-green-light",
-    labelColor: "text-green-DEFAULT",
+    labelColor: "text-green",
   },
   {
     number: "S2",
     title: "Skills",
     description: "Your best work becomes reusable tools you call up in one click, any time.",
     color: "border-blue-border bg-blue-light",
-    labelColor: "text-blue-DEFAULT",
+    labelColor: "text-blue",
   },
   {
     number: "S3",

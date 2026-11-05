@@ -4,7 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { OptionLabel, questions, SIZE_LABELS } from "./questions";
 import { Answer, AssessmentResult, scoreAssessment, TIER_META, PILLAR_LABELS } from "./scoring";
 
-import { BOOKING_URL, BOOKING_EMBED_URL } from "@/lib/booking";
+import Link from "next/link";
+import { BOOKING_EMBED_URL } from "@/lib/booking";
+import { ASSESSMENT_CHECKOUT_URL } from "@/lib/site";
 import {
   CostBasis,
   DEFAULT_HOURLY_VALUE,
@@ -43,6 +45,11 @@ const BUILD_STEPS = [
   "Writing your try-it-tonight prompt…",
 ];
 
+// Follow-up steps after the quiz: bottleneck, follow-up, numbers.
+const EXTRA_STEPS = 3;
+// Short pause so the visitor sees their pick highlight before the next question.
+const ADVANCE_DELAY_MS = 220;
+
 const input =
   "w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors";
 const labelCls = "block text-sm font-semibold text-ink mb-1.5";
@@ -70,6 +77,7 @@ export default function AssessmentForm() {
   const [step, setStep] = useState(0); // 0-indexed into questions[]
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [selected, setSelected] = useState<OptionLabel | null>(null);
+  const advancing = useRef(false);
 
   // Snapshot details (before the gate)
   const [bottleneck, setBottleneck] = useState("");
@@ -98,6 +106,7 @@ export default function AssessmentForm() {
   const [company, setCompany] = useState("");
   const [companySize, setCompanySize] = useState("");
   const [consent, setConsent] = useState(false);
+  const [showCompany, setShowCompany] = useState(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [sentTo, setSentTo] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -117,8 +126,9 @@ export default function AssessmentForm() {
   }, [answers]);
 
   const totalSteps = questions.length;
+  // Every step before the report: the quiz plus the 3 follow-ups.
+  const allSteps = totalSteps + EXTRA_STEPS;
   const currentQuestion = questions[step];
-  const progress = Math.round(((step + 1) / totalSteps) * 100);
 
   // The visitor's own numbers, cleaned the same way the server cleans them.
   const salaryNum = parseMoney(annualSalary);
@@ -148,21 +158,56 @@ export default function AssessmentForm() {
   }, [phase, buildError, website]);
 
   // ── Phase transitions ─────────────────────────────────────────────────────
-  function handleNext() {
-    if (!selected || !currentQuestion) return;
-    const updated = [
-      ...answers.filter((a) => a.questionId !== currentQuestion.id),
-      { questionId: currentQuestion.id, label: selected },
-    ];
-    setAnswers(updated);
-
+  function commitAnswer(label: OptionLabel) {
+    if (!currentQuestion) return;
+    setAnswers((prev) => [
+      ...prev.filter((a) => a.questionId !== currentQuestion.id),
+      { questionId: currentQuestion.id, label },
+    ]);
     if (step + 1 < totalSteps) {
       setStep(step + 1);
       setSelected(null);
     } else {
       setPhase("bottleneck");
     }
+    // On phones the next question would open scrolled past its progress bar.
+    if (window.scrollY > 0) window.scrollTo({ top: 0 });
   }
+
+  // Single-choice: picking an option advances on its own (no Next click).
+  function pickOption(label: OptionLabel) {
+    if (advancing.current) return;
+    advancing.current = true;
+    setSelected(label);
+    setTimeout(() => {
+      commitAnswer(label);
+      advancing.current = false;
+    }, ADVANCE_DELAY_MS);
+  }
+
+  function handleNext() {
+    if (selected) commitAnswer(selected);
+  }
+
+  // Letter keys pick the matching option (A, B, C…), the same as a click.
+  useEffect(() => {
+    if (phase !== "questions" || !currentQuestion) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "SELECT" || t.isContentEditable)) return;
+      const key = e.key.toUpperCase();
+      const opt = currentQuestion.options.find((o) => o.label === key);
+      if (opt) {
+        e.preventDefault();
+        pickOption(opt.label);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // pickOption reads the current question through the closure; re-bind per step.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, step, currentQuestion]);
 
   function handleBack() {
     if (step === 0) {
@@ -286,7 +331,7 @@ export default function AssessmentForm() {
           dollars, and one thing you can try tonight.
         </p>
         <button
-          onClick={() => { setPhase("questions"); setStep(0); }}
+          onClick={() => { setPhase("questions"); setStep(0); window.scrollTo({ top: 0 }); }}
           className="btn-primary text-base px-10 py-4"
         >
           Start the Snapshot →
@@ -304,18 +349,7 @@ export default function AssessmentForm() {
   if (phase === "questions" && currentQuestion) {
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="mb-8">
-          <div className="flex justify-between text-xs font-mono text-muted mb-2">
-            <span>Question {step + 1} of {totalSteps}</span>
-            <span>{progress}% complete</span>
-          </div>
-          <div className="h-1 bg-border rounded-full overflow-hidden">
-            <div
-              className="h-full bg-accent rounded-full transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
+        <Progress index={step} total={allSteps} />
 
         <div className="card p-6 sm:p-8">
           <h2 className="text-xl sm:text-2xl font-bold text-ink mb-3 text-balance">
@@ -330,7 +364,8 @@ export default function AssessmentForm() {
             {currentQuestion.options.map((opt) => (
               <button
                 key={opt.label}
-                onClick={() => setSelected(opt.label)}
+                onClick={() => pickOption(opt.label)}
+                aria-keyshortcuts={opt.label}
                 className={`w-full text-left px-5 py-4 rounded-xl border transition-all duration-150 ${
                   selected === opt.label
                     ? "border-accent bg-accent/light text-ink"
@@ -353,13 +388,17 @@ export default function AssessmentForm() {
             <button onClick={handleBack} className="btn-ghost text-sm">
               ← Back
             </button>
-            <button
-              onClick={handleNext}
-              disabled={!selected}
-              className="btn-primary px-8 py-3 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Next →
-            </button>
+            {/* Picking an answer moves on by itself. Next only shows for an answer
+                kept from before (after going Back). */}
+            {selected && !advancing.current ? (
+              <button onClick={handleNext} className="btn-primary px-8 py-3">
+                Next →
+              </button>
+            ) : (
+              <p className="hidden sm:block text-xs text-muted font-mono">
+                TAP AN ANSWER, OR PRESS {currentQuestion.options[0].label}–{currentQuestion.options[currentQuestion.options.length - 1].label}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -372,7 +411,7 @@ export default function AssessmentForm() {
   if (phase === "bottleneck") {
     return (
       <div className="max-w-2xl mx-auto">
-        <StepLabel n={1} />
+        <Progress index={totalSteps} total={allSteps} />
         <div className="card p-6 sm:p-8">
           <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2 text-balance">
             Where do you lose the most time?
@@ -417,7 +456,7 @@ export default function AssessmentForm() {
     const canContinue = followupChoice && (followupChoice !== "Other" || followupText.trim());
     return (
       <div className="max-w-2xl mx-auto">
-        <StepLabel n={2} />
+        <Progress index={totalSteps + 1} total={allSteps} />
         <div className="card p-6 sm:p-8">
           <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2 text-balance">{FOLLOWUP_QUESTION}</h2>
           <p className="text-sm text-muted mb-6">
@@ -435,7 +474,16 @@ export default function AssessmentForm() {
                 <button
                   key={c}
                   type="button"
-                  onClick={() => setFollowupChoice(c)}
+                  onClick={() => {
+                    setFollowupChoice(c);
+                    // Single choice: move on, except "Other", which needs a few words.
+                    if (c !== "Other") {
+                      setTimeout(() => {
+                        setPhase("numbers");
+                        window.scrollTo({ top: 0 });
+                      }, ADVANCE_DELAY_MS);
+                    }
+                  }}
                   className={`w-full text-left px-5 py-4 rounded-xl border transition-all duration-150 ${
                     followupChoice === c
                       ? "border-accent bg-accent/light text-ink"
@@ -463,14 +511,16 @@ export default function AssessmentForm() {
             <button type="button" onClick={() => setPhase("bottleneck")} className="btn-ghost text-sm">
               ← Back
             </button>
-            <button
-              type="button"
-              onClick={() => setPhase("numbers")}
-              disabled={!canContinue}
-              className="btn-primary px-8 py-3 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Next →
-            </button>
+            {(followupChoice === "Other" || canContinue) && (
+              <button
+                type="button"
+                onClick={() => setPhase("numbers")}
+                disabled={!canContinue}
+                className="btn-primary px-8 py-3 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Next →
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -484,7 +534,7 @@ export default function AssessmentForm() {
     const salaryReady = costBasis === "salary" && usingSalary;
     return (
       <div className="max-w-2xl mx-auto">
-        <StepLabel n={3} />
+        <Progress index={totalSteps + 2} total={allSteps} />
         <div className="card p-6 sm:p-8">
           <h2 className="text-xl sm:text-2xl font-bold text-ink mb-2 text-balance">Last step: your numbers</h2>
           <p className="text-sm text-muted mb-6">Rough guesses are fine. You can adjust them on your snapshot.</p>
@@ -583,16 +633,20 @@ export default function AssessmentForm() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="role" className={labelCls}>Your role</label>
-                <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required className={input}>
-                  <option value="" disabled>Choose one</option>
+                <label htmlFor="role" className={labelCls}>
+                  Your role <span className="font-normal text-muted">(optional)</span>
+                </label>
+                <select id="role" value={role} onChange={(e) => setRole(e.target.value)} className={input}>
+                  <option value="">Skip</option>
                   {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div>
-                <label htmlFor="revenue" className={labelCls}>Annual revenue</label>
-                <select id="revenue" value={revenueBand} onChange={(e) => setRevenueBand(e.target.value)} required className={input}>
-                  <option value="" disabled>Choose one</option>
+                <label htmlFor="revenue" className={labelCls}>
+                  Annual revenue <span className="font-normal text-muted">(optional)</span>
+                </label>
+                <select id="revenue" value={revenueBand} onChange={(e) => setRevenueBand(e.target.value)} className={input}>
+                  <option value="">Prefer not to say</option>
                   {REVENUE_BANDS.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
@@ -879,15 +933,9 @@ export default function AssessmentForm() {
                       conversation and a few days of analysis would uncover.
                     </p>
                     <form onSubmit={(e) => { e.preventDefault(); handleUnlock(); }} className="space-y-3">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <label htmlFor="g-first" className={labelCls}>First name</label>
-                          <input id="g-first" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required maxLength={80} autoComplete="given-name" className={input} />
-                        </div>
-                        <div>
-                          <label htmlFor="g-company" className={labelCls}>Company</label>
-                          <input id="g-company" type="text" value={company} onChange={(e) => setCompany(e.target.value)} required maxLength={200} autoComplete="organization" className={input} />
-                        </div>
+                      <div>
+                        <label htmlFor="g-first" className={labelCls}>First name</label>
+                        <input id="g-first" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required maxLength={80} autoComplete="given-name" className={input} />
                       </div>
                       <div>
                         <label htmlFor="g-email" className={labelCls}>Email</label>
@@ -903,15 +951,31 @@ export default function AssessmentForm() {
                           className={input}
                         />
                       </div>
-                      <div>
-                        <label htmlFor="g-size" className={labelCls}>Company size</label>
-                        <select id="g-size" value={companySize} onChange={(e) => setCompanySize(e.target.value)} required className={input}>
-                          <option value="" disabled>Choose one</option>
-                          {Object.values(SIZE_LABELS).map((s) => (
-                            <option key={s} value={s}>{s === "Solo" ? "Just me" : `${s} people`}</option>
-                          ))}
-                        </select>
-                      </div>
+                      {showCompany ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label htmlFor="g-company" className={labelCls}>
+                              Company <span className="font-normal text-muted">(optional)</span>
+                            </label>
+                            <input id="g-company" type="text" value={company} onChange={(e) => setCompany(e.target.value)} maxLength={200} autoComplete="organization" className={input} />
+                          </div>
+                          <div>
+                            <label htmlFor="g-size" className={labelCls}>
+                              Company size <span className="font-normal text-muted">(optional)</span>
+                            </label>
+                            <select id="g-size" value={companySize} onChange={(e) => setCompanySize(e.target.value)} className={input}>
+                              <option value="">Skip</option>
+                              {Object.values(SIZE_LABELS).map((s) => (
+                                <option key={s} value={s}>{s === "Solo" ? "Just me" : `${s} people`}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      ) : (
+                        <button type="button" onClick={() => setShowCompany(true)} className="text-sm text-muted underline hover:text-ink">
+                          + Add your company (optional)
+                        </button>
+                      )}
                       {honeypot}
                       <label className="flex items-start gap-3 text-sm text-ink/80 cursor-pointer">
                         <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-4 w-4 accent-accent" />
@@ -949,9 +1013,9 @@ export default function AssessmentForm() {
                     </form>
                 <div className="mt-5 pt-4 border-t border-border text-center">
                   <p className="text-sm text-ink/80 mb-1">Want the full picture?</p>
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-accent underline">
+                  <Link href="/book" className="text-sm font-semibold text-accent underline">
                     Book a free 15-minute call →
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -971,13 +1035,17 @@ export default function AssessmentForm() {
                 analysis would uncover far more. Book a free 15-minute call and we&apos;ll walk
                 through your numbers and the fastest first step.
               </p>
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-base py-4">
+              <Link href="/book" className="btn-primary w-full text-base py-4">
                 Book My Free 15-Minute Call →
-              </a>
+              </Link>
               <p className="mt-3 text-xs text-muted font-mono text-center">15 MIN · FREE · NO PITCH, JUST A CONVERSATION</p>
               <p className="mt-4 text-center text-sm">
-                <a href="/pricing" className="text-muted underline hover:text-ink">
-                  Or skip ahead to the $997 AI Leverage Assessment
+                <a
+                  href={ASSESSMENT_CHECKOUT_URL}
+                  {...(ASSESSMENT_CHECKOUT_URL.startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                  className="text-muted underline hover:text-ink"
+                >
+                  Or skip ahead and book the $997 AI Leverage Assessment
                 </a>
               </p>
             </div>
@@ -1001,11 +1069,26 @@ export default function AssessmentForm() {
   return null;
 }
 
-function StepLabel({ n }: { n: number }) {
+// One bar across all steps (quiz + follow-ups), so it never reads 100% early.
+// The percent counts finished steps: step 1 is 0%, the last step is under 100%.
+function Progress({ index, total }: { index: number; total: number }) {
+  const pct = Math.round((index / total) * 100);
   return (
-    <div className="mb-6 flex justify-between text-xs font-mono text-muted">
-      <span>Almost done · {n} of 3</span>
-      <span>Your snapshot is next</span>
+    <div className="mb-8">
+      <div className="flex justify-between text-xs font-mono text-muted mb-2">
+        <span>Step {index + 1} of {total}</span>
+        <span>{pct}% complete</span>
+      </div>
+      <div
+        className="h-1 bg-border rounded-full overflow-hidden"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={pct}
+        aria-label="Snapshot progress"
+      >
+        <div className="h-full bg-accent rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+      </div>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import Link from "next/link";
-import { BOOKING_URL } from "@/lib/booking";
 import BookingLink from "@/components/BookingLink";
+import { ASSESSMENT_CHECKOUT_URL, BUILD_DAY_FORMAT } from "@/lib/site";
+
+type Rung = "Assess" | "Enable" | "Deploy" | "Lead";
 
 const tiers = [
   {
     number: "Assess",
     name: "AI Leverage Assessment",
     price: "$997",
-    priceNote: "per person",
+    priceNote: "for the owner · add team members later",
     tagline:
       "Know your best AI moves — ranked, priced, and backed by real numbers — before you commit to anything.",
     highlights: [
@@ -15,14 +17,14 @@ const tiers = [
       "Your Leverage Map: a ranked to-do list of what to automate first, what it costs, and what it's worth per year",
       "At least 10× the fee identified in annual value — or your money back",
       "We write down what each fix should save you — then check the real number after it's built",
-      "Teams & divisions: group discounts + a kickoff workshop — ask on a call",
+      "Start with just you. Add team members later, with group discounts for teams and divisions",
     ],
     cta: "See What's Inside",
     ctaHref: "/pricing#assess",
     external: false,
     color: "border-green-border",
-    badgeColor: "bg-green-light text-green-DEFAULT border-green-border",
-    ctaColor: "bg-green-DEFAULT hover:bg-green-hover text-white",
+    badgeColor: "bg-green-light text-green border-green-border",
+    ctaColor: "bg-green hover:bg-green-hover text-white",
   },
   {
     number: "Enable",
@@ -42,8 +44,8 @@ const tiers = [
     ctaHref: "/pricing#enable",
     external: false,
     color: "border-blue-border",
-    badgeColor: "bg-blue-light text-blue-DEFAULT border-blue-border",
-    ctaColor: "bg-blue-DEFAULT hover:bg-blue-hover text-white",
+    badgeColor: "bg-blue-light text-blue border-blue-border",
+    ctaColor: "bg-blue hover:bg-blue-hover text-white",
   },
   {
     number: "Deploy",
@@ -51,7 +53,7 @@ const tiers = [
     price: "$15K–$85K",
     priceNote: "scoped to your team on a call",
     tagline:
-      "One afternoon where every person on your team ships a real tool against their own real problem.",
+      `${BUILD_DAY_FORMAT[0].toUpperCase()}${BUILD_DAY_FORMAT.slice(1)} where every person on your team ships a real tool against their own real problem.`,
     highlights: [
       "Every attendee automates one real workflow — modeled at $10K–$15K/yr in reclaimed time each",
       "Your own people — the ones we trained first — coach the room, so the capability stays in-house",
@@ -79,18 +81,38 @@ const tiers = [
       "The scoreboard tracks it all — validated hours, not vibes",
     ],
     cta: "Book a free 15-min call",
-    ctaHref: BOOKING_URL,
+    ctaHref: "/book",
     external: true,
     color: "border-purple-border",
-    badgeColor: "bg-purple-light text-purple-DEFAULT border-purple-border",
-    ctaColor: "bg-purple-DEFAULT hover:bg-purple-hover text-white",
+    badgeColor: "bg-purple-light text-purple border-purple-border",
+    ctaColor: "bg-purple hover:bg-purple-hover text-white",
   },
 ];
 
-export default function ServiceTiers() {
+// The homepage shows Assess + Enable up top for owner-run businesses, and the
+// team rungs (Build Day, Embedded) further down. Pricing shows the full ladder.
+export default function ServiceTiers({ rungs, variant = "ladder" }: { rungs?: Rung[]; variant?: "ladder" | "teams" }) {
+  const shown = rungs ? tiers.filter((t) => rungs.includes(t.number as Rung)) : tiers;
   return (
-    <section className="section-padding bg-cream section-divider">
+    <section id={variant === "teams" ? "larger-teams" : undefined} className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
+        {variant === "teams" ? (
+          <div className="mb-8 lg:mb-10">
+            <p className="eyebrow mb-3">For larger teams</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
+              When a whole team or division is ready
+            </h2>
+            <p className="mt-4 text-lg text-muted max-w-xl">
+              These come after the Assessment, and only once the scoreboard shows they
+              will pay for themselves. Most owner-run businesses never need them.
+            </p>
+            <p className="mt-3 text-sm">
+              <Link href="/case-study/energy" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
+                Download the 2-page case summary from an energy-company engagement →
+              </Link>
+            </p>
+          </div>
+        ) : (
         <div className="mb-8 lg:mb-10">
           <p className="eyebrow mb-3">The Service Ladder</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight">
@@ -106,9 +128,10 @@ export default function ServiceTiers() {
             them; the scoreboard decides.
           </p>
         </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {tiers.map((tier, i) => (
+          {shown.map((tier, i) => (
             <div key={i} className={`card-hover p-6 sm:p-8 border-2 ${tier.color}`}>
               <div className="flex items-start justify-between mb-4">
                 <span className={`inline-block px-2.5 py-1 rounded-md text-xs font-mono font-bold border ${tier.badgeColor}`}>
@@ -132,7 +155,28 @@ export default function ServiceTiers() {
                 ))}
               </ul>
 
-              {tier.external ? (
+              {tier.number === "Assess" ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <BookingLink
+                    location="tiers-assess-buy"
+                    label="Book the Assessment"
+                    href={ASSESSMENT_CHECKOUT_URL}
+                    className={`inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-colors ${tier.ctaColor}`}
+                  >
+                    Book the Assessment →
+                  </BookingLink>
+                  <BookingLink
+                    location="tiers-assess-call"
+                    label="Start with a free 15-min call"
+                    className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold border border-ink/20 text-ink hover:border-ink/40 hover:bg-ink/5 transition-colors"
+                  >
+                    Start with a free 15-min call
+                  </BookingLink>
+                  <Link href={tier.ctaHref} className="sm:col-span-2 text-center text-xs text-muted underline hover:text-ink">
+                    {tier.cta}
+                  </Link>
+                </div>
+              ) : tier.external ? (
                 <BookingLink
                   location="tiers-lead"
                   label={tier.cta}

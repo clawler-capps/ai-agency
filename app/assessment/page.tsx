@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AssessmentForm from "@/components/assessment/AssessmentForm";
+import ChatWidget from "@/components/ChatWidget";
 import { questions } from "@/components/assessment/questions";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default function AssessmentPage() {
   return (
     <div className="min-h-screen pt-20 bg-primary-dark">
+      <ChatWidget />
       <div className="max-w-3xl mx-auto section-padding">
         <AssessmentForm />
       </div>

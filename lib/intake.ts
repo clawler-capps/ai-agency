@@ -84,7 +84,8 @@ export function parseDetails(body: Record<string, unknown>): { details: Details 
       hourlyValue,
       costBasis,
       annualSalary: salary,
-      role: ROLES.find((r) => r === body.role) ?? "Other",
+      // Optional on the form; blank when skipped.
+      role: ROLES.find((r) => r === body.role) ?? "",
       revenueBand: REVENUE_BANDS.find((r) => r === body.revenueBand) ?? "",
       website: clamp(body.website, 300),
     },
