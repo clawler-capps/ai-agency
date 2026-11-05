@@ -110,15 +110,20 @@ export type EmailCheck =
   | { ok: false; reason: "syntax" | "typo" | "disposable" | "no-mx"; error: string; suggestion?: string };
 
 async function hasMx(domain: string): Promise<boolean> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const lookup = dns.resolveMx(domain).then((r) => r.some((m) => m.exchange && m.exchange !== "."));
-    const timeout = new Promise<boolean>((resolve) => setTimeout(() => resolve(true), MX_TIMEOUT_MS));
+    const timeout = new Promise<boolean>((resolve) => {
+      timer = setTimeout(() => resolve(true), MX_TIMEOUT_MS);
+    });
     // A slow DNS answer counts as a pass; the code email is the real test.
     return await Promise.race([lookup, timeout]);
   } catch (err) {
     const code = (err as NodeJS.ErrnoException)?.code;
     // Only a definite "no such domain / no MX" fails. Resolver hiccups pass.
     return !(code === "ENOTFOUND" || code === "ENODATA" || code === "ENONAME" || code === "NXDOMAIN");
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -134,7 +139,7 @@ export async function checkEmail(raw: string, keepTypo = false): Promise<EmailCh
     const suggestion = `${local}@${suggested}`;
     return { ok: false, reason: "typo", error: `Did you mean ${suggestion}?`, suggestion };
   }
-  if (DISPOSABLE.has(domain) || [...DISPOSABLE].some((d) => domain.endsWith(`.${d}`))) {
+  if (DISPOSABLE.has(domain) || Array.from(DISPOSABLE).some((d) => domain.endsWith(`.${d}`))) {
     return {
       ok: false,
       reason: "disposable",

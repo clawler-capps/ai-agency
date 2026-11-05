@@ -176,6 +176,19 @@ export type Report = {
   prompt: string;
 };
 
+// "Your biggest AI opportunity: updating the numbers…" → "Your biggest AI
+// opportunity". The #1 card right below already names the opportunity.
+export function shortHeadline(h: string): string {
+  const m = /^(your\b[^:]*\bai opportunit[^:]*?):\s*\S/i.exec(h.trim());
+  return m ? m[1].trim() : h.trim();
+}
+
+// For quoting the visitor's own words in a label.
+export const truncate = (s: string, max: number) => {
+  const t = s.trim().replace(/\s+/g, " ");
+  return t.length <= max ? t : `${t.slice(0, max - 1).replace(/[\s,.;:]+\S*$/, "")}…`;
+};
+
 export function totalValue(opps: { hours: number }[], hourlyValue: number): { low: number; high: number } {
   return opps.reduce(
     (t, o) => {

@@ -21,6 +21,7 @@ import {
   estimateValue,
   matchOpportunity,
   salaryMath,
+  shortHeadline,
   tonightPrompt,
   totalValue,
   usd,
@@ -317,11 +318,12 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
   const optOut = 'Don\'t want more emails? Reply "unsubscribe" and we\'ll take you off the list.';
   const assessmentUrl = `${SITE_URL}/pricing`;
   const e = escapeHtml;
+  const headline = shortHeadline(r.headline);
 
   const text = [
     `Hi ${contact.firstName},`,
     "",
-    r.headline,
+    headline,
     "",
     `#1 opportunity: ${top.title}, ${range(top.value)}`,
     `Your top 3 add up to ${usd(total.low)}–${usd(total.high)} a year.`,
@@ -375,7 +377,7 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
 
   const html = `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:#0d0f12;max-width:600px;margin:0 auto;line-height:1.55;font-size:15px">
 <p>Hi ${e(contact.firstName)},</p>
-<h1 style="font-size:22px;line-height:1.3;margin:0 0 12px">${e(r.headline)}</h1>
+<h1 style="font-size:22px;line-height:1.3;margin:0 0 12px">${e(headline)}</h1>
 <div style="background:#fdeee7;border:1px solid #f3c3ad;border-radius:12px;padding:14px 16px;margin:0 0 24px">
 <p style="margin:0 0 2px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#777">#1 opportunity</p>
 <p style="margin:0 0 4px;font-weight:700;font-size:17px">${e(top.title)}</p>
@@ -416,8 +418,12 @@ ${opps
 <p style="font-size:12px;color:#777">${e(footer)}<br>${e(why)}<br>${e(PRIVACY_LINE)}<br>${e(optOut)}</p>
 </div>`;
 
-  return { subject: `${contact.company ? `${contact.company}: ` : ""}Your AI Opportunity Snapshot (${range(top.value)} in ${top.title.toLowerCase()})`, text, html };
+  // Same total as the results page, across every listed opportunity.
+  return { subject: snapshotSubject(total), text, html };
 }
+
+export const snapshotSubject = (total: { low: number; high: number }) =>
+  `Your AI Opportunity Snapshot (${usd(total.low)}–${usd(total.high)} a year)`;
 
 // ── Delivery (after unlock) ──────────────────────────────────────────────────
 

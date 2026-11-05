@@ -3,6 +3,7 @@
 import { OPTION_LABELS, questions, SIZE_LABELS } from "@/components/assessment/questions";
 import { Answer, AssessmentResult, scoreAssessment } from "@/components/assessment/scoring";
 import { clamp } from "@/lib/guard";
+import { verifyToken } from "@/lib/token";
 import type { SnapshotInput } from "@/lib/report";
 import {
   CostBasis,
@@ -129,6 +130,15 @@ export type SnapshotToken = {
   report: Report;
   source: "claude" | "template";
 };
+
+// Verifies a snapshot token and checks its shape, so a code token (signed with
+// the same key) can't be passed off as a snapshot.
+export function readSnapshotToken(raw: unknown): SnapshotToken | null {
+  const t = verifyToken<SnapshotToken & { kind?: string }>(raw);
+  if (!t || t.v !== 1 || t.kind !== undefined) return null;
+  if (!Array.isArray(t.answers) || !t.details || !t.report || !Array.isArray(t.report.opportunities)) return null;
+  return t;
+}
 
 export function snapshotInput(answers: Answer[], d: Details): SnapshotInput {
   const quiz = summarizeQuiz(answers);

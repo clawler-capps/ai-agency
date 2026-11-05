@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { waitUntil } from "@vercel/functions";
 import { clamp, clientIp, createRateLimiter } from "@/lib/guard";
-import { SnapshotToken, leadPayload, snapshotInput, withCostDefaults } from "@/lib/intake";
+import { leadPayload, readSnapshotToken, snapshotInput, withCostDefaults } from "@/lib/intake";
 import { formatLead, funnelEnabled, postLeadWebhook, sendEmail } from "@/lib/leads";
 import { deliverReport } from "@/lib/report";
 import { totalValue, usd } from "@/lib/snapshot";
-import { verifyToken } from "@/lib/token";
 import { checkCode, releaseCode } from "@/lib/verify";
 
 // AI Opportunity Snapshot, step 2b: the visitor enters the 6-digit code from
@@ -36,15 +35,15 @@ export async function POST(request: NextRequest) {
     return fail("Invalid request.", 400);
   }
 
-  // Honeypot: silently accept and drop so bots don't learn they were caught.
-  if (clamp(body.fax, 200)) return NextResponse.json({ success: true });
+  // Honeypot: post nothing, and answer like a wrong code so nothing unlocks.
+  if (clamp(body.fax, 200)) return fail("That code isn't right. Please check it and try again.", 400);
 
   const ip = clientIp(request);
   if (triesLimited(ip)) return fail("Too many tries. Please wait a few minutes and try again.", 429);
 
   const snapshotToken = typeof body.token === "string" ? body.token : "";
-  const snap = verifyToken<SnapshotToken>(snapshotToken);
-  if (!snap || snap.v !== 1) {
+  const snap = readSnapshotToken(snapshotToken);
+  if (!snap) {
     return fail("This snapshot has expired. Please retake it (it only takes 3 minutes).", 400);
   }
 

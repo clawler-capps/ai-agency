@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { SIZE_LABELS } from "@/components/assessment/questions";
 import { checkEmail } from "@/lib/email-check";
 import { clamp, clientIp, createRateLimiter, escapeHtml } from "@/lib/guard";
-import { SnapshotToken } from "@/lib/intake";
+import { readSnapshotToken } from "@/lib/intake";
 import { sendEmail } from "@/lib/leads";
-import { verifyToken } from "@/lib/token";
 import { MAX_RESENDS, issueCodeToken, newCode, readCodeToken, snapshotHash } from "@/lib/verify";
 
 // AI Opportunity Snapshot, step 2a: "Unlock my full snapshot".
@@ -66,8 +65,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, codeToken: "", email: rawEmail.toLowerCase(), resendsLeft: MAX_RESENDS });
   }
 
-  const snap = verifyToken<SnapshotToken>(snapshotToken);
-  if (!snap || snap.v !== 1) {
+  const snap = readSnapshotToken(snapshotToken);
+  if (!snap) {
     return fail({ error: "This snapshot has expired. Please retake it (it only takes 3 minutes)." }, 400);
   }
 
