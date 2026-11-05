@@ -1,7 +1,7 @@
 // Server-side only. Signs the generated snapshot so the unlock endpoint can
 // email that exact report without a second AI call.
 //
-// The token is signed, not encrypted: the visitor can read what's inside
+// The token is signed and readable: the visitor can see what's inside
 // (their own answers and their own report), but can't change it.
 import { createHmac, timingSafeEqual } from "crypto";
 

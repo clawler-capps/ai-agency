@@ -4,7 +4,7 @@ import ChatWidget from "@/components/ChatWidget";
 import { questions } from "@/components/assessment/questions";
 
 export const metadata: Metadata = {
-  title: "Free AI Opportunity Snapshot — Sacramento AI Agency",
+  title: "Free AI Opportunity Snapshot | Sacramento AI Agency",
   description: `Answer ${questions.length} quick questions about your business and get a snapshot of where AI can save you the most time and money.`,
 };
 

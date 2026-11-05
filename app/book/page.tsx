@@ -4,7 +4,7 @@ import { BOOKING_EMBED_URL, BOOKING_URL } from "@/lib/booking";
 import { ASSESSMENT_CHECKOUT_LIVE, FOUNDER } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Book a free 15-minute call — Sacramento AI Agency",
+  title: "Book a free 15-minute call | Sacramento AI Agency",
   description: "Pick a time for a free 15-minute call with Tyler Capps. No pitch, just a look at where AI can save you time.",
 };
 

@@ -21,7 +21,7 @@ export const FOUNDER = {
 
 // TODO(tyler): Stripe Payment Link for the $997 AI Leverage Assessment (or a
 // deposit). Set NEXT_PUBLIC_ASSESSMENT_CHECKOUT_URL on Vercel, e.g.
-// https://buy.stripe.com/… — read at build time, so redeploy after setting it.
+// https://buy.stripe.com/… It's read at build time, so redeploy after setting it.
 // Until it's set, "Book the Assessment" goes to /book?for=assessment.
 const checkout = process.env.NEXT_PUBLIC_ASSESSMENT_CHECKOUT_URL?.trim();
 export const ASSESSMENT_CHECKOUT_URL: string = checkout || "/book?for=assessment";

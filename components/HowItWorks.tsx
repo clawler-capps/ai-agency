@@ -6,8 +6,8 @@ const steps = [
     title: "Assess",
     name: "We find your leverage",
     description:
-      "You walk us through your week — a conversation, not a technical audit. We find where AI saves you the most time.",
-    outcome: "Your Leverage Map: a one-page ranked plan of what to automate first — and what each play is worth per year.",
+      "You walk us through your week in a plain conversation. We find where AI saves you the most time.",
+    outcome: "Your Leverage Map, a one-page ranked plan of what to automate first and what each fix is worth per year.",
     color: "text-green border-green-border bg-green-light",
     labelColor: "text-green",
   },
@@ -16,7 +16,7 @@ const steps = [
     title: "Enable",
     name: "We build it together",
     description:
-      "In your own accounts — your data stays in your systems — you build tools you actually run, not demos you forget.",
+      "You build tools you'll use every week, in your own accounts, so your data stays in your systems.",
     outcome: "You leave every session with something working.",
     color: "text-blue border-blue-border bg-blue-light",
     labelColor: "text-blue",
@@ -24,9 +24,9 @@ const steps = [
   {
     step: "3",
     title: "Lead",
-    name: "It compounds",
+    name: "It keeps paying off",
     description:
-      "What you build keeps paying off — automatically, every week.",
+      "What you build keeps saving time every week without more work from you.",
     outcome: "It becomes how your whole team works.",
     color: "text-accent border-accent/30 bg-accent/light",
     labelColor: "text-accent",
@@ -39,7 +39,7 @@ const layers = [
     number: "S1",
     title: "Source",
     description:
-      "Claude, the AI we build on, learns your business, so it stops giving generic answers and starts sounding like you.",
+      "Claude, the AI we build on, learns your business and starts sounding like you.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green",
   },
@@ -53,7 +53,7 @@ const layers = [
   {
     number: "S3",
     title: "Systems",
-    description: "The repetitive parts run on autopilot. The work happens without you.",
+    description: "The repetitive parts run on a schedule, without you starting them.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -64,13 +64,13 @@ export default function HowItWorks() {
     <section id="how-it-works" className="section-padding bg-cream section-divider">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 lg:mb-10">
-          <p className="eyebrow mb-3">Your journey, in three stages</p>
+          <p className="eyebrow mb-3">How it works, in three steps</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-            From &ldquo;I don&apos;t know where to start&rdquo; to a compounding system
+            From &ldquo;I don&apos;t know where to start&rdquo; to a system that runs every week
           </h2>
           <p className="mt-4 text-lg text-muted max-w-xl leading-relaxed">
             No technical background needed. We do the heavy lifting and hand you a
-            plan with real dollar figures on every line — one you can act on this week.
+            plan with real dollar figures on every line that you can act on this week.
           </p>
         </div>
 

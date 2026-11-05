@@ -7,7 +7,7 @@ type FormState = {
   email: string;
   company: string;
   question: string;
-  // Honeypots — kept empty by real users, hidden from view. Bots that
+  // Honeypots: kept empty by real users, hidden from view. Bots that
   // auto-fill every field give themselves away by populating these.
   website: string;
   fax: string;
@@ -56,9 +56,12 @@ export default function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Something went wrong.");
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(
+          data?.error ||
+            "We couldn't send your message just now. Please try again, or email tyler@sacramentoaiagency.com."
+        );
       }
       setSubmitted(true);
     } catch (err) {
@@ -96,7 +99,7 @@ export default function ContactForm() {
             Message received, {form.name.trim().split(" ")[0] || "there"}!
           </h2>
           <p className="text-muted leading-relaxed">
-            Thanks for reaching out — it landed with us. We read every note personally
+            Thanks for reaching out. Your message came through. We read every note personally
             and will get back to you as soon as we can, usually within a business day
             or two.
           </p>
@@ -138,7 +141,7 @@ export default function ContactForm() {
             className="w-full px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
           />
           <p className="mt-1.5 text-xs text-muted">
-            This is just so we can write back — we never share it.
+            This is just so we can write back. We never share it.
           </p>
         </div>
 
@@ -167,12 +170,12 @@ export default function ContactForm() {
             required
             rows={5}
             maxLength={5000}
-            placeholder="Tell us what's on your mind — a question, a project, anything at all."
+            placeholder="Tell us what's on your mind: a question, a project, anything at all."
             className="w-full resize-y px-4 py-3 rounded-xl bg-paper border border-border text-ink placeholder-muted/50 focus:outline-none focus:border-accent transition-colors leading-relaxed"
           />
         </div>
 
-        {/* Honeypots — visually hidden, off-screen, ignored by real users. Real
+        {/* Honeypots: visually hidden, off-screen, ignored by real users. Real
             people never see or fill these; bots that auto-complete every field
             populate them and get silently dropped server-side. */}
         <div className="absolute left-[-9999px]" aria-hidden="true">

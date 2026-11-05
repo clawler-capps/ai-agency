@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
 import { ChatLink } from "@/components/ChatWidget";
 import Headshot from "@/components/Headshot";
@@ -28,7 +29,7 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-ink leading-[1.05] tracking-tight text-balance mb-6">
               How to look like you hired{" "}
               <span className="text-accent">a whole new team</span>
-              {" "}— without hiring anyone.
+              {" "}without hiring anyone.
             </h1>
 
             {/* What the Snapshot gives */}
@@ -69,9 +70,9 @@ export default function Hero() {
               <p className="text-sm text-muted leading-relaxed">
                 {FOUNDER.credentials} · {FOUNDER.energyYears} years of energy modeling · based in Sacramento
               </p>
-              <a href="#about" className="mt-2 inline-block text-sm font-semibold text-ink underline underline-offset-4 hover:text-accent">
+              <Link href="/about" className="mt-2 inline-block text-sm font-semibold text-ink underline underline-offset-4 hover:text-accent">
                 More about Tyler →
-              </a>
+              </Link>
             </div>
           </aside>
         </div>
@@ -82,12 +83,12 @@ export default function Hero() {
             <p className="text-base sm:text-lg text-ink/80 italic leading-relaxed">
               An executive walked into a high-stakes call planning to present the way
               he always had. At the last minute, he swapped in something built days
-              before — an interactive dashboard instead of a deck. The room reacted
+              before: an interactive dashboard in place of a deck. The room reacted
               like a different company had shown up. People started using the tool
-              themselves, mid-call, to sell to their own side. His team didn&apos;t
-              grow the output — the system did.
+              themselves, mid-call, to sell to their own side. His team stayed the same
+              size. The system did the extra work.
             </p>
-            {/* TODO(tyler): confirm title + NDA-safe (role from the client files, not an official title) */}
+            {/* TODO(tyler): confirm title + NDA-safe (working role from the client files) */}
             <p className="mt-3 text-xs text-muted font-mono uppercase tracking-wide">
               VP, Growth &amp; Strategy · North American energy company · anonymized under NDA
             </p>
@@ -107,7 +108,7 @@ export default function Hero() {
               <div>
                 <p className="text-xs font-mono text-muted uppercase mb-1">After</p>
                 <p className="text-sm text-ink/80 leading-relaxed">
-                  A reusable Skill builds the deck in about 3 hours. Updates are dictated instead of typed.
+                  A reusable Skill builds the deck in about 3 hours. Updates are dictated.
                 </p>
               </div>
             </div>
@@ -121,7 +122,7 @@ export default function Hero() {
 
         {/* Bridge to the paid offer */}
         <p className="mt-8 text-lg sm:text-xl text-muted font-light leading-relaxed max-w-2xl">
-          One system, built once, instead of a new hire. That&apos;s the whole model.
+          That&apos;s how we work: build one system once and let it carry the load.
           Ready for the full hour? The{" "}
           <strong className="font-semibold text-ink">AI Leverage Assessment</strong>{" "}
           is $997 for the owner. If we can&apos;t find 10× that in annual value, you get

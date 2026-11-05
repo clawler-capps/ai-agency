@@ -4,7 +4,7 @@ import BookingLink from "@/components/BookingLink";
 import { FOUNDER } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Trust, Privacy & Terms — Sacramento AI Agency",
+  title: "Trust, Privacy & Terms | Sacramento AI Agency",
   description:
     "How Sacramento AI Agency handles your data and your clients' data: privacy policy, terms, HIPAA, and which AI vendors see what.",
 };
@@ -211,7 +211,7 @@ export default function TrustPage() {
               <h3 className="font-bold text-ink mb-1">The free Snapshot</h3>
               <p>
                 The Snapshot is an automated estimate from your own answers. It&apos;s a
-                starting point, not professional, legal, or financial advice.
+                starting point. It isn't professional, legal, or financial advice.
               </p>
             </div>
             <div>

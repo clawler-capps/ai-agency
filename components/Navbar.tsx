@@ -42,7 +42,7 @@ export default function Navbar() {
               { href: "/#framework", label: "Our Framework" },
               { href: "/assessment", label: "Free AI Snapshot" },
               { href: "/pricing", label: "Pricing" },
-              { href: "/#about", label: "About" },
+              { href: "/about", label: "About" },
               { href: "/#faq", label: "FAQ" },
               { href: "/contact", label: "Contact" },
             ].map((link) => (
@@ -57,7 +57,7 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* The call lives here, visible at every width. Ink, not orange, so the
+          {/* The call lives here, visible at every width. It's ink colored so the
               page's one orange button (the Snapshot) stays the primary. */}
           <div className="flex items-center gap-1 md:gap-3 ml-auto md:ml-0">
             <BookingLink
@@ -93,7 +93,7 @@ export default function Navbar() {
                 { href: "/#framework", label: "Our Framework" },
                 { href: "/assessment", label: "Free AI Snapshot" },
                 { href: "/pricing", label: "Pricing" },
-                { href: "/#about", label: "About" },
+                { href: "/about", label: "About" },
                 { href: "/#faq", label: "FAQ" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (

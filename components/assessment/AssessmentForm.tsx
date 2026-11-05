@@ -414,7 +414,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // BOTTLENECK — their own words drive the whole snapshot
+  // BOTTLENECK: their own words drive the whole snapshot
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "bottleneck") {
     return (
@@ -457,7 +457,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // FOLLOW-UP — options tailored to their answer (static if the AI is slow)
+  // FOLLOW-UP: options tailored to their answer (static if the AI is slow)
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "followup") {
     const choices = followupOptions ? [...followupOptions, "Other"] : null;
@@ -536,7 +536,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // NUMBERS — hours, cost (hourly or salary), role, revenue, website
+  // NUMBERS: hours, cost (hourly or salary), role, revenue, website
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "numbers") {
     const salaryReady = costBasis === "salary" && usingSalary;
@@ -691,7 +691,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // BUILDING — one live AI call, about 5–15 seconds
+  // BUILDING: one live AI call, about 5–15 seconds
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "building") {
     const steps = website.trim() ? BUILD_STEPS : BUILD_STEPS.filter((s) => !s.includes("website"));
@@ -713,7 +713,7 @@ export default function AssessmentForm() {
             <p className="eyebrow mb-3">Building your snapshot</p>
             <h2 className="text-2xl font-bold text-ink mb-3" aria-live="polite">{steps[buildStep] ?? steps[0]}</h2>
             <p className="text-muted text-sm leading-relaxed">
-              This is written live from your answers, not pulled from a template. It usually takes 5–15 seconds.
+              We write this live from your answers. It usually takes 5–15 seconds.
             </p>
           </>
         )}
@@ -722,7 +722,7 @@ export default function AssessmentForm() {
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // REPORT — headline and #1 visible, the rest blurred until they unlock
+  // REPORT: headline and #1 visible, the rest blurred until they enter an email
   // ──────────────────────────────────────────────────────────────────────────
   if (phase === "report" && report && result) {
     const tierMeta = TIER_META[result.tier];
@@ -935,10 +935,10 @@ export default function AssessmentForm() {
             <div className="absolute inset-x-0 top-0 sm:top-6 flex justify-center">
               <div className="card p-6 sm:p-8 w-full max-w-md shadow-2xl bg-cream">
                     <p className="eyebrow mb-2">Your snapshot is ready</p>
-                    <h2 className="text-2xl font-black text-ink mb-2">Unlock your full snapshot</h2>
+                    <h2 className="text-2xl font-black text-ink mb-2">See your full snapshot</h2>
                     <p className="text-sm text-ink/80 leading-relaxed mb-5">
-                      This came from about 3 minutes of answers. Imagine what a one-on-one
-                      conversation and a few days of analysis would uncover.
+                      Enter your name and email to see the rest. This came from about 3
+                      minutes of answers, so a one-on-one conversation would find a lot more.
                     </p>
                     <form onSubmit={(e) => { e.preventDefault(); handleUnlock(); }} className="space-y-3">
                       <div>
@@ -990,7 +990,7 @@ export default function AssessmentForm() {
                         <span>Send me occasional tips from Sacramento AI Agency. Optional.</span>
                       </label>
                       <button type="submit" disabled={submitting} className="btn-primary w-full py-4 text-base disabled:opacity-50">
-                        {submitting ? "Unlocking…" : "Unlock my full snapshot"}
+                        {submitting ? "Opening…" : "Show my full snapshot"}
                       </button>
                       {submitError && (
                         <div role="alert" className="text-sm text-accent text-center space-y-2">
@@ -1036,17 +1036,16 @@ export default function AssessmentForm() {
             <div className="card p-6 sm:p-8 bg-accent/light border-accent/30">
               <p className="eyebrow mb-3 text-accent">Next step</p>
               <h3 className="text-2xl font-black text-ink mb-2">
-                {isQualified ? "You're ready. Let's scope your first project." : "This is 3 minutes of insight. Imagine the full picture."}
+                {isQualified ? "You're ready. Let's scope your first project." : "A short quiz found this much. A real conversation finds more."}
               </h3>
               <p className="text-ink/80 mb-6 leading-relaxed">
-                Your snapshot came from a short quiz. A one-on-one conversation and a few days of
-                analysis would uncover far more. Book a free 15-minute call and we&apos;ll walk
-                through your numbers and the fastest first step.
+                Book a free 15-minute call and we&apos;ll walk through your numbers and the
+                fastest first step for your business.
               </p>
               <Link href="/book" className="btn-primary w-full text-base py-4">
                 Book My Free 15-Minute Call →
               </Link>
-              <p className="mt-3 text-xs text-muted font-mono text-center">15 MIN · FREE · NO PITCH, JUST A CONVERSATION</p>
+              <p className="mt-3 text-xs text-muted font-mono text-center">15 MIN · FREE · A CONVERSATION ABOUT YOUR NUMBERS</p>
               <p className="mt-4 text-center text-sm">
                 <a
                   href={ASSESSMENT_CHECKOUT_URL}

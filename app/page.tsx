@@ -51,7 +51,7 @@ const problems = [
     title: "Leads go cold overnight",
     description:
       "A new lead comes in at 9pm and nobody responds until morning. Top performers respond in under 2 minutes.",
-    fix: "Speed-to-lead AI agent — responds in seconds, 24/7.",
+    fix: "An AI agent that answers new leads in seconds, day or night.",
   },
   {
     icon: "🌀",
@@ -79,7 +79,7 @@ const industries = [
   {
     name: "Professional Services",
     description:
-      "Law firms, CPAs, agencies — buried in repetitive document work, intake forms, and manual billing.",
+      "Law firms, CPAs, and agencies buried in repeat document work, intake forms, and manual billing.",
     icon: "⚖️",
   },
   {
@@ -109,13 +109,13 @@ const industries = [
   {
     name: "Energy, Logistics & Industrials",
     description:
-      "Rich operating data already flowing — fleets, SCADA, ERP, CRM — and no AI layer on top. The plumbing is ahead of the usage. That's the opportunity, not a gap.",
+      "Plenty of operating data already flowing from fleets, SCADA, ERP, and CRM, with no AI on top of it yet. That's the opportunity.",
     icon: "⚡",
   },
   {
     name: "Growth-Stage & Enterprise Teams",
     description:
-      "A division or team already proving AI wins by hand and ready to systematize them — without a six-figure, year-long transformation engagement.",
+      "A division or team already proving AI wins by hand and ready to make them standard, without a six-figure, year-long consulting project.",
     icon: "🏢",
   },
 ];
@@ -128,7 +128,7 @@ const notForYou = [
 
 // ── Testimonials: real quotes, anonymized under NDA ───────────────────────────
 // Role titles only, never names or the company. TODO(tyler): confirm each
-// title + NDA-safe wording (from the client files, not official titles).
+// title + NDA-safe wording (working roles from the client files; official titles unconfirmed).
 const testimonials = [
   {
     quote:
@@ -159,8 +159,8 @@ const beforeAfter = {
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
   {
-    q: "I'm not technical — is this for me?",
-    a: "Yes. The interview is a conversation about how your business works, not a technical audit. You don't need to know what an API is.",
+    q: "I'm not technical. Is this for me?",
+    a: "Yes. The interview is a conversation about how your business works. You don't need to know what an API is.",
   },
   {
     q: "I'm brand new to AI. Will I be lost?",
@@ -168,19 +168,19 @@ const faqs = [
   },
   {
     q: "How long does it take?",
-    a: "The AI Leverage Assessment is a one-hour interview per person, with your Leverage Map delivered within days. Coaching runs weekly — most people ship their first real build inside the first few sessions.",
+    a: "The AI Leverage Assessment is a one-hour interview per person, with your Leverage Map delivered within days. Coaching runs weekly, and most people ship their first real build within the first few sessions.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Owner-operated and mid-market businesses in the Sacramento region — construction, real estate, professional services, healthcare, agriculture, and franchises — plus divisions of mid-size and enterprise companies (energy, logistics, industrials) with real operating data flowing and no AI capability on top of it yet. If your team is doing repetitive manual work, you're a fit.",
+    a: "Owner-operated and mid-market businesses in the Sacramento region (construction, real estate, professional services, healthcare, agriculture, and franchises), plus divisions of mid-size and enterprise companies (energy, logistics, industrials) with real operating data flowing and no AI capability on top of it yet. If your team is doing repetitive manual work, you're a fit.",
   },
   {
     q: "What if I don't implement anything after the assessment?",
-    a: "The plan is yours regardless. Every play includes a Claude-native path you can run on tools you already have — often at $0 in added tool cost — and the plan ends with concrete start-Monday steps.",
+    a: "The plan is yours regardless. Every play includes a Claude-native path you can run on tools you already have, often at $0 in added tool cost, and the plan ends with concrete start-Monday steps.",
   },
   {
     q: "How do I know it's actually working?",
-    a: "We write down what each fix should save you, then check the real number after it's built. The assessment sets a target in hours per week; a build only counts once you confirm the hours it actually saves in practice. Proven, not promised.",
+    a: "We write down what each fix should save you, then check the real number after it's built. The assessment sets a target in hours per week, and a build only counts once you confirm the hours it saves in practice.",
   },
   {
     q: "What about patient or client data?",
@@ -188,12 +188,12 @@ const faqs = [
     link: { href: "/trust", label: "Read how we handle data →" },
   },
   {
-    q: "We're a public company — how do you handle data, security, and compliance?",
-    a: "Short version: your data stays in your accounts, and a human checks anything before it goes to a client. Everything is built under your access controls and approved tools — nothing leaves your systems. NDAs are standard, and for embedded engagements a governance framework for your division is a named deliverable, not a promise.",
+    q: "We're a public company. How do you handle data, security, and compliance?",
+    a: "Your data stays in your accounts, and a human checks anything before it goes to a client. Everything is built under your access controls and approved tools, so nothing leaves your systems. NDAs are standard, and embedded engagements include a written governance framework for your division as a named deliverable.",
   },
   {
     q: "Do you run on-site events?",
-    a: `Yes — the AI Build Day: ${BUILD_DAY_FORMAT} where every person on your team ships a real tool against their own real problem, with your own people — the ones we trained first — coaching alongside me. Every tool leaves as a saved, reusable recipe, not a demo that dies in two weeks.`,
+    a: `Yes. The AI Build Day is ${BUILD_DAY_FORMAT} where every person on your team ships a real tool for their own real problem, with your own people (the ones we trained first) coaching alongside me. Every tool leaves as a saved, reusable recipe your team keeps using.`,
   },
 ];
 
@@ -211,7 +211,7 @@ export default function HomePage() {
               The Problem
             </p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-balance max-w-3xl">
-              You&apos;re wearing every hat — and your team&apos;s buried in repetitive work
+              You&apos;re wearing every hat, and your team&apos;s buried in repetitive work
             </h2>
             <p className="mt-4 text-lg text-white/60 max-w-2xl leading-relaxed">
               You&apos;ve heard about AI. Maybe you&apos;ve dabbled with ChatGPT. But you don&apos;t
@@ -248,38 +248,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Who you're hiring (moved up: the guide shows up before any price) */}
-      <section id="about" className="section-padding bg-cream section-divider">
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
-          <Headshot size={176} />
+      {/* Founder strip: the guide shows up early, right after the first Snapshot
+          ask, in 2 lines (StoryBrand guide block: empathy, authority, plan pointer).
+          The full bio lives on /about so it doesn't hold up the path to the Snapshot. */}
+      <section id="about" className="px-4 sm:px-6 lg:px-8 py-8 sm:py-10 bg-cream section-divider">
+        <div className="max-w-4xl mx-auto flex items-center gap-5 sm:gap-6">
+          <Headshot size={96} />
           <div>
-            <p className="eyebrow mb-3">Who you&apos;re hiring</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
-              One senior operator, not a bench of juniors billed at partner rates
-            </h2>
-            {/* Facts from Tyler's resume and his own spoken bio (Aug 2026 client pitch). */}
-            <div className="space-y-3 text-lg text-muted leading-relaxed">
-              <p>
-                I&apos;m <strong className="text-ink">{FOUNDER.name}</strong>, and I&apos;m based in
-                Sacramento. I hold an MBA from MIT Sloan and an MS in mechanical engineering
-                from MIT, where I was a Leaders for Global Operations fellow.
-              </p>
-              <p>
-                I started as a mechanical engineer. I designed wireless torque sensors for
-                Formula One race cars and built parts used on Patriot missiles.
-              </p>
-              <p>
-                For the last {FOUNDER.energyYears} years I&apos;ve built economic models for the energy
-                industry: forecasts and cost-benefit studies for utilities and regulators
-                across North America, plus expert testimony. I also co-founded a coaching
-                startup, where I built a personality model in Python and R.
-              </p>
-              <p>
-                I look at problems through a technical lens, and I like giving people their
-                time back. Now I coach your own people to run AI tools, so the capability
-                stays with you after I leave.
-              </p>
-            </div>
+            <p className="eyebrow mb-1">Who you&apos;re hiring</p>
+            <p className="text-base sm:text-lg text-ink leading-relaxed">
+              I&apos;m {FOUNDER.name}. I spent {FOUNDER.energyYears} years building the models energy
+              companies use to decide where their money goes, after an MBA and an MS in
+              engineering at MIT.
+            </p>
+            <p className="text-base sm:text-lg text-muted leading-relaxed">
+              Now I find the busywork eating your week, hand it to AI, and coach your team to
+              run it themselves.{" "}
+              <Link href="/about" className="font-semibold text-ink underline underline-offset-4 hover:text-accent whitespace-nowrap">
+                More about Tyler →
+              </Link>
+            </p>
           </div>
         </div>
       </section>
@@ -314,8 +302,8 @@ export default function HomePage() {
           </p>
           <p className="mt-3 text-sm text-muted max-w-2xl">
             Current engagements include an embedded partnership with a division of a
-            publicly traded company — run under NDA, with a compliance review gate on
-            executive-facing outputs.{" "}
+            publicly traded company, run under NDA, with a compliance review on
+            everything executives see.{" "}
             <Link href="/case-study/energy" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
               Download the 2-page case summary →
             </Link>
@@ -410,12 +398,12 @@ export default function HomePage() {
           <div className="mb-8 lg:mb-10">
             <p className="eyebrow mb-3">Who this is built for</p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-ink tracking-tight text-balance max-w-3xl">
-              We built this for owner-operated businesses — and the teams scaling beyond them
+              We built this for owner-run businesses and the teams growing past them
             </h2>
             <p className="mt-4 text-lg text-muted max-w-2xl leading-relaxed">
               Whether you run a small Sacramento business wearing every hat, or you lead a
-              growth-stage division that&apos;s already proving AI wins by hand, the goal is the
-              same: practical wins this month, not a year-long &ldquo;digital transformation.&rdquo;
+              growth-stage division that&apos;s already proving AI wins by hand, the goal is
+              practical wins you can use this month.
             </p>
           </div>
 
@@ -486,16 +474,16 @@ export default function HomePage() {
           </h2>
           <p className="text-lg text-muted mb-6 leading-relaxed">
             The AI Leverage Assessment exists to prove value before you commit to
-            anything. One hour of conversation, and your Leverage Map shows the handful of
-            places AI will actually move the needle for your business — and the many
-            places it won&apos;t — whether that&apos;s an off-the-shelf tool, a custom
-            build, or a Claude-native system. If the map
+            anything. After one hour of conversation, your Leverage Map shows the few
+            places AI will make a real difference for your business, using an
+            off-the-shelf tool, a custom build, or a Claude setup. It also shows where AI
+            won&apos;t help. If the map
             doesn&apos;t identify at least 10× the $997 fee in annual value,{" "}
             <strong className="text-ink">you get your money back</strong>.
           </p>
           <p className="text-base text-ink font-semibold mb-8">
-            Bill $200/hr? Eight hours back a week is ~$77,000 a year — against a $997
-            assessment. That&apos;s the whole pitch.
+            Bill $200/hr? Eight hours back a week is about $77,000 a year, for a $997
+            assessment.
           </p>
           <BookingLink
             location="ten-x"
