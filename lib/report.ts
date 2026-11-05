@@ -167,7 +167,7 @@ async function claudeReport(
     industry: input.industry,
     company_size: input.companySize,
     annual_revenue: input.revenueBand || "not given",
-    role: input.role,
+    role: input.role || "not given",
     biggest_time_drain: input.bottleneck,
     where_it_slows_down: input.followup || "not given",
     hours_per_week_on_it: input.hoursPerWeek,
@@ -447,7 +447,7 @@ export async function deliverReport(
     await sendEmail("report-alert", {
       to: process.env.TYLER_NOTIFICATION_EMAIL ?? "",
       replyTo: contact.email,
-      subject: `${contact.isTest ? "[TEST] " : ""}[ALERT] Snapshot email NOT sent to ${contact.firstName}, ${contact.company}`,
+      subject: `${contact.isTest ? "[TEST] " : ""}[ALERT] Snapshot email NOT sent to ${contact.firstName}, ${contact.company || "no company given"}`,
       text: `Report email status: ${sent.status}\nVisitor: ${contact.firstName} <${contact.email}>, ${contact.company}\n\nThey saw their report on the page but did NOT receive the email. Please send it manually.`,
     });
   }

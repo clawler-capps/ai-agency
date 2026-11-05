@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PricingCard from "@/components/PricingCard";
 import BookingLink from "@/components/BookingLink";
+import ChatWidget from "@/components/ChatWidget";
+import { BUILD_DAY_FORMAT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Pricing — Sacramento AI Agency",
@@ -17,7 +19,7 @@ const planSections = [
     description:
       "The honest read on your current AI position — friction today vs. the outcome ahead — with a headline metric in hours per week and dollars per year.",
     color: "border-green-border bg-green-light",
-    labelColor: "text-green-DEFAULT",
+    labelColor: "text-green",
   },
   {
     number: "02",
@@ -25,7 +27,7 @@ const planSections = [
     description:
       "Every recommendation plotted on a business-impact × effort grid, so the quick wins are unmistakable and the higher-ceiling builds are sequenced, not skipped.",
     color: "border-blue-border bg-blue-light",
-    labelColor: "text-blue-DEFAULT",
+    labelColor: "text-blue",
   },
   {
     number: "03",
@@ -41,7 +43,7 @@ const planSections = [
     description:
       "Hours saved × $100/hr, counted per year — a low-ball number on purpose; real results are usually higher. Then a short list of what to do Monday so momentum starts the same week.",
     color: "border-purple-border bg-purple-light",
-    labelColor: "text-purple-DEFAULT",
+    labelColor: "text-purple",
   },
 ];
 
@@ -53,7 +55,7 @@ const threeSs = [
     outcome:
       "Claude learns your world — your role, your context, your voice — so it stops giving generic answers and starts sounding like you.",
     color: "border-green-border bg-green-light",
-    labelColor: "text-green-DEFAULT",
+    labelColor: "text-green",
   },
   {
     letter: "S2",
@@ -61,7 +63,7 @@ const threeSs = [
     outcome:
       "Any task you do more than once becomes a reusable Skill — your best work packaged into tools you call up in one click, any time.",
     color: "border-blue-border bg-blue-light",
-    labelColor: "text-blue-DEFAULT",
+    labelColor: "text-blue",
   },
   {
     letter: "S3",
@@ -105,7 +107,8 @@ const buildDayStack = [
 const buildDayTiers = [
   {
     name: "AI Build Day",
-    format: "Two in-person half-days — your own people, trained first, coaching alongside me",
+    // TODO(tyler): confirm the Build Day format (lib/site.ts BUILD_DAY_FORMAT).
+    format: `${BUILD_DAY_FORMAT[0].toUpperCase()}${BUILD_DAY_FORMAT.slice(1)} — your own people, trained first, coaching alongside me`,
     reach: "~40 people",
     value: "Modeled value: $400K–$600K/yr in reclaimed time",
     featured: true,
@@ -143,7 +146,8 @@ const retainerTiers = [
     price: "Custom",
     per: "priced by what you want me to own",
     tagline: "Everything in Embedded, plus AI leadership you can hold accountable.",
-    featured: true,
+    // "Most Popular" badge removed until Tyler confirms it. TODO(tyler): restore with featured: true if true.
+    featured: false,
     includes: [
       "Up to 2 strategic builds per month",
       "A governance & compliance framework for your division",
@@ -167,6 +171,7 @@ const retainerTiers = [
 export default function PricingPage() {
   return (
     <div className="pt-20 bg-paper">
+      <ChatWidget />
       {/* Header */}
       <section className="section-padding bg-paper border-b border-border">
         <div className="max-w-4xl mx-auto">
@@ -218,7 +223,7 @@ export default function PricingPage() {
 
           <div className="mt-6 p-5 rounded-xl bg-green-light border border-green-border">
             <p className="text-sm text-ink font-semibold mb-1">The ROI math, every time:</p>
-            <p className="text-sm font-mono text-green-DEFAULT">
+            <p className="text-sm font-mono text-green">
               hours reclaimed/wk × $100/hr × 48 wks = annual value floor
             </p>
             <p className="text-xs text-muted mt-2">
@@ -247,7 +252,7 @@ export default function PricingPage() {
       <section id="enable" className="section-padding bg-cream section-divider">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-light border border-blue-border text-blue-DEFAULT text-xs font-mono font-bold mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-light border border-blue-border text-blue text-xs font-mono font-bold mb-4">
               Enable
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight">
@@ -322,7 +327,7 @@ export default function PricingPage() {
               AI Build Day
             </h2>
             <p className="mt-3 text-muted max-w-xl">
-              Your department doesn&apos;t need another AI training. It needs one afternoon
+              Your department doesn&apos;t need another AI training. It needs {BUILD_DAY_FORMAT}{" "}
               where every person ships a real tool against their own real problem — coached
               by the experts you&apos;ve already built. Not a training. A build day.
             </p>
@@ -399,7 +404,7 @@ export default function PricingPage() {
       <section id="lead" className="section-padding bg-ink text-white">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-light border border-purple-border text-purple-DEFAULT text-xs font-mono font-bold mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-light border border-purple-border text-purple text-xs font-mono font-bold mb-4">
               Lead
             </div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
@@ -446,15 +451,10 @@ export default function PricingPage() {
                 key={i}
                 className={
                   tier.featured
-                    ? "p-7 rounded-2xl bg-white/10 border-2 border-purple-DEFAULT"
+                    ? "p-7 rounded-2xl bg-white/10 border-2 border-purple"
                     : "p-7 rounded-2xl bg-white/5 border border-white/10"
                 }
               >
-                {tier.featured && (
-                  <div className="inline-flex px-2.5 py-1 rounded-md bg-purple-DEFAULT text-white text-xs font-mono font-bold mb-3">
-                    Most Popular
-                  </div>
-                )}
                 <h3 className="text-lg font-bold">{tier.name}</h3>
                 <div className="flex items-baseline gap-1.5 mt-2 mb-3">
                   <span className="text-2xl font-black">{tier.price}</span>
@@ -464,7 +464,7 @@ export default function PricingPage() {
                 <ul className="space-y-2">
                   {tier.includes.map((item, j) => (
                     <li key={j} className="flex items-start gap-2 text-sm text-white/80">
-                      <span className="text-purple-DEFAULT mt-0.5 shrink-0">→</span>
+                      <span className="text-purple mt-0.5 shrink-0">→</span>
                       {item}
                     </li>
                   ))}

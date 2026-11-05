@@ -3,7 +3,7 @@ import BookingLink from "@/components/BookingLink";
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-white/80">
+    <footer className="bg-ink text-white/80 print:hidden">
       <div className="max-w-[76rem] mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
@@ -65,6 +65,21 @@ export default function Footer() {
                   Contact Us
                 </Link>
               </li>
+              <li>
+                <Link href="/industries" className="text-sm text-white/60 hover:text-white transition-colors">
+                  Industries
+                </Link>
+              </li>
+              <li>
+                <Link href="/case-study/energy" className="text-sm text-white/60 hover:text-white transition-colors">
+                  Case summary (PDF)
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust" className="text-sm text-white/60 hover:text-white transition-colors">
+                  Trust, privacy &amp; terms
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -74,7 +89,10 @@ export default function Footer() {
             © {new Date().getFullYear()} Tyler Capps / Sacramento AI Agency. All rights reserved.
           </p>
           <p className="text-xs text-white/30 font-mono">
-            BUILT TO HELP SACRAMENTO WIN WITH AI.
+            <Link href="/trust#privacy" className="hover:text-white/60">PRIVACY</Link>
+            {" · "}
+            <Link href="/trust#terms" className="hover:text-white/60">TERMS</Link>
+            {" · "}BUILT TO HELP SACRAMENTO WIN WITH AI.
           </p>
         </div>
       </div>

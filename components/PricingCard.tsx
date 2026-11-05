@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
+import { ASSESSMENT_CHECKOUT_URL } from "@/lib/site";
 
 interface PricingCardProps {
   showBookingButton?: boolean;
@@ -20,18 +21,18 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
   return (
     <div id="assess" className="card border-2 border-green-border p-8 lg:p-10">
       {/* Badge */}
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-light border border-green-border text-green-DEFAULT text-xs font-mono font-bold mb-6">
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-light border border-green-border text-green text-xs font-mono font-bold mb-6">
         Assess · Start Here
       </div>
 
       <div className="flex items-end justify-between mb-6">
         <div>
           <h3 className="text-2xl font-bold text-ink">AI Leverage Assessment</h3>
-          <p className="text-sm text-muted mt-1">One-time · most owners start with just themselves</p>
+          <p className="text-sm text-muted mt-1">One-time · start with just you, add team members later</p>
         </div>
         <div className="text-right">
           <div className="text-4xl font-black text-ink">$997</div>
-          <div className="text-xs text-muted font-mono">per person</div>
+          <div className="text-xs text-muted font-mono">for the owner</div>
         </div>
       </div>
 
@@ -43,16 +44,18 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
       </p>
 
       <div className="mb-6 p-4 rounded-xl bg-paper border border-border">
-        <p className="text-sm text-ink font-semibold">Assessing a team or division?</p>
+        <p className="text-sm text-ink font-semibold">Add team members later</p>
         <p className="text-sm text-muted mt-1">
-          Group discounts plus a team kickoff workshop — scoped on a call.
+          The $997 covers the owner. Small teams don&apos;t multiply it by headcount:
+          add people once your own map shows it&apos;s worth it, with group discounts
+          and a kickoff workshop for teams and divisions.
         </p>
       </div>
 
       <ul className="space-y-3 mb-8">
         {includes.map((item, i) => (
           <li key={i} className="flex items-start gap-3 text-sm text-ink/80">
-            <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-light border border-green-border text-green-DEFAULT flex items-center justify-center text-xs font-bold">✓</span>
+            <span className="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-green-light border border-green-border text-green flex items-center justify-center text-xs font-bold">✓</span>
             {item}
           </li>
         ))}
@@ -60,19 +63,29 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
 
       {showBookingButton ? (
         <>
-          <BookingLink
-            location="pricing-assess"
-            label="Start with a free 15-min call →"
-            className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors"
-          >
-            Start with a free 15-min call →
-          </BookingLink>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <BookingLink
+              location="pricing-assess-buy"
+              label="Book the Assessment"
+              href={ASSESSMENT_CHECKOUT_URL}
+              className="block w-full py-4 rounded-xl text-base font-semibold bg-green hover:bg-green-hover text-white text-center transition-colors"
+            >
+              Book the Assessment →
+            </BookingLink>
+            <BookingLink
+              location="pricing-assess"
+              label="Start with a free 15-min call →"
+              className="block w-full py-4 rounded-xl text-base font-semibold border border-ink/20 text-ink hover:border-ink/40 hover:bg-ink/5 text-center transition-colors"
+            >
+              Start with a free 15-min call
+            </BookingLink>
+          </div>
           <p className="mt-3 text-xs text-muted text-center font-mono">
-            15-MIN INTRO CALL FIRST · PLAN DELIVERED WITHIN DAYS OF YOUR INTERVIEWS
+            $997 FOR THE OWNER · 10× OR YOUR MONEY BACK · PLAN DELIVERED WITHIN DAYS OF YOUR INTERVIEW
           </p>
         </>
       ) : (
-        <Link href="/pricing" className="block w-full py-4 rounded-xl text-base font-semibold bg-green-DEFAULT hover:bg-green-hover text-white text-center transition-colors">
+        <Link href="/pricing" className="block w-full py-4 rounded-xl text-base font-semibold bg-green hover:bg-green-hover text-white text-center transition-colors">
           See Full Pricing Details
         </Link>
       )}

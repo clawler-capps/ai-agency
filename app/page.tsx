@@ -3,6 +3,9 @@ import HowItWorks from "@/components/HowItWorks";
 import ServiceTiers from "@/components/ServiceTiers";
 import BookingLink from "@/components/BookingLink";
 import ChatWidget, { ChatLink } from "@/components/ChatWidget";
+import Link from "next/link";
+import Headshot from "@/components/Headshot";
+import { BUILD_DAY_FORMAT, FOUNDER } from "@/lib/site";
 
 // The page's one primary action, repeated: hero, end of The Problem, after the
 // proof, and the final section. The call lives in the nav and the 10x section.
@@ -124,22 +127,34 @@ const notForYou = [
 ];
 
 // ── Testimonials: real quotes, anonymized under NDA ───────────────────────────
+// Role titles only, never names or the company. TODO(tyler): confirm each
+// title + NDA-safe wording (from the client files, not official titles).
 const testimonials = [
   {
     quote:
       "I couldn't have done this without these conversations. Never ever. I would still be banging around in the dark trying to find the lighter.",
-    role: "Gas and utility markets lead",
+    role: "Utility & Gas Markets lead",
     company: "25 years in the industry, North American energy company",
     story:
       "He started as the least AI-fluent person on a four-person team. Five sessions later he had built three reusable Skills and shipped his company's first AI-built work product, a board deck.",
   },
   {
     quote: "It was worth the money. Return on investment.",
-    role: "Growth & Strategy executive",
+    role: "VP, Growth & Strategy",
     company: "Publicly traded energy company",
     story: "",
   },
 ];
+
+// A third role, as a before-and-after rather than a quote (no cleared quote yet).
+// Facts from the client scoreboard (Aug 21, 2026); hours not yet validated, so none shown.
+// TODO(tyler): confirm title + NDA-safe.
+const beforeAfter = {
+  role: "Strategic Development & Financial Modeling lead",
+  company: "Same energy company, a different seat",
+  before: "The only person who could run the company's data-center financial model, so pricing questions waited on him.",
+  after: "Built a self-serve quick-quote pricing engine with Claude, now being rebuilt in Excel so every equation can be traced. Hours saved not confirmed yet.",
+};
 
 // ── FAQ ───────────────────────────────────────────────────────────────────────
 const faqs = [
@@ -168,12 +183,17 @@ const faqs = [
     a: "We write down what each fix should save you, then check the real number after it's built. The assessment sets a target in hours per week; a build only counts once you confirm the hours it actually saves in practice. Proven, not promised.",
   },
   {
+    q: "What about patient or client data?",
+    a: "For clinics, law firms, CPAs, and insurance offices: we start with work that needs no sensitive data at all, like scheduling, intake forms, follow-ups, and reports from numbers you already strip of names. When a build does touch patient or client records, it runs inside your own accounts, and a person checks anything before it goes out. If your practice needs a Business Associate Agreement, ask us before we start. Full details are on our Trust page.",
+    link: { href: "/trust", label: "Read how we handle data →" },
+  },
+  {
     q: "We're a public company — how do you handle data, security, and compliance?",
     a: "Short version: your data stays in your accounts, and a human checks anything before it goes to a client. Everything is built under your access controls and approved tools — nothing leaves your systems. NDAs are standard, and for embedded engagements a governance framework for your division is a named deliverable, not a promise.",
   },
   {
     q: "Do you run on-site events?",
-    a: "Yes — the AI Build Day: one afternoon where every person on your team ships a real tool against their own real problem, with your own people — the ones we trained first — coaching alongside me. Every tool leaves as a saved, reusable recipe, not a demo that dies in two weeks.",
+    a: `Yes — the AI Build Day: ${BUILD_DAY_FORMAT} where every person on your team ships a real tool against their own real problem, with your own people — the ones we trained first — coaching alongside me. Every tool leaves as a saved, reusable recipe, not a demo that dies in two weeks.`,
   },
 ];
 
@@ -230,18 +250,37 @@ export default function HomePage() {
 
       {/* Who you're hiring (moved up: the guide shows up before any price) */}
       <section id="about" className="section-padding bg-cream section-divider">
-        <div className="max-w-3xl mx-auto">
-          <p className="eyebrow mb-3">Who you&apos;re hiring</p>
-          <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
-            One senior operator, not a bench of juniors billed at partner rates
-          </h2>
-          <p className="text-lg text-muted leading-relaxed">
-            Sacramento AI Agency is Tyler Capps. The model is deliberately built so your
-            own people become the delivery team. They get coached, tools ship as
-            reusable Skills in your accounts, and the scoreboard stays with you. That&apos;s
-            why the capability survives the engagement instead of walking out the door
-            with the consultant.
-          </p>
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+          <Headshot size={176} />
+          <div>
+            <p className="eyebrow mb-3">Who you&apos;re hiring</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-ink tracking-tight mb-5">
+              One senior operator, not a bench of juniors billed at partner rates
+            </h2>
+            {/* Facts from Tyler's resume and his own spoken bio (Aug 2026 client pitch). */}
+            <div className="space-y-3 text-lg text-muted leading-relaxed">
+              <p>
+                I&apos;m <strong className="text-ink">{FOUNDER.name}</strong>, and I&apos;m based in
+                Sacramento. I hold an MBA from MIT Sloan and an MS in mechanical engineering
+                from MIT, where I was a Leaders for Global Operations fellow.
+              </p>
+              <p>
+                I started as a mechanical engineer. I designed wireless torque sensors for
+                Formula One race cars and built parts used on Patriot missiles.
+              </p>
+              <p>
+                For the last {FOUNDER.energyYears} years I&apos;ve built economic models for the energy
+                industry: forecasts and cost-benefit studies for utilities and regulators
+                across North America, plus expert testimony. I also co-founded a coaching
+                startup, where I built a personality model in Python and R.
+              </p>
+              <p>
+                I look at problems through a technical lens, and I like giving people their
+                time back. Now I coach your own people to run AI tools, so the capability
+                stays with you after I leave.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -276,7 +315,10 @@ export default function HomePage() {
           <p className="mt-3 text-sm text-muted max-w-2xl">
             Current engagements include an embedded partnership with a division of a
             publicly traded company — run under NDA, with a compliance review gate on
-            executive-facing outputs.
+            executive-facing outputs.{" "}
+            <Link href="/case-study/energy" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
+              Download the 2-page case summary →
+            </Link>
           </p>
         </div>
       </section>
@@ -304,6 +346,23 @@ export default function HomePage() {
                 {t.story && <p className="mt-4 text-sm text-white/70 leading-relaxed">{t.story}</p>}
               </div>
             ))}
+          </div>
+          <div className="mt-6 bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-7">
+            <p className="font-mono text-xs tracking-widest uppercase text-accent mb-4">Before and after</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <p className="text-xs font-mono text-white/40 uppercase mb-1">Before</p>
+                <p className="text-white/80 leading-relaxed">{beforeAfter.before}</p>
+              </div>
+              <div>
+                <p className="text-xs font-mono text-white/40 uppercase mb-1">After</p>
+                <p className="text-white/80 leading-relaxed">{beforeAfter.after}</p>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t border-white/10">
+              <div className="text-sm font-semibold text-white">{beforeAfter.role}</div>
+              <div className="text-xs text-white/50">{beforeAfter.company}</div>
+            </div>
           </div>
           <p className="mt-6 text-xs text-white/40 font-mono">
             REAL QUOTES FROM CURRENT ENGAGEMENTS · ANONYMIZED UNDER NDA
@@ -374,6 +433,12 @@ export default function HomePage() {
             ))}
           </div>
 
+          <p className="-mt-2 mb-8 lg:mb-10 text-base">
+            <Link href="/industries" className="font-semibold text-ink underline underline-offset-4 hover:text-accent">
+              See what we&apos;d build for construction, professional services, healthcare, and multi-site operators →
+            </Link>
+          </p>
+
           {/* Not for you if... */}
           <div className="bg-ink text-white rounded-2xl p-6 sm:p-10">
             <p className="font-mono text-xs tracking-widest uppercase text-accent mb-3">
@@ -410,7 +475,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ServiceTiers />
+      <ServiceTiers rungs={["Assess", "Enable"]} />
 
       {/* The 10× Rule: the high-intent zone keeps the call */}
       <section className="section-padding bg-paper section-divider">
@@ -470,11 +535,19 @@ export default function HomePage() {
               <div key={i} className="py-5">
                 <h3 className="font-bold text-ink mb-2">{faq.q}</h3>
                 <p className="text-muted text-sm leading-relaxed">{faq.a}</p>
+                {"link" in faq && faq.link && (
+                  <Link href={faq.link.href} className="mt-2 inline-block text-sm font-semibold text-ink underline underline-offset-4 hover:text-accent">
+                    {faq.link.label}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Team rungs, below the fold for owner-run visitors (full ladder on /pricing) */}
+      <ServiceTiers rungs={["Deploy", "Lead"]} variant="teams" />
 
       {/* Final CTA */}
       <section className="section-padding bg-ink text-white">

@@ -21,7 +21,8 @@ const setFloatingPlacement = () => {
   }
 };
 
-// GoHighLevel (LeadConnector) chat widget, homepage only. Mount once per page.
+// GoHighLevel (LeadConnector) chat widget, on the homepage, Pricing, and the
+// Snapshot page. Mount once per page.
 // The bubble stays in its default bottom corner; ChatLink below opens it from
 // anywhere on the page via the widget's public API
 // (window.leadConnector.chatWidget.openWidget).
@@ -32,7 +33,7 @@ export default function ChatWidget() {
     window.addEventListener("LC_chatWidgetLoaded", onLoaded);
 
     // The loader adds <chat-widget> to <body>, which survives client-side
-    // navigation. Show it on the homepage, hide it when leaving.
+    // navigation. Show it on pages that mount this, hide it when leaving.
     const el = document.querySelector<HTMLElement>("chat-widget");
     if (el) el.style.display = "";
     return () => {
