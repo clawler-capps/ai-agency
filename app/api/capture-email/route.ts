@@ -8,7 +8,7 @@ import { formatLead, funnelEnabled, postLeadWebhook, sendEmail } from "@/lib/lea
 import { deliverReport } from "@/lib/report";
 import { totalValue, usd } from "@/lib/snapshot";
 
-// AI Opportunity Snapshot, step 2: "Unlock my full snapshot".
+// AI Opportunity Snapshot, step 2: "Show my full snapshot".
 // 1. Instant email checks: syntax, typo, throwaway domain, mail server (MX
 //    lookup with a short timeout; a slow lookup lets the address through).
 // 2. Post the lead to GoHighLevel (Inbound Webhook). If that fails, return an

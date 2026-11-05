@@ -35,9 +35,9 @@ const PILLAR_NARRATIVES: Record<Pillar, [string, string, string, string]> = {
   // 4 bands: low / mid-low / mid-high / high
   data: [
     "Your data lives in heads, inboxes, and spreadsheets. Step one is consolidating it so AI has something to work with.",
-    "You have data, but it's scattered. Centralizing your customer + ops data unlocks most of the AI wins.",
+    "You have data, but it's scattered. Pulling your customer and operations data into one place opens up most of the AI wins.",
     "Solid data foundation. A few connections and clean-ups would make automation low-friction.",
-    "Excellent — your data is in good shape. AI can plug in and produce ROI fast.",
+    "Your data is in good shape. AI can plug in and pay off fast.",
   ],
   process: [
     "Workflows live in people's heads. The first win is documenting + automating one repetitive task end-to-end.",
@@ -55,7 +55,7 @@ const PILLAR_NARRATIVES: Record<Pillar, [string, string, string, string]> = {
     "AI isn't yet a priority. The next step is a low-risk pilot to build internal evidence.",
     "Exploring without budget. A small, time-boxed pilot is the right move.",
     "Budget and intent are in place. Now it's about picking the right first project.",
-    "Strong executive commitment. You're set up to compound multiple AI initiatives.",
+    "Strong executive commitment. You're set up to run several AI projects at once.",
   ],
   vertical: [
     "No specific use case yet. A 30-minute discovery would identify your top 3 candidates.",
@@ -137,19 +137,19 @@ export const TIER_META: Record<Tier, {
   "AI-Leading": {
     badge: "AI-Leading",
     tagline: "You're ahead of the pack",
-    blurb: "Your data, process, and leadership are aligned. The next win is compounding — layering multiple AI initiatives into a moat your competitors can't catch.",
+    blurb: "Your data, process, and leadership are aligned. The next step is stacking several AI projects so each one builds on the last.",
     cta: "schedule",
   },
   "AI-Ready": {
     badge: "AI-Ready",
     tagline: "You're set up to move fast",
-    blurb: "You have the foundation in place. A focused first project would translate directly to hours saved and revenue captured — likely within 30 days.",
+    blurb: "You have the foundation in place. A focused first project would turn into hours saved and revenue captured, likely within 30 days.",
     cta: "schedule",
   },
   "AI-Curious": {
     badge: "AI-Curious",
-    tagline: "You're early — and that's a fine place to be",
-    blurb: "You see the potential, but the foundation isn't there yet. A short roadmap will show which step to take first so the rest builds on solid ground.",
+    tagline: "You're early, and that's a fine place to be",
+    blurb: "You see the potential, and the foundation still needs work. A short roadmap will show which step to take first so the rest builds on solid ground.",
     cta: "nurture",
   },
 };

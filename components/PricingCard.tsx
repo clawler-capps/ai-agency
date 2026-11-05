@@ -8,12 +8,12 @@ interface PricingCardProps {
 
 export default function PricingCard({ showBookingButton = true }: PricingCardProps) {
   const includes = [
-    "A one-hour workflow interview — a conversation about how you work, not a technical audit",
-    "Finds the handful of places AI will actually move the needle for your business — and the many places it won't — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
+    "A one-hour conversation about how you work. No technical audit, no jargon",
+    "Finds the few places AI will make a real difference for your business, and tells you where it won't. Each fix fits what you need: an off-the-shelf tool, a custom build, or a Claude setup",
     "Every pain point plotted by payoff vs. effort, so the quick wins are obvious",
-    "Recommendations ranked by payoff — each with a polished version and one that runs on tools you already pay for",
+    "Recommendations ranked by payoff, each with a polished version and one that runs on tools you already pay for",
     "Every recommendation shows three numbers: hours it saves, what it costs to run, what it nets you per year",
-    "Numbers you'd bet your own money on — counted low on purpose, solid enough for a CFO if you have one",
+    "Numbers counted low on purpose, solid enough to show a CFO if you have one",
     "“Start Monday” next steps, so momentum begins the same week",
     "A running scoreboard: what each fix should save, checked against what it actually saves",
   ];
@@ -37,9 +37,9 @@ export default function PricingCard({ showBookingButton = true }: PricingCardPro
       </div>
 
       <p className="text-muted text-sm leading-relaxed mb-6 pb-6 border-b border-border">
-        A complete picture of where AI returns the most time and money for your team —
-        with ROI numbers you can defend, before you spend a dollar on tools.{" "}
-        <strong className="text-ink">At least 10× the fee identified in annual value —
+        A clear picture of where AI saves your team the most time and money, with ROI
+        numbers you can defend, before you spend a dollar on tools.{" "}
+        <strong className="text-ink">At least 10× the fee identified in annual value,
         or your money back.</strong>
       </p>
 

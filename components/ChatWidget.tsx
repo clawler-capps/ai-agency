@@ -21,8 +21,8 @@ const setFloatingPlacement = () => {
   }
 };
 
-// GoHighLevel (LeadConnector) chat widget, on the homepage, Pricing, and the
-// Snapshot page. Mount once per page.
+// GoHighLevel (LeadConnector) chat widget, on the homepage, Pricing, Contact,
+// and the Snapshot page. Mount once per page.
 // The bubble stays in its default bottom corner; ChatLink below opens it from
 // anywhere on the page via the widget's public API
 // (window.leadConnector.chatWidget.openWidget).
@@ -55,7 +55,16 @@ export default function ChatWidget() {
 
 // A text link that opens the chat. Hidden (not unmounted) until the widget
 // loads, so it never shows as a dead link and the layout doesn't jump.
-export function ChatLink({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+// `asButton` renders it as an outlined button instead of an underlined link.
+export function ChatLink({
+  children,
+  className = "",
+  asButton = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  asButton?: boolean;
+}) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -69,7 +78,7 @@ export function ChatLink({ children, className = "" }: { children: React.ReactNo
     <button
       type="button"
       onClick={() => getApi()?.openWidget?.()}
-      className={`font-semibold underline underline-offset-4 hover:text-accent transition-colors ${ready ? "" : "invisible"} ${className}`}
+      className={`${asButton ? "btn-secondary" : "font-semibold underline underline-offset-4 hover:text-accent transition-colors"} ${ready ? "" : "invisible"} ${className}`}
     >
       {children}
     </button>

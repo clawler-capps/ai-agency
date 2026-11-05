@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import BookingLink from "@/components/BookingLink";
+import ChatWidget, { ChatLink } from "@/components/ChatWidget";
 import { FOUNDER } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact — Sacramento AI Agency",
+  title: "Contact | Sacramento AI Agency",
   description:
     "Have a question that isn't about booking a call? Send us a note and we'll get back to you as soon as we can.",
 };
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="pt-20 bg-paper">
+      <ChatWidget />
       {/* Header */}
       <section className="section-padding bg-paper border-b border-border">
         <div className="max-w-2xl mx-auto text-center">
@@ -29,9 +31,14 @@ export default function ContactPage() {
               intro call
             </BookingLink>{" "}
             is the fastest way in. But if you&apos;ve got a question, an idea, or
-            anything else on your mind, this is your spot — drop us a note below and a
+            anything else on your mind, this is your spot. Drop us a note below and a
             real person will read it.
           </p>
+          <div className="mt-6">
+            <ChatLink asButton className="px-6 py-3">
+              Need a quick answer? Ask our AI →
+            </ChatLink>
+          </div>
         </div>
       </section>
 

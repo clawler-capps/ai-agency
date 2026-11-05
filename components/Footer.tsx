@@ -13,8 +13,8 @@ export default function Footer() {
               <span className="text-2xl font-bold text-white tracking-tight">Agency</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-              AI consulting for Sacramento and beyond. We coach people to AI fluency and
-              build governed systems — measured in hours actually reclaimed.
+              AI consulting for Sacramento and beyond. We coach your people to use AI well
+              and build systems with a human check, measured in hours you get back.
             </p>
             <p className="mt-4 text-xs font-mono text-white/40 tracking-wider">
               SACRAMENTO, CA
@@ -58,6 +58,11 @@ export default function Footer() {
               <li>
                 <Link href="/pricing" className="text-sm text-white/60 hover:text-white transition-colors">
                   View Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-sm text-white/60 hover:text-white transition-colors">
+                  About Tyler
                 </Link>
               </li>
               <li>

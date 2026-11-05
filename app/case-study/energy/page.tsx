@@ -4,7 +4,7 @@ import { PROOF } from "@/lib/site";
 import PrintButton from "./PrintButton";
 
 export const metadata: Metadata = {
-  title: "Case summary: an energy-company AI engagement — Sacramento AI Agency",
+  title: "Energy company case summary | Sacramento AI Agency",
   description:
     "Two-page case summary of an embedded AI engagement with a North American energy company: the approach, the scoreboard, and the hours realized.",
 };
@@ -81,7 +81,7 @@ export default function EnergyCaseSummary() {
         <h2 className="text-lg font-bold mb-2">What we did</h2>
         <ol className="text-sm text-ink/80 leading-relaxed space-y-2 list-decimal pl-5 mb-5">
           <li><strong>AI Leverage Assessment for each leader.</strong> A one-hour interview each, then a ranked map of where their hours go and what AI could take off the list, with an hours-per-week target on every item.</li>
-          <li><strong>One-on-one coaching on their own work.</strong> Each person built against their real weekly tasks, not exercises. Work done more than once became a reusable Skill.</li>
+          <li><strong>One-on-one coaching on their own work.</strong> Each person built tools for their real weekly tasks. Work done more than once became a reusable Skill.</li>
           <li><strong>A shared scoreboard.</strong> Targets from the Assessments sit next to realized hours. A build only counts once the person confirms the hours it saves in practice.</li>
         </ol>
 

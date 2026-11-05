@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 // ── Simple in-memory rate limit ──────────────────────────────────────────────
 // Keeps a single visitor (by IP) from flooding inboxes and the CRM. This lives
 // in module memory, so it resets on redeploy and isn't shared across serverless
-// instances — it's a courtesy guardrail, not a hardened defense. Honeypots and
+// instances. It's a courtesy guardrail and can be bypassed. Honeypots and
 // input caps do the heavier anti-abuse lifting.
 export function createRateLimiter(max: number, windowMs: number) {
   const hits = new Map<string, number[]>();

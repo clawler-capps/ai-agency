@@ -4,7 +4,7 @@ import BookingLink from "@/components/BookingLink";
 import { PROOF } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Industries — Sacramento AI Agency",
+  title: "Industries | Sacramento AI Agency",
   description:
     "What AI can take off your plate in construction and ADU building, law and CPA and insurance offices, healthcare practices, and multi-site operators.",
 };

@@ -5,13 +5,13 @@ import { Analytics } from "@vercel/analytics/next";
 import GhlTracking from "@/components/GhlTracking";
 
 export const metadata: Metadata = {
-  title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
+  title: "Sacramento AI Agency | AI Coaching, Assessments & Build Days",
   description:
-    "AI Leverage Assessments, 1:1 AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams. Measured in hours actually reclaimed.",
+    "AI Leverage Assessments, 1:1 AI coaching, team Build Days, and embedded AI leadership for Sacramento businesses and larger teams. Measured in hours you get back.",
   openGraph: {
-    title: "Sacramento AI Agency — AI Coaching, Assessments & Build Days",
+    title: "Sacramento AI Agency | AI Coaching, Assessments & Build Days",
     description:
-      "AI Leverage Assessments, 1:1 AI fluency coaching, team build days, and embedded AI leadership — measured in hours actually reclaimed.",
+      "AI Leverage Assessments, 1:1 AI coaching, team Build Days, and embedded AI leadership, measured in hours you get back.",
     type: "website",
   },
 };

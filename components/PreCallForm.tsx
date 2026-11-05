@@ -26,19 +26,19 @@ const longQuestions: LongQuestion[] = [
   {
     id: "timeDrains",
     label: "What are your top 2–3 biggest time drains right now?",
-    hint: "List the tasks, not just categories.",
+    hint: "Name the specific tasks if you can.",
     type: "long",
   },
   {
     id: "tools",
     label: "What tools and software does your business currently use?",
-    hint: "List everything — CRM, scheduling, email, project management, billing, etc.",
+    hint: "List everything: CRM, scheduling, email, project management, billing, etc.",
     type: "long",
   },
   {
     id: "aiTools",
     label: "Are you currently using any AI tools? If so, which ones and for what?",
-    hint: "Optional — leave blank if you're not using any yet.",
+    hint: "Optional. Leave blank if you're not using any yet.",
     optional: true,
     type: "long",
   },
@@ -221,7 +221,7 @@ export default function PreCallForm() {
         <QuestionCard key={q.id} q={q} index={i + 1} form={form} update={update} />
       ))}
 
-      {/* Question 6 — comfort scale */}
+      {/* Question 6: comfort scale */}
       <div className="card p-6 sm:p-8">
         <fieldset>
           <legend className="text-base font-bold text-ink mb-1.5">

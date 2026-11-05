@@ -11,12 +11,12 @@ const tiers = [
     price: "$997",
     priceNote: "for the owner · add team members later",
     tagline:
-      "Know your best AI moves — ranked, priced, and backed by real numbers — before you commit to anything.",
+      "Know your best AI moves before you commit to anything. Each one is ranked, priced, and backed by real numbers.",
     highlights: [
-      "Finds the handful of places AI will actually move the needle for your business — off-the-shelf tool, custom build, or Claude-native system, whatever fits",
+      "Finds the few places AI will make a real difference for your business, whether that's an off-the-shelf tool, a custom build, or a Claude setup",
       "Your Leverage Map: a ranked to-do list of what to automate first, what it costs, and what it's worth per year",
-      "At least 10× the fee identified in annual value — or your money back",
-      "We write down what each fix should save you — then check the real number after it's built",
+      "At least 10× the fee identified in annual value, or your money back",
+      "We write down what each fix should save you, then check the real number after it's built",
       "Start with just you. Add team members later, with group discounts for teams and divisions",
     ],
     cta: "See What's Inside",
@@ -32,13 +32,13 @@ const tiers = [
     price: "$1,500",
     priceNote: "per person · outcome-based",
     tagline:
-      "1:1 coaching graded on outcomes, not session counts — you're done when the capabilities exist.",
+      "1:1 coaching graded on outcomes. You're done when you can do the work yourself, however many sessions that takes.",
     highlights: [
-      "Source: Claude learns their world — it stops being generic, starts sounding like them",
-      "Skills: any task done more than once becomes a Skill — a saved recipe Claude follows the same way every time",
-      "Systems: the weekly busywork runs itself — reports, briefings, follow-ups",
-      "Typical result: $10K–$15K/yr in reclaimed time per person — ~10× the fee",
-      "Group discounts for teams — ask on a call",
+      "Source: Claude learns their world and starts sounding like them",
+      "Skills: any task done more than once becomes a Skill, a saved recipe Claude follows the same way every time",
+      "Systems: weekly reports, briefings, and follow-ups run on their own",
+      "Typical result: $10K–$15K/yr in reclaimed time per person, about 10× the fee",
+      "Group discounts for teams. Ask on a call",
     ],
     cta: "Compare the Tracks",
     ctaHref: "/pricing#enable",
@@ -55,10 +55,10 @@ const tiers = [
     tagline:
       `${BUILD_DAY_FORMAT[0].toUpperCase()}${BUILD_DAY_FORMAT.slice(1)} where every person on your team ships a real tool against their own real problem.`,
     highlights: [
-      "Every attendee automates one real workflow — modeled at $10K–$15K/yr in reclaimed time each",
-      "Your own people — the ones we trained first — coach the room, so the capability stays in-house",
+      "Every attendee automates one real workflow, modeled at $10K–$15K/yr in reclaimed time each",
+      "Your own people, the ones we trained first, coach the room, so the know-how stays in-house",
       "Every tool ships as a reusable Skill, one on a schedule before the room clears",
-      "Design → price → pitch finale, judged on business value",
+      "Teams design, price, and pitch their builds, judged on business value",
     ],
     cta: "See the Format",
     ctaHref: "/pricing#build-day",
@@ -73,12 +73,12 @@ const tiers = [
     price: "from $15,000",
     priceNote: "per month · 5–10× target, on your scoreboard",
     tagline:
-      "An embedded partner whose job is returning a multiple of what you pay — in reclaimed hours, faster decisions, and capability that stays.",
+      "An embedded partner whose job is to return a multiple of what you pay in reclaimed hours and faster decisions.",
     highlights: [
-      "Each month, 2–3 of your people go through the full program — 24–36 a year, until the whole team runs this way",
+      "Each month, 2–3 of your people go through the full program. That's 24–36 a year, until the whole team works this way",
       "Each person targets $10K–$15K/yr in reclaimed time: $360K–$540K/yr from seats alone",
       "Strategic builds, governance, and executive briefings stack on top",
-      "The scoreboard tracks it all — validated hours, not vibes",
+      "The scoreboard tracks every hour, and an hour only counts once you confirm it",
     ],
     cta: "Book a free 15-min call",
     ctaHref: "/book",
@@ -123,9 +123,9 @@ export default function ServiceTiers({ rungs, variant = "ladder" }: { rungs?: Ru
             that is only recommended once the scoreboard shows it will pay for itself.
           </p>
           <p className="mt-3 text-sm text-muted max-w-xl">
-            Most owner-run businesses start — and often stop — with the $997 Assessment
-            and a coached build or two. The bigger rungs exist for the teams that want
-            them; the scoreboard decides.
+            Most owner-run businesses start with the $997 Assessment and a coached build
+            or two. Many stop there. The bigger rungs are for larger teams, once the
+            scoreboard says they will pay off.
           </p>
         </div>
         )}

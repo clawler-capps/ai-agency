@@ -6,18 +6,18 @@ import ChatWidget from "@/components/ChatWidget";
 import { BUILD_DAY_FORMAT } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Pricing — Sacramento AI Agency",
+  title: "Pricing | Sacramento AI Agency",
   description:
-    "Start with a $997 AI Leverage Assessment. Outcome-based AI fluency coaching, team build days, and embedded AI leadership — for Sacramento businesses and enterprise teams.",
+    "Start with a $997 AI Leverage Assessment. Then outcome-based AI coaching, team Build Days, and embedded AI leadership for Sacramento businesses and larger teams.",
 };
 
-// ── The Leverage Map — what the assessment deliverable contains ───────────────
+// ── The Leverage Map: what the assessment deliverable contains ────────────────
 const planSections = [
   {
     number: "01",
     title: "Executive Summary: Where You Are, and What's Next",
     description:
-      "The honest read on your current AI position — friction today vs. the outcome ahead — with a headline metric in hours per week and dollars per year.",
+      "An honest read on where you stand with AI today and what's possible, with a headline number in hours per week and dollars per year.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green",
   },
@@ -25,15 +25,15 @@ const planSections = [
     number: "02",
     title: "Priority Map: Impact vs. Effort",
     description:
-      "Every recommendation plotted on a business-impact × effort grid, so the quick wins are unmistakable and the higher-ceiling builds are sequenced, not skipped.",
+      "Every recommendation plotted on a business-impact × effort grid, so the quick wins stand out and the bigger builds get a place in the schedule.",
     color: "border-blue-border bg-blue-light",
     labelColor: "text-blue",
   },
   {
     number: "03",
-    title: "Solutions Ranked by Leverage — Two Paths Each",
+    title: "Solutions Ranked by Payoff, Two Paths Each",
     description:
-      "Each recommendation comes with two paths — the polished best-in-class build, or the version that runs on tools you already pay for — plus three numbers: hours it saves, what it costs to run, what it nets you per year.",
+      "Each recommendation comes with two paths, a polished build or a version that runs on tools you already pay for, plus three numbers: hours it saves, what it costs to run, what it nets you per year.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
@@ -41,19 +41,19 @@ const planSections = [
     number: "04",
     title: "Financial Impact + Start-Monday Next Steps",
     description:
-      "Hours saved × $100/hr, counted per year — a low-ball number on purpose; real results are usually higher. Then a short list of what to do Monday so momentum starts the same week.",
+      "Hours saved × $100/hr, counted per year. It's low on purpose, and real results are usually higher. Then a short list of what to do Monday so momentum starts the same week.",
     color: "border-purple-border bg-purple-light",
     labelColor: "text-purple",
   },
 ];
 
-// ── Enable — outcome-based coaching, graded on the three S's ──────────────────
+// ── Enable: outcome-based coaching, graded on the three S's ───────────────────
 const threeSs = [
   {
     letter: "S1",
     name: "Source",
     outcome:
-      "Claude learns your world — your role, your context, your voice — so it stops giving generic answers and starts sounding like you.",
+      "Claude learns your role, your context, and your voice, so its answers start sounding like you.",
     color: "border-green-border bg-green-light",
     labelColor: "text-green",
   },
@@ -61,7 +61,7 @@ const threeSs = [
     letter: "S2",
     name: "Skills",
     outcome:
-      "Any task you do more than once becomes a reusable Skill — your best work packaged into tools you call up in one click, any time.",
+      "Any task you do more than once becomes a reusable Skill: your best work, saved as a tool you can call up in one click.",
     color: "border-blue-border bg-blue-light",
     labelColor: "text-blue",
   },
@@ -69,23 +69,23 @@ const threeSs = [
     letter: "S3",
     name: "Systems",
     outcome:
-      "The repetitive parts run on autopilot — reclaiming the hours your Leverage Map flagged, starting with the highest-leverage areas.",
+      "The repetitive parts run on their own, starting with the hours your Leverage Map flagged as worth the most.",
     color: "border-accent/30 bg-accent/light",
     labelColor: "text-accent",
   },
 ];
 
-// ── Build Day — the five components of the stack ──────────────────────────────
+// ── Build Day: the five parts ──────────────────────────────────────────────────
 const buildDayStack = [
   {
     title: "Per-person assessment onramp",
     description:
-      "A leverage-assessment call for every attendee before the event — everyone arrives with a real problem, sample files, and a personal Leverage Map. No blank pages.",
+      "A Leverage Assessment call for every attendee before the event. Everyone arrives with a real problem, sample files, and a personal Leverage Map.",
   },
   {
     title: "Champion training",
     description:
-      "3–5 of your own people — the ones we've already coached — align on coaching a room, then work the floor on the day. The capability stays in-house when the room clears.",
+      "3–5 of your own people, the ones we've already coached, prepare to coach a room and then work the floor on the day. The know-how stays in-house afterward.",
   },
   {
     title: "The build day itself",
@@ -95,7 +95,7 @@ const buildDayStack = [
   {
     title: "Design → Price → Pitch finale",
     description:
-      "Every team designs, prices, and pitches its build to leadership, Shark-Tank style — judged on business value, not novelty.",
+      "Every team designs, prices, and pitches its build to leadership, Shark Tank style. Builds are judged on business value.",
   },
   {
     title: "The Monday-after follow-through",
@@ -108,7 +108,7 @@ const buildDayTiers = [
   {
     name: "AI Build Day",
     // TODO(tyler): confirm the Build Day format (lib/site.ts BUILD_DAY_FORMAT).
-    format: `${BUILD_DAY_FORMAT[0].toUpperCase()}${BUILD_DAY_FORMAT.slice(1)} — your own people, trained first, coaching alongside me`,
+    format: `${BUILD_DAY_FORMAT[0].toUpperCase()}${BUILD_DAY_FORMAT.slice(1)}, with your own people, trained first, coaching alongside me`,
     reach: "~40 people",
     value: "Modeled value: $400K–$600K/yr in reclaimed time",
     featured: true,
@@ -117,7 +117,7 @@ const buildDayTiers = [
     name: "Build Day + Pilot Sprint",
     format: "The Build Day, plus pilot acceleration and a leadership readout",
     reach: "~40 people",
-    value: "For teams that want the top builds shipped, not just started",
+    value: "For teams that want the top builds finished and running",
   },
   {
     name: "Virtual Build Day",
@@ -127,15 +127,15 @@ const buildDayTiers = [
   },
 ];
 
-// ── Lead — the retainer tiers ─────────────────────────────────────────────────
+// ── Lead: the retainer tiers ──────────────────────────────────────────────────
 const retainerTiers = [
   {
     name: "AI Embedded",
     price: "from $15,000",
     per: "/mo",
-    tagline: "The delivery engine — continuous capability-building across your team.",
+    tagline: "Ongoing coaching that keeps building skills across your team.",
     includes: [
-      "2–3 of your people at a time — assessment, coaching, one real build each; when one finishes, the next starts",
+      "2–3 of your people at a time, each with an assessment, coaching, and one real build. When one finishes, the next starts",
       "A Leverage Assessment for each person as their seat comes up",
       "Open office hours for all program alumni",
       "Async support + quarterly roadmap review",
@@ -161,8 +161,8 @@ const retainerTiers = [
     per: "scoped org-wide",
     tagline: "Everything in Officer, plus your own org-wide AI assistant.",
     includes: [
-      "A white-labeled, org-wide compounding assistant",
-      "Every assessed employee gets a personal AI agent that compounds context over time",
+      "A white-labeled, org-wide AI assistant that gets more useful over time",
+      "Every assessed employee gets a personal AI agent that keeps learning their work",
       "Per-seat scaling beyond ~100 seats",
     ],
   },
@@ -188,7 +188,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Assess — AI Leverage Assessment */}
+      {/* Assess: AI Leverage Assessment */}
       <section className="section-padding bg-cream section-divider">
         <div className="max-w-3xl mx-auto">
           <PricingCard showBookingButton={true} />
@@ -204,8 +204,8 @@ export default function PricingPage() {
               Inside Your Leverage Map
             </h2>
             <p className="mt-4 text-muted text-sm max-w-xl">
-              A per-person plan ranked by payoff, biggest first — built from your
-              workflows, your systems, and your economics. Not a generic AI deck.
+              A per-person plan ranked by payoff, biggest first. It's built from your
+              workflows, your systems, and your numbers.
             </p>
           </div>
 
@@ -228,8 +228,8 @@ export default function PricingPage() {
             </p>
             <p className="text-xs text-muted mt-2">
               Example: 9 hrs/wk × $100 × 48 =&nbsp;
-              <strong className="text-ink">$43,200/yr</strong> — a deliberately conservative
-              floor. For executives whose deals move the bottom line monthly, it understates
+              <strong className="text-ink">$43,200/yr</strong>. That's a deliberately
+              conservative floor. For executives whose deals move the bottom line monthly, it understates
               the return.
             </p>
           </div>
@@ -241,14 +241,14 @@ export default function PricingPage() {
             <p className="text-sm text-white/80 leading-relaxed">
               The assessment sets a target. From there, every engagement runs against a{" "}
               <strong className="text-white">scoreboard</strong>: a build only counts
-              as realized once you confirm the real hours it saves in practice — validated,
-              not just shipped. You always know exactly what your investment has returned.
+              as realized once you confirm the real hours it saves in practice. You always
+              know what your investment has returned.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Enable — AI Fluency Coaching */}
+      {/* Enable: AI Fluency Coaching */}
       <section id="enable" className="section-padding bg-cream section-divider">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
@@ -264,8 +264,8 @@ export default function PricingPage() {
             </div>
             <p className="mt-3 text-muted max-w-xl">
               The From Tool to System program: 1:1 coaching built around how each person
-              actually works — and graded on outcomes, not session counts. You&apos;re done
-              when the three S&apos;s exist, not when the calendar runs out. Remote across
+              actually works, graded on outcomes. You&apos;re done when the three S&apos;s are
+              in place, however many sessions that takes. Remote across
               the U.S. &amp; Canada, in-person option in Sacramento.
             </p>
           </div>
@@ -274,7 +274,7 @@ export default function PricingPage() {
             {threeSs.map((s, i) => (
               <div key={i} className={`rounded-2xl border p-6 ${s.color}`}>
                 <div className={`text-xs font-mono font-bold mb-3 ${s.labelColor}`}>
-                  {s.letter} — {s.name.toUpperCase()}
+                  {s.letter} · {s.name.toUpperCase()}
                 </div>
                 <h3 className="font-bold text-ink mb-2">{s.name}</h3>
                 <p className="text-sm text-muted leading-relaxed">{s.outcome}</p>
@@ -289,15 +289,14 @@ export default function PricingPage() {
               </p>
               <p className="text-sm text-muted leading-relaxed">
                 The typical result is <strong className="text-ink">$10K–$15K per year in
-                reclaimed time</strong> — roughly 10× the fee — plus a person who keeps
-                finding the next win on their own. That&apos;s the point: the capability
-                stays after we leave.
+                reclaimed time</strong>, roughly 10× the fee. You also get a person who keeps
+                finding the next win on their own after we leave.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-paper border border-border">
               <p className="text-sm text-ink font-semibold mb-2">Terms</p>
               <ul className="space-y-1.5 text-sm text-muted">
-                <li>→ Group discounts for teams — scoped on a call</li>
+                <li>→ Group discounts for teams, scoped on a call</li>
                 <li>→ Ongoing monthly per-seat coaching available on request</li>
                 <li>→ Remote (U.S. &amp; Canada) · in-person option in Sacramento</li>
               </ul>
@@ -316,7 +315,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Deploy — AI Build Day */}
+      {/* Deploy: AI Build Day */}
       <section id="build-day" className="section-padding bg-paper section-divider">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
@@ -327,9 +326,9 @@ export default function PricingPage() {
               AI Build Day
             </h2>
             <p className="mt-3 text-muted max-w-xl">
-              Your department doesn&apos;t need another AI training. It needs {BUILD_DAY_FORMAT}{" "}
-              where every person ships a real tool against their own real problem — coached
-              by the experts you&apos;ve already built. Not a training. A build day.
+              {BUILD_DAY_FORMAT[0].toUpperCase()}{BUILD_DAY_FORMAT.slice(1)} where every person on
+              your team ships a real tool for their own real problem, coached by the people
+              you&apos;ve already trained.
             </p>
           </div>
 
@@ -347,8 +346,8 @@ export default function PricingPage() {
               <div className="text-xs font-mono font-bold text-accent mb-3">WHY IT STICKS</div>
               <p className="text-sm text-white/80 leading-relaxed">
                 Most hackathon demos die within weeks. Ours ship as reusable Skills with an
-                internal champion bench behind them — the two mechanisms that make week two
-                look like day one.
+                internal champion bench behind them, so people are still using them weeks
+                later.
               </p>
             </div>
           </div>
@@ -379,9 +378,9 @@ export default function PricingPage() {
           <div className="p-5 rounded-xl bg-cream border border-border max-w-2xl">
             <p className="text-sm text-ink font-semibold mb-1">Pricing</p>
             <p className="text-sm text-muted leading-relaxed">
-              One flat fee — fill the room. Build Days run $15K–$85K: the spread is
-              headcount, format, and follow-through — from a virtual half-day for ~15
-              people to the full in-person flagship with a pilot sprint for ~40, scoped
+              One flat fee, so fill the room. Build Days run $15K–$85K depending on
+              headcount, format, and follow-through. That ranges from a virtual half-day for
+              ~15 people to the full in-person flagship with a pilot sprint for ~40, scoped
               on a call. Every attendee automates one real workflow, modeled at
               $10K–$15K/yr in reclaimed time each. Travel &amp; lodging at cost outside
               Sacramento; room, AV, and catering are client-side.
@@ -400,7 +399,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Lead — Embedded AI Partner */}
+      {/* Lead: Embedded AI Partner */}
       <section id="lead" className="section-padding bg-ink text-white">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10">
@@ -411,14 +410,13 @@ export default function PricingPage() {
               Embedded AI Partner
             </h2>
             <p className="mt-3 text-white/60 max-w-xl leading-relaxed">
-              The goal is simple: <strong className="text-white">return a multiple of what
-              you pay, every month</strong> — in reclaimed hours, faster decisions, and a
-              team that keeps getting more capable. We work with 2–3 of your people at a
-              time — when one finishes, the next starts — so the capability compounds
-              instead of plateauing.
+              The goal is to <strong className="text-white">return a multiple of what you
+              pay, every month</strong>, in reclaimed hours and faster decisions. We work
+              with 2–3 of your people at a time. When one finishes, the next starts, so the
+              team keeps getting more capable.
             </p>
             <p className="mt-3 text-white/80 max-w-xl leading-relaxed text-sm font-mono">
-              Engagements start at $15,000/mo — upper tiers are priced by how much you want me to own, on a call.
+              Engagements start at $15,000/mo. Upper tiers are priced on a call, by how much you want me to own.
             </p>
           </div>
 
@@ -435,13 +433,12 @@ export default function PricingPage() {
               alone</strong>, before strategic builds (median target $14K/yr each), the adoption
               ripple, and the enterprise upside of faster decisions. The target we hold
               ourselves to: <strong className="text-accent">5–10× your investment in
-              annual value</strong>, tracked on your scoreboard and validated with
-              you — not assumed.
+              annual value</strong>, tracked on your scoreboard and confirmed with you.
             </p>
             <p className="mt-4 text-white/60 text-sm leading-relaxed max-w-3xl">
-              Reclaimed hours are capacity, not cash — so hard-dollar wins (avoided tool
-              spend, avoided hires, cycle time on revenue) get tagged separately on the
-              scoreboard. Bring your CFO to the call; the model is theirs to stress-test.
+              Reclaimed hours free up capacity, which doesn&apos;t show up as cash right away. So hard-dollar wins
+              (avoided tool spend, avoided hires, faster revenue) get tagged separately on the
+              scoreboard. Bring your CFO to the call to stress-test the model.
             </p>
           </div>
 
@@ -477,8 +474,8 @@ export default function PricingPage() {
             <p className="text-sm text-white/60 leading-relaxed">
               <strong className="text-white">Governance, built in:</strong>{" "}
               AI drafts, humans decide. Every client- and exec-facing output passes a human
-              accuracy and compliance check — a feature, not a constraint, and one your
-              compliance team will thank you for.
+              accuracy and compliance check before it goes out. Your compliance team will
+              like that.
             </p>
           </div>
 

@@ -8,7 +8,7 @@
 // Tyler gets an alert, so every visitor still gets their results.
 import Anthropic from "@anthropic-ai/sdk";
 import { PILLAR_LABELS, TIER_META, Tier } from "@/components/assessment/scoring";
-import { BOOKING_URL } from "@/lib/booking";
+import { ASSESSMENT_CHECKOUT_URL } from "@/lib/site";
 import { escapeHtml } from "@/lib/guard";
 import { postReportWebhook, sendEmail } from "@/lib/leads";
 import {
@@ -107,7 +107,7 @@ async function fetchHomepageText(raw: string): Promise<string> {
 
 const SYSTEM = `You write the AI Opportunity Snapshot report for Sacramento AI Agency, a one-person AI consultancy run by Tyler Capps. Readers are small-business owners and team leads, mostly non-technical.
 
-Write in plain, friendly language. No jargon, no hype, no emojis.
+Write in plain, friendly language. No jargon, no hype, no emojis. Never use em dashes. Don't set two ideas against each other for effect; say the thing once, plainly.
 
 Rules:
 - Opportunity 1 must be the time drain the visitor described, in their own terms. Use where_it_slows_down to make it specific. Echo a few of their own words so they can tell it was written for them.
@@ -280,7 +280,7 @@ export async function sendTemplateAlert(errors: string[]): Promise<void> {
     subject: "[ALERT] Snapshot used the template report (Claude failed)",
     text: [
       "A visitor finished the AI Opportunity Snapshot, but Claude failed twice, so the page showed the template report built from their own numbers.",
-      "If they unlock it, they get the same template report by email and you'll get the usual lead notification.",
+      "If they enter their email, they get the same template report by email and you'll get the usual lead notification.",
       "",
       "Claude errors:",
       ...(errors.length ? errors : ["none"]),
@@ -306,9 +306,11 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
   const ctaHeading =
     tier?.cta === "schedule"
       ? "You're ready. Let's scope your first project."
-      : "This is 3 minutes of insight. Imagine the full picture.";
+      : "A short quiz found this much. A real conversation finds more.";
   const ctaBody =
-    "Your snapshot came from a short quiz. A one-on-one conversation and a few days of analysis would uncover far more. Book a free 15-minute call and we'll walk through your numbers and the fastest first step.";
+    "Book a free 15-minute call and we'll walk through your numbers and the fastest first step for your business.";
+  // Same pages the site uses: our /book page (calendar embed) and the Assessment checkout.
+  const bookUrl = `${SITE_URL}/book`;
   const costLine = input.annualSalary
     ? `Hourly cost: ${salaryMath(input.annualSalary)} (annual salary ÷ 2,080 hours).`
     : `Hourly cost: ${usd(input.hourlyValue)}/hr.`;
@@ -318,7 +320,7 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
   const footer = process.env.MAILING_ADDRESS?.trim() || "Sacramento AI Agency";
   const why = "You're receiving this because you requested an AI Opportunity Snapshot at sacramentoaiagency.com.";
   const optOut = 'Don\'t want more emails? Reply "unsubscribe" and we\'ll take you off the list.';
-  const assessmentUrl = `${SITE_URL}/pricing`;
+  const assessmentUrl = ASSESSMENT_CHECKOUT_URL.startsWith("/") ? `${SITE_URL}${ASSESSMENT_CHECKOUT_URL}` : ASSESSMENT_CHECKOUT_URL;
   const e = escapeHtml;
   const headline = shortHeadline(r.headline);
 
@@ -356,8 +358,8 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
     "",
     ctaHeading.toUpperCase(),
     ctaBody,
-    `Book your free 15-minute call: ${BOOKING_URL}`,
-    `Or skip ahead to the $997 AI Leverage Assessment: ${assessmentUrl}`,
+    `Book your free 15-minute call: ${bookUrl}`,
+    `Or skip ahead and book the $997 AI Leverage Assessment: ${assessmentUrl}`,
     "",
     "Questions? Just reply to this email. It comes straight to me.",
     "",
@@ -411,8 +413,8 @@ ${opps
 <div style="background:#fdeee7;border:1px solid #f3c3ad;border-radius:12px;padding:16px 18px;margin:0 0 24px">
 <p style="margin:0 0 6px;font-weight:800;font-size:18px">${e(ctaHeading)}</p>
 <p style="margin:0 0 10px">${e(ctaBody)}</p>
-<p style="margin:0 0 4px">${btn(BOOKING_URL, "Book your free 15-minute call", true)}</p>
-<p style="margin:0;font-size:13px"><a href="${e(assessmentUrl)}" style="color:#555">Or skip ahead to the $997 AI Leverage Assessment</a></p>
+<p style="margin:0 0 4px">${btn(bookUrl, "Book your free 15-minute call", true)}</p>
+<p style="margin:0;font-size:13px"><a href="${e(assessmentUrl)}" style="color:#555">Or skip ahead and book the $997 AI Leverage Assessment</a></p>
 </div>
 <p>Questions? Just reply to this email. It comes straight to me.</p>
 <p>Tyler Capps<br>Sacramento AI Agency</p>
