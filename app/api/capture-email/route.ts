@@ -6,6 +6,7 @@ import { clamp, clientIp, createRateLimiter } from "@/lib/guard";
 import { leadPayload, readSnapshotToken, snapshotInput, withCostDefaults } from "@/lib/intake";
 import { formatLead, funnelEnabled, postLeadWebhook, sendEmail } from "@/lib/leads";
 import { deliverReport } from "@/lib/report";
+import { postSheet, sheetLeadRow } from "@/lib/sheet";
 import { totalValue, usd } from "@/lib/snapshot";
 
 // AI Opportunity Snapshot, step 2: "Show my full snapshot".
@@ -13,8 +14,9 @@ import { totalValue, usd } from "@/lib/snapshot";
 //    lookup with a short timeout; a slow lookup lets the address through).
 // 2. Post the lead to GoHighLevel (Inbound Webhook). If that fails, return an
 //    error so the visitor can retry and the lead isn't lost.
-// 3. After responding, email the report, notify Tyler, and post the report
-//    webhook (lib/report.ts).
+// 3. After responding, email the report, notify Tyler, post the report
+//    webhook (lib/report.ts), and add an anonymous row to the stats sheet
+//    (lib/sheet.ts). None of these can slow down or fail the unlock.
 // The report itself comes from the signed snapshot token, so it can't be edited.
 
 export const maxDuration = 60;
@@ -77,9 +79,13 @@ export async function POST(request: NextRequest) {
   }
   console.log(`[capture-email] webhook=${webhook} source=${source} test=${isTest} ms=${Date.now() - startedAt}`);
 
-  // Report email, Tyler's notification, and the report webhook run after the response.
+  // Report email, Tyler's notification, the report webhook, and the stats-sheet
+  // row run after the response. The sheet follows the webhook rule: real rows
+  // only when the funnel is on, plus test leads anywhere.
+  const saveStats = funnelEnabled() || isTest;
   waitUntil(
     Promise.all([
+      saveStats ? postSheet("lead", sheetLeadRow(payload, source)) : Promise.resolve("skipped"),
       deliverReport(
         { firstName, email, company, isTest },
         { ...input, companySize: payload.company_size },

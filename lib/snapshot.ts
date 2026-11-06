@@ -49,7 +49,7 @@ export const FOLLOWUP_QUESTION = "Where does that work slow down?";
 
 // One short line under the gate and in the email footer.
 export const PRIVACY_LINE =
-  "Your answers (and your website, if you shared it) are processed by AI to write your snapshot. We never sell your information.";
+  "Your answers (and your website, if you shared it) are processed by AI to write your snapshot. We keep anonymous answer statistics to improve the Snapshot. We never sell your information.";
 
 export type ValueEstimate = {
   hoursPerWeek: number;

@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OptionLabel, questions, SIZE_LABELS } from "./questions";
 import { Answer, AssessmentResult, scoreAssessment, TIER_META, PILLAR_LABELS } from "./scoring";
+import { useStepEvents } from "./stepEvents";
+import type { StepId } from "./steps";
 
 import Link from "next/link";
 import { BOOKING_EMBED_URL } from "@/lib/booking";
@@ -119,6 +121,8 @@ export default function AssessmentForm() {
   const [salary, setSalary] = useState(0);
   const [copied, setCopied] = useState(false);
   const reportTop = useRef<HTMLDivElement>(null);
+  // Anonymous funnel stats (see stepEvents.ts). No free text is ever sent.
+  const trackStep = useStepEvents();
 
   const result = useMemo<AssessmentResult | null>(() => {
     if (answers.length < questions.length) return null;
@@ -168,6 +172,7 @@ export default function AssessmentForm() {
   // ── Phase transitions ─────────────────────────────────────────────────────
   function commitAnswer(label: OptionLabel) {
     if (!currentQuestion) return;
+    trackStep(`q${currentQuestion.id}` as StepId, label);
     setAnswers((prev) => [
       ...prev.filter((a) => a.questionId !== currentQuestion.id),
       { questionId: currentQuestion.id, label },
@@ -227,6 +232,7 @@ export default function AssessmentForm() {
 
   async function handleBottleneckNext(e: React.FormEvent) {
     e.preventDefault();
+    trackStep("bottleneck");
     setPhase("followup");
     const text = bottleneck.trim();
     if (followupFor === text && followupOptions) return;
@@ -244,6 +250,7 @@ export default function AssessmentForm() {
   }
 
   async function buildSnapshot() {
+    trackStep("numbers");
     setPhase("building");
     setBuildError(null);
     try {
@@ -306,6 +313,7 @@ export default function AssessmentForm() {
       }
       setSentTo(data.email ?? address);
       setUnlocked(true);
+      trackStep("unlocked");
       reportTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch {
       setSubmitError("We couldn't reach the server. Check your connection and try again.");
@@ -339,7 +347,7 @@ export default function AssessmentForm() {
           dollars, and one thing you can try tonight.
         </p>
         <button
-          onClick={() => { setPhase("questions"); setStep(0); window.scrollTo({ top: 0 }); }}
+          onClick={() => { trackStep("start"); setPhase("questions"); setStep(0); window.scrollTo({ top: 0 }); }}
           className="btn-primary text-base px-10 py-4"
         >
           Start the Snapshot →
@@ -487,6 +495,7 @@ export default function AssessmentForm() {
                     // Single choice: move on, except "Other", which needs a few words.
                     if (c !== "Other") {
                       setTimeout(() => {
+                        trackStep("followup");
                         setPhase("numbers");
                         window.scrollTo({ top: 0 });
                       }, ADVANCE_DELAY_MS);
@@ -522,7 +531,7 @@ export default function AssessmentForm() {
             {(followupChoice === "Other" || canContinue) && (
               <button
                 type="button"
-                onClick={() => setPhase("numbers")}
+                onClick={() => { trackStep("followup"); setPhase("numbers"); }}
                 disabled={!canContinue}
                 className="btn-primary px-8 py-3 disabled:opacity-40 disabled:cursor-not-allowed"
               >
