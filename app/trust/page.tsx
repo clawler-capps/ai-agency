@@ -30,6 +30,11 @@ const vendors = [
     why: "Delivers our emails.",
   },
   {
+    name: "Google (Sheets)",
+    sees: "Your Snapshot answers and which steps you finished, with no name or email attached.",
+    why: "Where we keep anonymous answer statistics to improve the Snapshot.",
+  },
+  {
     name: "Vercel",
     sees: "Standard web traffic data (pages viewed, rough location, device). No cookies for analytics.",
     why: "Hosts this website and counts visits.",
@@ -173,7 +178,8 @@ export default function TrustPage() {
               <p>
                 To write and email your Snapshot, answer you, schedule calls, and run the
                 work you hire us for. Your Snapshot answers are processed by AI (see the
-                vendor table above). We send occasional tips only if you tick the box, and
+                vendor table above). We keep anonymous answer statistics to improve the
+                Snapshot. We send occasional tips only if you tick the box, and
                 every email has an unsubscribe link.
               </p>
             </div>
