@@ -98,8 +98,15 @@ export async function POST(request: NextRequest) {
         replyTo: email,
         subject:
           `${isTest ? "[TEST] " : ""}[snapshot] ${firstName}, ${company || "no company given"} (${payload.industry}, ${payload.tier}, ` +
-          `${usd(total.low)}–${usd(total.high)}/yr)${source === "template" ? " [template report]" : ""}`,
-        text: `Industry: ${payload.industry}\nWebhook: ${webhook}\nReport: ${source}\nEmail checks: passed (not code-verified)\n\n${formatLead("website-assessment", payload)}`,
+          `top 3 ${usd(total.low)}–${usd(total.high)}/yr)${source === "template" ? " [template report]" : ""}`,
+        // Two different figures, so both are labeled. The visitor's report
+        // shows the top-3 total. est_value_low/high (sent to the CRM) cover
+        // the #1 opportunity only.
+        text:
+          `Industry: ${payload.industry}\nWebhook: ${webhook}\nReport: ${source}\nEmail checks: passed (not code-verified)\n` +
+          `Top 3 total, as shown in their report: ${usd(total.low)} to ${usd(total.high)} a year\n` +
+          `Top opportunity only (est_value_low and est_value_high below): ${usd(payload.est_value_low)} to ${usd(payload.est_value_high)} a year\n\n` +
+          `${formatLead("website-assessment", payload)}`,
       }),
     ]).catch((err) => console.error("[capture-email] Background work failed:", err?.name ?? "error"))
   );
