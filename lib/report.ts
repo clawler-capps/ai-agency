@@ -329,8 +329,10 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
     "",
     headline,
     "",
+    // The subject line carries the top-3 total, so the body leads with the
+    // same figure and then names the #1 opportunity's share of it.
+    `Your top 3 opportunities together: ${usd(total.low)}–${usd(total.high)} a year.`,
     `#1 opportunity: ${top.title}, ${range(top.value)}`,
-    `Your top 3 add up to ${usd(total.low)}–${usd(total.high)} a year.`,
     "",
     "YOUR TOP 3 AI OPPORTUNITIES",
     costLine,
@@ -383,9 +385,10 @@ function renderEmail(contact: Contact, input: SnapshotInput, r: Report): { subje
 <p>Hi ${e(contact.firstName)},</p>
 <h1 style="font-size:22px;line-height:1.3;margin:0 0 12px">${e(headline)}</h1>
 <div style="background:#fdeee7;border:1px solid #f3c3ad;border-radius:12px;padding:14px 16px;margin:0 0 24px">
+<p style="margin:0 0 2px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#777">Your top 3 opportunities together</p>
+<p style="margin:0 0 8px;color:#e85d26;font-weight:800;font-size:22px">${e(`${usd(total.low)}–${usd(total.high)} a year`)}</p>
 <p style="margin:0 0 2px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#777">#1 opportunity</p>
-<p style="margin:0 0 4px;font-weight:700;font-size:17px">${e(top.title)}</p>
-<p style="margin:0;color:#e85d26;font-weight:800;font-size:22px">${e(range(top.value))}</p>
+<p style="margin:0;font-weight:700;font-size:17px">${e(top.title)}: ${e(range(top.value))}</p>
 </div>
 <h2 style="font-size:17px;margin:0 0 4px">Your top 3 AI opportunities</h2>
 <p style="margin:0 0 12px;color:#555">Together: <strong style="color:#e85d26">${e(`${usd(total.low)}–${usd(total.high)} a year`)}</strong>. ${e(costLine)}</p>
@@ -427,7 +430,7 @@ ${opps
 }
 
 export const snapshotSubject = (total: { low: number; high: number }) =>
-  `Your AI Opportunity Snapshot (${usd(total.low)}–${usd(total.high)} a year)`;
+  `Your AI Opportunity Snapshot (top 3: ${usd(total.low)}–${usd(total.high)} a year)`;
 
 // ── Delivery (after unlock) ──────────────────────────────────────────────────
 
