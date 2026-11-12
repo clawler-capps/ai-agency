@@ -13,7 +13,8 @@ import { signToken, signingConfigured } from "@/lib/token";
 export const maxDuration = 60;
 
 // Each run costs about a cent, so keep it tight. Spend is also capped at Anthropic.
-const isRateLimited = createRateLimiter(6, 60 * 60 * 1000);
+// 40 an hour so a room of people on one office network (one shared IP) is not blocked.
+const isRateLimited = createRateLimiter(40, 60 * 60 * 1000);
 
 const fail = (error: string, status: number) => NextResponse.json({ success: false, error }, { status });
 

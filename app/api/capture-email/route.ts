@@ -25,7 +25,8 @@ const TEST_EMAILS = ["zephyrways@gmail.com"];
 const SIZES = Object.values(SIZE_LABELS);
 
 // See lib/guard.ts for the caveats on in-memory limits.
-const ipLimited = createRateLimiter(5, 60 * 60 * 1000);
+// 40 an hour so a room of people on one office network (one shared IP) is not blocked.
+const ipLimited = createRateLimiter(40, 60 * 60 * 1000);
 const emailLimited = createRateLimiter(3, 60 * 60 * 1000);
 
 const fail = (error: string, status: number, extra: Record<string, unknown> = {}) =>
